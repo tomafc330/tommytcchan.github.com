@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-02-02T13:39:58-08:00</updated>
+  <updated>2013-02-02T13:44:08-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -18,7 +18,8 @@
     <link href="http://tommytcchan.github.com/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/"/>
     <updated>2013-02-02T13:29:00-08:00</updated>
     <id>http://tommytcchan.github.com/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>Hello from tommy.
+<code>puts 'hello world'!</code></p>
 ]]></content>
   </entry>
   
