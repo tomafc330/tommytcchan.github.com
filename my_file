@@ -1,0 +1,9 @@
+So I've been experimenting with the new blogging system that I have -- Octopress and so far it's been awesome..it's got all a developer would want from a blogging site. However, I wanted to launch my editor of choice -- vi -- right after a call to ```rake new_post[...]```. To do so, actually, was very easy -- just modify the Rakefile.
+
+Do a search for 'new_post', and then at the end of the method, add the following:
+
+```
+system 'vi my_file < `tty` > `tty`'
+```
+
+Now every time you create a post, it will automatically open the editor for you!

@@ -113,6 +113,7 @@ task :new_post, :title do |t, args|
     post.puts "categories: "
     post.puts "---"
   end
+  system('vi my_file < `tty` > `tty`')
 end
 
 # usage rake new_page[my-new-page] or rake new_page[my-new-page.html] or rake new_page (defaults to "new-page.markdown")
@@ -380,4 +381,10 @@ desc "list tasks"
 task :list do
   puts "Tasks: #{(Rake::Task.tasks - [Rake::Task[:list]]).join(', ')}"
   puts "(type rake -T for more detail)\n\n"
+end
+
+desc "generate and then deploy"
+task :generate_then_deploy do
+   Rake::Task.generate
+   Rake::Task.deploy
 end
