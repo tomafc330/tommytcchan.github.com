@@ -13,12 +13,18 @@
         <lastmod>2013-02-04T20:16:07-08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/
+        </loc>
+        <lastmod>2013-02-05T21:35:32-08:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-02-04T20:21:50-08:00</lastmod>
+        <lastmod>2013-02-05T21:35:32-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-02-04T20:21:50-08:00</lastmod>
+        <lastmod>2013-02-05T21:35:32-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>

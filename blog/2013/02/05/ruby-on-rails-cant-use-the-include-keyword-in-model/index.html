@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Octopress: Modify the default new post POST action. - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Ruby on Rails: Can't use the include keyword in model - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="I&#8217;m building the backend of my current project using rails, and one of the things I wanted to do was create a module that I can use in both my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Octopress: Modify the Default New Post POST Action.</h1>
+      <h1 class="entry-title">Ruby on Rails: Can't Use the Include Keyword in Model</h1>
     
     
       <p class="meta">
@@ -96,14 +95,62 @@
   
 
 
-<time datetime="2013-02-04T20:16:00-08:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time>
+<time datetime="2013-02-05T21:30:00-08:00" pubdate data-updated="true">Feb 5<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><p>I&#8217;m building the backend of my current project using rails, and one of the things I wanted to do was create a module that I can use in both my controller and model to report issues to a messaging queue, but I was stuck with on the following:</p>
+
+<p>In error_mixin:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module ErrorMixin
+</span><span class='line'>
+</span><span class='line'>  def error(msg)
+</span><span class='line'>    Exchange.instance.sendMsg(msg, 'error')
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def info(msg)
+</span><span class='line'>    Exchange.instance.sendMsg(msg, 'info')
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In my domain class:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Tip &lt; ActiveRecord::Base
+</span><span class='line'>
+</span><span class='line'>  module ErrorMixin
+</span><span class='line'>  
+</span><span class='line'>  self.get_random
+</span><span class='line'>
+</span><span class='line'>  ...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When I tried this, it didn&#8217;t work. What was the issue? It turned out that because in my module I call out to the class method get_random and that class methods can&#8217;t reference module methods.</p>
+
+<p>The solution:</p>
+
+<p>Simply replace the keyword include to extend instead.</p>
 </div>
 
 
@@ -126,7 +173,7 @@
   
 
 
-<time datetime="2013-02-04T20:16:00-08:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time>
+<time datetime="2013-02-05T21:30:00-08:00" pubdate data-updated="true">Feb 5<span>th</span>, 2013</time>
       
 
 
@@ -134,7 +181,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -147,10 +194,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/" title="Previous Post: A new beginning. Tommy's blog site gets a new backend.">&laquo; A new beginning. Tommy's blog site gets a new backend.</a>
+        <a class="basic-alignment left" href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/" title="Previous Post: Octopress: Modify the default new post POST action.">&laquo; Octopress: Modify the default new post POST action.</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/" title="Next Post: Ruby on Rails: Can't use the include keyword in model">Ruby on Rails: Can't use the include keyword in model &raquo;</a>
       
     </p>
   </footer>
