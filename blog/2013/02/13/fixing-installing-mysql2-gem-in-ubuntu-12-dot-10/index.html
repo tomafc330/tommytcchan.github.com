@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>A new beginning. Tommy's blog site gets a new backend. - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Fixing installing mysql2 gem in Ubuntu 12.10 - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Welcome to my new blog site! I&#8217;m excited to annouce my new site, www.tommytcchan.com after coming to the realization that the current system I &hellip;">
+  <meta name="description" content="So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">A New Beginning. Tommy's Blog Site Gets a New Backend.</h1>
+      <h1 class="entry-title">Fixing Installing Mysql2 Gem in Ubuntu 12.10</h1>
     
     
       <p class="meta">
@@ -95,14 +95,40 @@
   
 
 
-<time datetime="2013-02-02T13:29:00-08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2013</time>
+<time datetime="2013-02-13T20:59:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Welcome to my new blog site! I&#8217;m excited to annouce my new site, www.tommytcchan.com after coming to the realization that the current system I have in place (Blogger on the web) doesn&#8217;t cater to my needs as a blogging developer. To check out my old posts (all 100+ of them), please visit tommytcchan.blogspot.com</p>
+<div class="entry-content"><p>So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have control over the environment, which in the Rails case is very annoying. Apparently you can specify the ruby version but I gave up after I tried all the stops.</p>
+
+<p>Anyways I was setting up my server (using Ubuntu) and when I was doing <code>bundle install</code> it gave me a weird error:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*** extconf.rb failed ***
+</span><span class='line'>Could not create Makefile due to some reason, probably lack of
+</span><span class='line'>necessary libraries and/or headers.  Check the mkmf.log file for more
+</span><span class='line'>details.  You may need configuration options.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After digging into it a little bit, it was found that my server doesn&#8217;t have the dev package <strong>libmysqlclient-dev</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install libmysqlclient-dev mysql-server</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After doing that and then trying to install</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install mysql2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>everything worked.</p>
 </div>
 
 
@@ -125,15 +151,21 @@
   
 
 
-<time datetime="2013-02-02T13:29:00-08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2013</time>
+<time datetime="2013-02-13T20:59:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/setup/'>setup</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -146,8 +178,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/" title="Previous Post: Ruby on Rails: Can't use the include keyword in model">&laquo; Ruby on Rails: Can't use the include keyword in model</a>
       
-        <a class="basic-alignment right" href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/" title="Next Post: Octopress: Modify the default new post POST action.">Octopress: Modify the default new post POST action. &raquo;</a>
       
     </p>
   </footer>

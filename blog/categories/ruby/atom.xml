@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-02-13T21:05:51-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Fixing installing mysql2 gem in Ubuntu 12.10]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/"/>
+    <updated>2013-02-13T20:59:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10</id>
+    <content type="html"><![CDATA[<p>So I've decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback -- I don't have control over the environment, which in the Rails case is very annoying. Apparently you can specify the ruby version but I gave up after I tried all the stops.</p>
+
+<p>Anyways I was setting up my server (using Ubuntu) and when I was doing <code>bundle install</code> it gave me a weird error:</p>
+
+<p><code>
+*** extconf.rb failed ***
+Could not create Makefile due to some reason, probably lack of
+necessary libraries and/or headers.  Check the mkmf.log file for more
+details.  You may need configuration options.
+</code></p>
+
+<p>After digging into it a little bit, it was found that my server doesn't have the dev package <strong>libmysqlclient-dev</strong></p>
+
+<p><code>
+sudo apt-get install libmysqlclient-dev mysql-server
+</code></p>
+
+<p>After doing that and then trying to install</p>
+
+<p><code>
+gem install mysql2
+</code></p>
+
+<p>everything worked.</p>
+]]></content>
+  </entry>
+  
+</feed>
