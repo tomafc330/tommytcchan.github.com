@@ -4,7 +4,7 @@
   <title><![CDATA[Category: setup | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/setup/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-02-23T10:57:30-08:00</updated>
+  <updated>2013-02-23T11:22:44-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,32 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[Adding a public folder directory in rails.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/23/adding-a-public-folder-directory-in-rails/"/>
-    <updated>2013-02-23T10:54:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/23/adding-a-public-folder-directory-in-rails</id>
-    <content type="html"><![CDATA[<p>So I have this odd library that uses its own folder for assets and I don't feel like monkey patching it, so I had to find a way in Rails to expose another public directory. I came across the file <code>railties/lib/rails/engine/configuration.rb</code> which shows an example of how that's done for the standard public path setup:</p>
-
-<p>```
- def paths</p>
-
-<pre><code>...
-      paths.public              "public"
-      paths.public.javascripts  "public/javascripts"
-      paths.public.stylesheets  "public/stylesheets"
-      paths
-    end
-  end
-</code></pre>
-
-<p>...
-```</p>
-
-<p>So basically, in your routes.rb, add the custom public paths that you want with the above paths.</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[PHP - Set up XDebug]]></title>
