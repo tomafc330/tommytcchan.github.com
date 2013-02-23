@@ -4,36 +4,52 @@
         <loc>
             http://tommytcchan.github.com/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/
         </loc>
-        <lastmod>2013-02-04T20:21:50-08:00</lastmod>
+        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/
         </loc>
-        <lastmod>2013-02-04T20:16:07-08:00</lastmod>
+        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/
         </loc>
-        <lastmod>2013-02-05T21:35:32-08:00</lastmod>
+        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/
         </loc>
-        <lastmod>2013-02-13T21:05:41-08:00</lastmod>
+        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/
+        </loc>
+        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug/</loc>
+        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/02/23/adding-a-public-folder-directory-in-rails/
+        </loc>
+        <lastmod>2013-02-23T10:57:21-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-02-13T21:05:41-08:00</lastmod>
+        <lastmod>2013-02-23T10:57:21-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-02-13T21:05:41-08:00</lastmod>
+        <lastmod>2013-02-23T10:57:21-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>
-        <lastmod>2013-02-02T12:53:16-08:00</lastmod>
+        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
     </url>
 </urlset>

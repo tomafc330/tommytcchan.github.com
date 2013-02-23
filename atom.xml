@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-02-13T21:05:51-08:00</updated>
+  <updated>2013-02-23T10:57:30-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,139 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Adding a public folder directory in rails.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/23/adding-a-public-folder-directory-in-rails/"/>
+    <updated>2013-02-23T10:54:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/23/adding-a-public-folder-directory-in-rails</id>
+    <content type="html"><![CDATA[<p>So I have this odd library that uses its own folder for assets and I don&#8217;t feel like monkey patching it, so I had to find a way in Rails to expose another public directory. I came across the file <code>railties/lib/rails/engine/configuration.rb</code> which shows an example of how that&#8217;s done for the standard public path setup:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> def paths
+</span><span class='line'>  ...
+</span><span class='line'>          paths.public              "public"
+</span><span class='line'>          paths.public.javascripts  "public/javascripts"
+</span><span class='line'>          paths.public.stylesheets  "public/stylesheets"
+</span><span class='line'>          paths
+</span><span class='line'>        end
+</span><span class='line'>      end
+</span><span class='line'>
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So basically, in your routes.rb, add the custom public paths that you want with the above paths.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PHP - Set up XDebug]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug/"/>
+    <updated>2013-02-17T16:24:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug</id>
+    <content type="html"><![CDATA[<p>So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and examine variables. Finally after an hour of fiddling with it I got it to work.</p>
+
+<h3>The setup</h3>
+
+<p>This guide uses the following:</p>
+
+<p>WAMP Server 2.2
+PHP 5.2
+Apache 2.2
+PHPStorm 5.0.1</p>
+
+<h3>Steps</h3>
+
+<ol>
+<li><p>Goto http://xdebug.org/download.php and download the Xdebug version 2.1.2. Note that&#8217;s the last version where they compiled a VC6 version. I got the Thread Safe (TS) version.</p></li>
+<li><p>Now edit your php.ini file. Make sure to put the following in:</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>zend_extension_ts= "C:\wamp\bin\php\php5.2.2\ext\php_xdebug-2.1.2-5.2-vc6.dll"
+</span><span class='line'>xdebug.idekey=PHPSTORM
+</span><span class='line'>xdebug.remote_enable=true
+</span><span class='line'>;extension=php_xdebug-2.1.2-5.2-vc6.dll</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`
+Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</em> want it.</p>
+
+<ol>
+<li><p>Now grab the bookmarklet generator from here: http://www.jetbrains.com/phpstorm/marklets/</p></li>
+<li><p>Restart the server</p></li>
+<li><p>Have PHPStorm start listening to the connections.</p></li>
+<li><p>Put a breakdown somethere you know that the execution will hit it.</p></li>
+<li><p>Enjoy!</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Groovy: unit testing method overridding using metaClass does not work]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/"/>
+    <updated>2013-02-15T16:04:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work</id>
+    <content type="html"><![CDATA[<p>So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass mechanism doesn&#8217;t work. Consider this code:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private void registerSuccessAction(RegistrationFormCommand cmd, userId) {
+</span><span class='line'>      def successUrl = '/register/success'
+</span><span class='line'>      ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This was in my test</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>  controller.metaClass.registerSuccessAction = { command, userId -&gt;
+</span><span class='line'>      println "called"
+</span><span class='line'>                      }
+</span><span class='line'>
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, I was runing into the fact that my overridding method isn&#8217;t being called. What gives?</p>
+
+<p>It turned out that you <em>need</em> to qualify the first command with the type if the method has a typed parameter, otherwise groovy won&#8217;t override the behavior!</p>
+
+<p>This works:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>controller.metaClass.registerSuccessAction = { RegistrationFormCommand command, userId -&gt;
+</span><span class='line'>          throw new AssertionError("This should not be called.")
+</span><span class='line'>                  }
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Fixing installing mysql2 gem in Ubuntu 12.10]]></title>

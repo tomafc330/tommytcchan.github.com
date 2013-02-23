@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: xdebug | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/xdebug/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-02-23T10:57:30-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PHP - Set up XDebug]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug/"/>
+    <updated>2013-02-17T16:24:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug</id>
+    <content type="html"><![CDATA[<p>So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and examine variables. Finally after an hour of fiddling with it I got it to work.</p>
+
+<h3>The setup</h3>
+
+<p>This guide uses the following:</p>
+
+<p>WAMP Server 2.2
+PHP 5.2
+Apache 2.2
+PHPStorm 5.0.1</p>
+
+<h3>Steps</h3>
+
+<ol>
+<li><p>Goto http://xdebug.org/download.php and download the Xdebug version 2.1.2. Note that's the last version where they compiled a VC6 version. I got the Thread Safe (TS) version.</p></li>
+<li><p>Now edit your php.ini file. Make sure to put the following in:
+```
+zend_extension_ts= "C:\wamp\bin\php\php5.2.2\ext\php_xdebug-2.1.2-5.2-vc6.dll"
+xdebug.idekey=PHPSTORM
+xdebug.remote_enable=true
+;extension=php_xdebug-2.1.2-5.2-vc6.dll
+````
+Note that we explicitly removed the extension= declaration. We <em>don't</em> want it.</p></li>
+<li><p>Now grab the bookmarklet generator from here: http://www.jetbrains.com/phpstorm/marklets/</p></li>
+<li><p>Restart the server</p></li>
+<li><p>Have PHPStorm start listening to the connections.</p></li>
+<li><p>Put a breakdown somethere you know that the execution will hit it.</p></li>
+<li><p>Enjoy!</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

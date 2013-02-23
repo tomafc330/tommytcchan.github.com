@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Fixing installing mysql2 gem in Ubuntu 12.10 - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Groovy: unit testing method overridding using metaClass does not work - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have &hellip;">
+  <meta name="description" content="So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Fixing Installing Mysql2 Gem in Ubuntu 12.10</h1>
+      <h1 class="entry-title">Groovy: Unit Testing Method Overridding Using metaClass Does Not Work</h1>
     
     
       <p class="meta">
@@ -95,40 +95,57 @@
   
 
 
-<time datetime="2013-02-13T20:59:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
+<time datetime="2013-02-15T16:04:00-08:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have control over the environment, which in the Rails case is very annoying. Apparently you can specify the ruby version but I gave up after I tried all the stops.</p>
-
-<p>Anyways I was setting up my server (using Ubuntu) and when I was doing <code>bundle install</code> it gave me a weird error:</p>
+<div class="entry-content"><p>So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass mechanism doesn&#8217;t work. Consider this code:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>*** extconf.rb failed ***
-</span><span class='line'>Could not create Makefile due to some reason, probably lack of
-</span><span class='line'>necessary libraries and/or headers.  Check the mkmf.log file for more
-</span><span class='line'>details.  You may need configuration options.</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private void registerSuccessAction(RegistrationFormCommand cmd, userId) {
+</span><span class='line'>      def successUrl = '/register/success'
+</span><span class='line'>      ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>After digging into it a little bit, it was found that my server doesn&#8217;t have the dev package <strong>libmysqlclient-dev</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install libmysqlclient-dev mysql-server</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After doing that and then trying to install</p>
+<p>This was in my test</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install mysql2</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>  controller.metaClass.registerSuccessAction = { command, userId -&gt;
+</span><span class='line'>      println "called"
+</span><span class='line'>                      }
+</span><span class='line'>
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
 
 
-<p>everything worked.</p>
+<p>However, I was runing into the fact that my overridding method isn&#8217;t being called. What gives?</p>
+
+<p>It turned out that you <em>need</em> to qualify the first command with the type if the method has a typed parameter, otherwise groovy won&#8217;t override the behavior!</p>
+
+<p>This works:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>controller.metaClass.registerSuccessAction = { RegistrationFormCommand command, userId -&gt;
+</span><span class='line'>          throw new AssertionError("This should not be called.")
+</span><span class='line'>                  }
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
 </div>
 
 
@@ -151,12 +168,12 @@
   
 
 
-<time datetime="2013-02-13T20:59:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
+<time datetime="2013-02-15T16:04:00-08:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/setup/'>setup</a>
+    <a class='category' href='/blog/categories/grails/'>grails</a>, <a class='category' href='/blog/categories/groovy/'>groovy</a>, <a class='category' href='/blog/categories/testing/'>testing</a>
   
 </span>
 
@@ -165,7 +182,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -178,10 +195,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/" title="Previous Post: Ruby on Rails: Can't use the include keyword in model">&laquo; Ruby on Rails: Can't use the include keyword in model</a>
+        <a class="basic-alignment left" href="/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/" title="Previous Post: Fixing installing mysql2 gem in Ubuntu 12.10">&laquo; Fixing installing mysql2 gem in Ubuntu 12.10</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/" title="Next Post: Groovy: unit testing method overridding using metaClass does not work">Groovy: unit testing method overridding using metaClass does not work &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/02/17/php-set-up-xdebug/" title="Next Post: PHP - Set up XDebug">PHP - Set up XDebug &raquo;</a>
       
     </p>
   </footer>

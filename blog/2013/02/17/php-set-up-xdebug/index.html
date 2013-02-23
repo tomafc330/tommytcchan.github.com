@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Fixing installing mysql2 gem in Ubuntu 12.10 - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>PHP - Set up XDebug - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have &hellip;">
+  <meta name="description" content="So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Fixing Installing Mysql2 Gem in Ubuntu 12.10</h1>
+      <h1 class="entry-title">PHP - Set Up XDebug</h1>
     
     
       <p class="meta">
@@ -95,40 +95,53 @@
   
 
 
-<time datetime="2013-02-13T20:59:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
+<time datetime="2013-02-17T16:24:00-08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have control over the environment, which in the Rails case is very annoying. Apparently you can specify the ruby version but I gave up after I tried all the stops.</p>
+<div class="entry-content"><p>So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and examine variables. Finally after an hour of fiddling with it I got it to work.</p>
 
-<p>Anyways I was setting up my server (using Ubuntu) and when I was doing <code>bundle install</code> it gave me a weird error:</p>
+<h3>The setup</h3>
+
+<p>This guide uses the following:</p>
+
+<p>WAMP Server 2.2
+PHP 5.2
+Apache 2.2
+PHPStorm 5.0.1</p>
+
+<h3>Steps</h3>
+
+<ol>
+<li><p>Goto http://xdebug.org/download.php and download the Xdebug version 2.1.2. Note that&#8217;s the last version where they compiled a VC6 version. I got the Thread Safe (TS) version.</p></li>
+<li><p>Now edit your php.ini file. Make sure to put the following in:</p></li>
+</ol>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>*** extconf.rb failed ***
-</span><span class='line'>Could not create Makefile due to some reason, probably lack of
-</span><span class='line'>necessary libraries and/or headers.  Check the mkmf.log file for more
-</span><span class='line'>details.  You may need configuration options.</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>zend_extension_ts= "C:\wamp\bin\php\php5.2.2\ext\php_xdebug-2.1.2-5.2-vc6.dll"
+</span><span class='line'>xdebug.idekey=PHPSTORM
+</span><span class='line'>xdebug.remote_enable=true
+</span><span class='line'>;extension=php_xdebug-2.1.2-5.2-vc6.dll</span></code></pre></td></tr></table></div></figure>
 
 
-<p>After digging into it a little bit, it was found that my server doesn&#8217;t have the dev package <strong>libmysqlclient-dev</strong></p>
+<p>`
+Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</em> want it.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install libmysqlclient-dev mysql-server</span></code></pre></td></tr></table></div></figure>
+<ol>
+<li><p>Now grab the bookmarklet generator from here: http://www.jetbrains.com/phpstorm/marklets/</p></li>
+<li><p>Restart the server</p></li>
+<li><p>Have PHPStorm start listening to the connections.</p></li>
+<li><p>Put a breakdown somethere you know that the execution will hit it.</p></li>
+<li><p>Enjoy!</p></li>
+</ol>
 
-
-<p>After doing that and then trying to install</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install mysql2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>everything worked.</p>
 </div>
 
 
@@ -151,12 +164,12 @@
   
 
 
-<time datetime="2013-02-13T20:59:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
+<time datetime="2013-02-17T16:24:00-08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/setup/'>setup</a>
+    <a class='category' href='/blog/categories/php/'>php</a>, <a class='category' href='/blog/categories/setup/'>setup</a>, <a class='category' href='/blog/categories/xdebug/'>xdebug</a>
   
 </span>
 
@@ -165,7 +178,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -178,10 +191,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/" title="Previous Post: Ruby on Rails: Can't use the include keyword in model">&laquo; Ruby on Rails: Can't use the include keyword in model</a>
+        <a class="basic-alignment left" href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/" title="Previous Post: Groovy: unit testing method overridding using metaClass does not work">&laquo; Groovy: unit testing method overridding using metaClass does not work</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/" title="Next Post: Groovy: unit testing method overridding using metaClass does not work">Groovy: unit testing method overridding using metaClass does not work &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2013/02/23/adding-a-public-folder-directory-in-rails/" title="Next Post: Adding a public folder directory in rails.">Adding a public folder directory in rails. &raquo;</a>
       
     </p>
   </footer>
