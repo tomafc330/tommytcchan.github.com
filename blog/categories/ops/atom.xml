@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ops | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/ops/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-02-23T16:54:59-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: create a deploy script with ease]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/23/rails-create-a-deploy-script-with-ease/"/>
+    <updated>2013-02-23T16:51:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/23/rails-create-a-deploy-script-with-ease</id>
+    <content type="html"><![CDATA[<p>I was finding myself having to deploy manually everytime I push something to github, so I've decided to write a deploy shell script to help with this task. Coming from a Java background, I found that creating a deploy script for rails is so much easier. Here is the meat of it:</p>
+
+<p>In deploy.sh</p>
+
+<p>```</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>first kill the server if its running</h1>
+
+<p>kill -9 <code>lsof -i :80 | awk '{if (NR!=1) {print $2}}'</code>
+pushd ~/codetipdaily</p>
+
+<h1>then pull from gh</h1>
+
+<p>git pull origin master</p>
+
+<h1>assets</h1>
+
+<p>rake assets:clean
+rake assets:precompile</p>
+
+<h1>start server as daemon</h1>
+
+<p>rails server -e production -p 80 --daemon
+popd
+```</p>
+
+<p>That was a piece of cake!</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-02-23T16:09:39-08:00</updated>
+  <updated>2013-02-23T16:54:59-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: create a deploy script with ease]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/23/rails-create-a-deploy-script-with-ease/"/>
+    <updated>2013-02-23T16:51:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/23/rails-create-a-deploy-script-with-ease</id>
+    <content type="html"><![CDATA[<p>I was finding myself having to deploy manually everytime I push something to github, so I&#8217;ve decided to write a deploy shell script to help with this task. Coming from a Java background, I found that creating a deploy script for rails is so much easier. Here is the meat of it:</p>
+
+<p>In deploy.sh</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>#first kill the server if its running
+</span><span class='line'>kill -9 `lsof -i :80 | awk '{if (NR!=1) {print $2}}'`
+</span><span class='line'>pushd ~/codetipdaily
+</span><span class='line'>#then pull from gh
+</span><span class='line'>git pull origin master
+</span><span class='line'>#assets
+</span><span class='line'>rake assets:clean
+</span><span class='line'>rake assets:precompile
+</span><span class='line'>#start server as daemon
+</span><span class='line'>rails server -e production -p 80 --daemon
+</span><span class='line'>popd</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That was a piece of cake!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails: production environment is missing application.js and application.css]]></title>
