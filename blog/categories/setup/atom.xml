@@ -4,7 +4,7 @@
   <title><![CDATA[Category: setup | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/setup/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-02-23T11:22:44-08:00</updated>
+  <updated>2013-02-23T16:09:39-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: production environment is missing application.js and application.css]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/"/>
+    <updated>2013-02-23T16:03:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css</id>
+    <content type="html"><![CDATA[<h3>The problem</h3>
+
+<p>So I'm working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, the application resources pointed to application.js and application.css even though my template was not change (ie. <code> &lt;%= stylesheet_link_tag    "application", :media =&gt; "all" %&gt;</code> and <code> &lt;%= javascript_include_tag "application" %&gt;</code>. That led to me believe something was wrong. In addition, when I ran <code>rake assets:precompile</code>, nothing was generated to the <code>public/assets</code> folder.</p>
+
+<h3>What was wrong</h3>
+
+<p>I checked my application.rb, and the <code>config.assets.enabled</code> was set to <code>true</code>. Then I realized that when I first created the app, I turned off that setting in <code>production.rb</code>. Simply turning it back on allowed the compilation of assets and leading rails to resolve to the right path (and not application.js/css).</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PHP - Set up XDebug]]></title>

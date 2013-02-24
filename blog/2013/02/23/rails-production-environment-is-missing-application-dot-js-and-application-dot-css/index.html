@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Rails: production environment is missing application.js and application.css - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Blog Archive 2013 Rails: production environment is missing application.js and application.css
-Feb 23 2013 posted in asset-pipeline, rails, setup PHP &hellip;">
+  <meta name="description" content="The problem So I&#8217;m working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ Feb 23 2013 posted in asset-pipeline, rails, setup PHP &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.com/blog/archives/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,107 +75,94 @@ Feb 23 2013 posted in asset-pipeline, rails, setup PHP &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Rails: Production Environment Is Missing application.js and application.css</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T16:03:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><h3>The problem</h3>
 
-  
-  <h2>2013</h2>
+<p>So I&#8217;m working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, the application resources pointed to application.js and application.css even though my template was not change (ie. <code> &lt;%= stylesheet_link_tag    "application", :media =&gt; "all" %&gt;</code> and <code> &lt;%= javascript_include_tag "application" %&gt;</code>. That led to me believe something was wrong. In addition, when I ran <code>rake assets:precompile</code>, nothing was generated to the <code>public/assets</code> folder.</p>
 
-<article>
-  
-<h1><a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/">Rails: production environment is missing application.js and application.css</a></h1>
-<time datetime="2013-02-23T16:03:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>23</span> <span class='year'>2013</span></time>
+<h3>What was wrong</h3>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/asset-pipeline/'>asset-pipeline</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/setup/'>setup</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/02/17/php-set-up-xdebug/">PHP - Set up XDebug</a></h1>
-<time datetime="2013-02-17T16:24:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>17</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/php/'>php</a>, <a class='category' href='/blog/categories/setup/'>setup</a>, <a class='category' href='/blog/categories/xdebug/'>xdebug</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/">Groovy: unit testing method overridding using metaClass does not work</a></h1>
-<time datetime="2013-02-15T16:04:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>15</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/grails/'>grails</a>, <a class='category' href='/blog/categories/groovy/'>groovy</a>, <a class='category' href='/blog/categories/testing/'>testing</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/">Fixing installing mysql2 gem in Ubuntu 12.10</a></h1>
-<time datetime="2013-02-13T20:59:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>13</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ruby/'>ruby</a>, <a class='category' href='/blog/categories/setup/'>setup</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/">Ruby on Rails: Can&#8217;t use the include keyword in model</a></h1>
-<time datetime="2013-02-05T21:30:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>05</span> <span class='year'>2013</span></time>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/">Octopress: Modify the default new post POST action.</a></h1>
-<time datetime="2013-02-04T20:16:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>04</span> <span class='year'>2013</span></time>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/">A new beginning. Tommy&#8217;s blog site gets a new backend.</a></h1>
-<time datetime="2013-02-02T13:29:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>02</span> <span class='year'>2013</span></time>
-
-
-</article>
-
+<p>I checked my application.rb, and the <code>config.assets.enabled</code> was set to <code>true</code>. Then I realized that when I first created the app, I turned off that setting in <code>production.rb</code>. Simply turning it back on allowed the compilation of assets and leading rails to resolve to the right path (and not application.js/css).</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Tommy Chan (informotion software)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T16:03:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/asset-pipeline/'>asset-pipeline</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/setup/'>setup</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/17/php-set-up-xdebug/" title="Previous Post: PHP - Set up XDebug">&laquo; PHP - Set up XDebug</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
