@@ -9,7 +9,8 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;ve been experimenting running a webapp in a a directory where I host my code, and in order for the server to read the dir, the base directory &hellip;">
+  <meta name="description" content="I received this message in my apache logs while accessing a rewrite on PHP 5.4: 1
+[Thu Feb 28 20:29:44 2013] [error] [client 127.0.0.1] Negotiation: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +78,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/">Apache2: Negotiation: Discovered File(s) Matching Request: &#8230;yi (None Could Be Negotiated)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-28T20:32:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I received this message in my apache logs while accessing a rewrite on PHP 5.4:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[Thu Feb 28 20:29:44 2013] [error] [client 127.0.0.1] Negotiation: discovered file(s) matching request: /home/ad/repo/yii/backend (None could be negotiated).</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It turned out that I needed to add an extra type defn for PHP 5.4:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>AddType application/x-httpd-php .php</span></code></pre></td></tr></table></div></figure>
+
+
+<p>source: http://serverfault.com/questions/372733/apache-file-negotiation-failed</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -731,68 +780,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/">Fixing Installing Mysql2 Gem in Ubuntu 12.10</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-13T20:59:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have control over the environment, which in the Rails case is very annoying. Apparently you can specify the ruby version but I gave up after I tried all the stops.</p>
-
-<p>Anyways I was setting up my server (using Ubuntu) and when I was doing <code>bundle install</code> it gave me a weird error:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>*** extconf.rb failed ***
-</span><span class='line'>Could not create Makefile due to some reason, probably lack of
-</span><span class='line'>necessary libraries and/or headers.  Check the mkmf.log file for more
-</span><span class='line'>details.  You may need configuration options.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After digging into it a little bit, it was found that my server doesn&#8217;t have the dev package <strong>libmysqlclient-dev</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install libmysqlclient-dev mysql-server</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After doing that and then trying to install</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install mysql2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>everything worked.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -808,6 +795,10 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/">Apache2: Negotiation: discovered file(s) matching request: &#8230;yi (None could be negotiated)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/">Apache2: hosting sever from a user directory requires x7x permission</a>
       </li>
     
@@ -821,10 +812,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
     
       <li class="post">
         <a href="/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/">Apache: Setting up rewrite rules for a server in Ubuntu 12.10</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/">Rails: create a deploy script with ease</a>
       </li>
     
   </ul>

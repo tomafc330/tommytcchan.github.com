@@ -4,7 +4,7 @@
   <title><![CDATA[Category: apache2 | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/apache2/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-02-28T20:08:52-08:00</updated>
+  <updated>2013-02-28T20:35:01-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Apache2: Negotiation: discovered file(s) matching request: ...yi (None could be negotiated)]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/"/>
+    <updated>2013-02-28T20:32:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated</id>
+    <content type="html"><![CDATA[<p>I received this message in my apache logs while accessing a rewrite on PHP 5.4:
+<code>
+[Thu Feb 28 20:29:44 2013] [error] [client 127.0.0.1] Negotiation: discovered file(s) matching request: /home/ad/repo/yii/backend (None could be negotiated).
+</code></p>
+
+<p>It turned out that I needed to add an extra type defn for PHP 5.4:
+<code>
+AddType application/x-httpd-php .php
+</code></p>
+
+<p>source: http://serverfault.com/questions/372733/apache-file-negotiation-failed</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Apache2: hosting sever from a user directory requires x7x permission]]></title>
