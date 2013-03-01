@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: css | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/css/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-02-28T20:08:52-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[CSS: margin-top selector not working.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/28/css-image-not-aligning-quite-right/"/>
+    <updated>2013-02-28T14:51:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/28/css-image-not-aligning-quite-right</id>
+    <content type="html"><![CDATA[<h3>The problem:</h3>
+
+<p>So I'm trying to set margin-top on a div that contains an image:</p>
+
+<p>```</p>
+
+<div class="affiliate-logo"><a href="http://www.gamechannel.de"><img src="http://tommytcchan.github.com/logo.png"></a></div>
+
+
+<p>.affiliate-logo {</p>
+
+<pre><code>margin-top: 15px;
+text-align: center;
+</code></pre>
+
+<p>}</p>
+
+<p>```</p>
+
+<p>However, the margin-top didn't work at all for whatever value I put in.</p>
+
+<h3>The solution:</h3>
+
+<p>Turns out that you have to float the div and make that 100% width in order for the margin-top to kick in:</p>
+
+<p>```
+.affiliate-logo {</p>
+
+<pre><code>float: left;
+margin-top: 15px;
+text-align: center;
+width: 100%;
+</code></pre>
+
+<p>}
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -36,6 +36,12 @@
     </url>
     <url>
         <loc>
+            http://tommytcchan.github.com/blog/2013/02/22/grails-and-intellij-discard-old-dependencies/
+        </loc>
+        <lastmod>2013-02-28T20:06:32-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
             http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/
         </loc>
         <lastmod>2013-02-23T16:09:27-08:00</lastmod>
@@ -47,12 +53,36 @@
         <lastmod>2013-02-23T16:54:52-08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/
+        </loc>
+        <lastmod>2013-02-28T20:06:32-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/
+        </loc>
+        <lastmod>2013-02-28T20:06:32-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/02/28/css-image-not-aligning-quite-right/
+        </loc>
+        <lastmod>2013-02-28T20:06:32-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/
+        </loc>
+        <lastmod>2013-02-28T20:08:39-08:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-02-23T16:54:52-08:00</lastmod>
+        <lastmod>2013-02-28T20:08:39-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-02-23T16:54:52-08:00</lastmod>
+        <lastmod>2013-02-28T20:08:39-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>

@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I was finding myself having to deploy manually everytime I push something to github, so I&#8217;ve decided to write a deploy shell script to help &hellip;">
+  <meta name="description" content="I&#8217;ve been experimenting running a webapp in a a directory where I host my code, and in order for the server to read the dir, the base directory &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,316 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/">Apache2: Hosting Sever From a User Directory Requires X7x Permission</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-28T20:07:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve been experimenting running a webapp in a a directory where I host my code, and in order for the server to read the dir, the base directory had to be x7x, such as</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chmod 774 repo</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/28/css-image-not-aligning-quite-right/">CSS: Margin-top Selector Not Working.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-28T14:51:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>The problem:</h3>
+
+<p>So I&#8217;m trying to set margin-top on a div that contains an image:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="affiliate-logo"&gt;&lt;a href="http://www.gamechannel.de"&gt;&lt;img src="/logo.png"&gt;&lt;/a&gt;&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>.affiliate-logo {
+</span><span class='line'>    margin-top: 15px;
+</span><span class='line'>    text-align: center;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, the margin-top didn&#8217;t work at all for whatever value I put in.</p>
+
+<h3>The solution:</h3>
+
+<p>Turns out that you have to float the div and make that 100% width in order for the margin-top to kick in:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.affiliate-logo {
+</span><span class='line'>    float: left;
+</span><span class='line'>    margin-top: 15px;
+</span><span class='line'>    text-align: center;
+</span><span class='line'>    width: 100%;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL Error: (98)Address Already in Use: Make_sock: Could Not Bind to Address 0.0.0.0:443</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-26T17:49:00-08:00" pubdate data-updated="true">Feb 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;m now configuring SSL with my new httpd server, and for some reason it kept giving me this error when I first started the server:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But I did an <code>lsof -i :443</code> and I didn&#8217;t see anything.</p>
+
+<h3>The solution</h3>
+
+<p>Turns out that I forgotten that Ubuntu&#8217;s setup for httpd is a little non standard, in that they included a ports.conf file that includes a conditional which will start listening on port 443 if the ssl mod is enabled. I had also included a <code>listen 443</code> in my configuration, which led to the problem.</p>
+
+<p>Removing the <code>listen 443</code> in my declaration solved the problem.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/">Apache: Setting Up Rewrite Rules for a Server in Ubuntu 12.10</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-26T15:26:00-08:00" pubdate data-updated="true">Feb 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Introduction</h3>
+
+<p>So I was configuring a Java app today, trying to get it deployed on httpd using ajp on Ubuntu. However, there was twist to it, and it is that the /static resources would have to point to a local file system folder (checked out with SCM).</p>
+
+<p>I&#8217;m going to document how this is done on Ubuntu since it was somewhat of a painful process.</p>
+
+<h3>Setup</h3>
+
+<p>I had apache2 install via <code>apt-get</code>. The next step was to configure the apache2 server. The first thing needed was to specify the directory where the /static path resources will look in:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory "~/web-assets"&gt;
+</span><span class='line'>    Options Indexes FollowSymLinks
+</span><span class='line'>    AllowOverride None
+</span><span class='line'>    Order allow,deny
+</span><span class='line'>    Allow from all
+</span><span class='line'>&lt;/Directory&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The next thing to do is to set up the ajp port.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;VirtualHost *:80&gt;
+</span><span class='line'>  ...
+</span><span class='line'>  
+</span><span class='line'>  ProxyPass           /           ajp://localhost:8010/
+</span><span class='line'>  ProxyPassReverse    /           ajp://localhost:8010/
+</span><span class='line'>
+</span><span class='line'>  ProxyPreserveHost On
+</span><span class='line'>
+</span><span class='line'>  ...
+</span><span class='line'>      
+</span><span class='line'>&lt;/VirtualHost&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We then need to set up the rewrite rule:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(...same VirtualHost declaration...)
+</span><span class='line'>RewriteRule       ^/static/\d+/(.*)                               %{DOCUMENT_ROOT}/world/$1       [L,E=STATIC_ASSET:1]
+</span><span class='line'>RewriteRule       ^/static/(.*)                                   %{DOCUMENT_ROOT}/world/$1       [L,E=STATIC_ASSET:1]
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&#8217;s also good to have logging:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(...same VirtualHost declaration...)
+</span><span class='line'># logging
+</span><span class='line'>RewriteLog "/home/tchan/logs/rewrite.log"
+</span><span class='line'>RewriteLogLevel 3
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now enable the mods (using a2enmod):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a2enmod proxy
+</span><span class='line'>a2enmod rewrite
+</span><span class='line'>a2enmod ssl</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You might not need proxy or ssl but I did.</p>
+
+<p>The next thing you need to do is to set up the permissions on your folder:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd ~/web-assets
+</span><span class='line'>chmod a=rwx -R *</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that if your location is somewhere else you might need to give the same permission to the parent of the folder that apache is looking it.
+Also note that you can add the www-data user to the group that has the permission in your file system if you are hesitate to make that directory global.</p>
+
+<p>Once you have it configured, all you need then is to configure you Java app to use the port 8010 defined above:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Connector port="8010" protocol="AJP/1.3" redirectPort="8443"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One last thing: I had to change the deploy context of the Java app from /app to / (root):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;Context docBase="my-app" path="/" reloadable="true" source="org.eclipse.jst.j2ee.server:my-app"/&gt;&lt;/Host&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -179,6 +489,87 @@
 <h3>What was wrong</h3>
 
 <p>I checked my application.rb, and the <code>config.assets.enabled</code> was set to <code>true</code>. Then I realized that when I first created the app, I turned off that setting in <code>production.rb</code>. Simply turning it back on allowed the compilation of assets and leading rails to resolve to the right path (and not application.js/css).</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/22/grails-and-intellij-discard-old-dependencies/">Grails and Intellij: Discard Old Dependencies</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-22T10:36:00-08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;m working on a project that relies on a custom plugin, and it was listed as a dependency. However, I wanted it to reference a relative path instead. This was what was listed originally:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>In BuildConfig.groovy
+</span><span class='line'>...
+</span><span class='line'>  plugins {
+</span><span class='line'>      test ":code-coverage:1.2.5"
+</span><span class='line'>      test ":spock:0.7"
+</span><span class='line'>      compile ":hibernate:2.0.0"
+</span><span class='line'>      compile ":quartz:1.0-RC2"
+</span><span class='line'>      compile ":rest:0.7"
+</span><span class='line'>      compile ":springcache:1.3.1"
+</span><span class='line'>          compile ":mycustomplugin:1.0"
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to make it use your project relative project mycustomplugin (instead of fetching it from Archiva using maven), perform the following steps:</p>
+
+<ol>
+<li>Change your BuildConfig.groovy &#8211; remove the above decl in the plugins block.</li>
+<li>Update your BuildConfig.groovy to add the following:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grails.plugin.location.'mycustomplugin' = "../mycustomplugin"</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Run <code>grails refresh-dependencies</code> in Intellij</li>
+</ol>
+
+
+<p>Once it refreshes then you should be able to reference the plugin in your source tree rather than from remote.</p>
 </div>
   
   
@@ -402,163 +793,9 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/">Ruby on Rails: Can&#8217;t Use the Include Keyword in Model</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-05T21:30:00-08:00" pubdate data-updated="true">Feb 5<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;m building the backend of my current project using rails, and one of the things I wanted to do was create a module that I can use in both my controller and model to report issues to a messaging queue, but I was stuck with on the following:</p>
-
-<p>In error_mixin:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module ErrorMixin
-</span><span class='line'>
-</span><span class='line'>  def error(msg)
-</span><span class='line'>    Exchange.instance.sendMsg(msg, 'error')
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def info(msg)
-</span><span class='line'>    Exchange.instance.sendMsg(msg, 'info')
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In my domain class:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Tip &lt; ActiveRecord::Base
-</span><span class='line'>
-</span><span class='line'>  module ErrorMixin
-</span><span class='line'>  
-</span><span class='line'>  self.get_random
-</span><span class='line'>
-</span><span class='line'>  ...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When I tried this, it didn&#8217;t work. What was the issue? It turned out that because in my module I call out to the class method get_random and that class methods can&#8217;t reference module methods.</p>
-
-<p>The solution:</p>
-
-<p>Simply replace the keyword include to extend instead.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/">Octopress: Modify the Default New Post POST Action.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-04T20:16:00-08:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/">A New Beginning. Tommy&#8217;s Blog Site Gets a New Backend.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-02T13:29:00-08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Welcome to my new blog site! I&#8217;m excited to annouce my new site, www.tommytcchan.com after coming to the realization that the current system I have in place (Blogger on the web) doesn&#8217;t cater to my needs as a blogging developer. To check out my old posts (all 100+ of them), please visit tommytcchan.blogspot.com</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -571,23 +808,23 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/">Apache2: hosting sever from a user directory requires x7x permission</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/28/css-image-not-aligning-quite-right/">CSS: margin-top selector not working.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL error: (98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/">Apache: Setting up rewrite rules for a server in Ubuntu 12.10</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/">Rails: create a deploy script with ease</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/">Rails: production environment is missing application.js and application.css</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/17/php-set-up-xdebug/">PHP - Set up XDebug</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/">Groovy: unit testing method overridding using metaClass does not work</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/">Fixing installing mysql2 gem in Ubuntu 12.10</a>
       </li>
     
   </ul>

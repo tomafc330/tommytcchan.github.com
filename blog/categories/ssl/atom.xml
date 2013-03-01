@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ssl | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/ssl/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-02-28T20:08:52-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Apache: SSL error: (98)Address already in use: make_sock: could not bind to address 0.0.0.0:443]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/"/>
+    <updated>2013-02-26T17:49:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443</id>
+    <content type="html"><![CDATA[<p>So I'm now configuring SSL with my new httpd server, and for some reason it kept giving me this error when I first started the server:</p>
+
+<p><code>
+(98)Address already in use: make_sock: could not bind to address 0.0.0.0:443
+</code></p>
+
+<p>But I did an <code>lsof -i :443</code> and I didn't see anything.</p>
+
+<h3>The solution</h3>
+
+<p>Turns out that I forgotten that Ubuntu's setup for httpd is a little non standard, in that they included a ports.conf file that includes a conditional which will start listening on port 443 if the ssl mod is enabled. I had also included a <code>listen 443</code> in my configuration, which led to the problem.</p>
+
+<p>Removing the <code>listen 443</code> in my declaration solved the problem.</p>
+]]></content>
+  </entry>
+  
+</feed>
