@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have &hellip;">
+  <meta name="description" content="So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,85 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/">Groovy: Unit Testing Method Overridding Using metaClass Does Not Work</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-15T16:04:00-08:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass mechanism doesn&#8217;t work. Consider this code:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private void registerSuccessAction(RegistrationFormCommand cmd, userId) {
+</span><span class='line'>      def successUrl = '/register/success'
+</span><span class='line'>      ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This was in my test</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>  controller.metaClass.registerSuccessAction = { command, userId -&gt;
+</span><span class='line'>      println "called"
+</span><span class='line'>                      }
+</span><span class='line'>
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, I was runing into the fact that my overridding method isn&#8217;t being called. What gives?</p>
+
+<p>It turned out that you <em>need</em> to qualify the first command with the type if the method has a typed parameter, otherwise groovy won&#8217;t override the behavior!</p>
+
+<p>This works:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>controller.metaClass.registerSuccessAction = { RegistrationFormCommand command, userId -&gt;
+</span><span class='line'>          throw new AssertionError("This should not be called.")
+</span><span class='line'>                  }
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -311,6 +390,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/">Rails: correct way of before_save in model</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/">Apache2: Negotiation: discovered file(s) matching request: &#8230;yi (None could be negotiated)</a>
       </li>
     
@@ -324,10 +407,6 @@
     
       <li class="post">
         <a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL error: (98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/">Apache: Setting up rewrite rules for a server in Ubuntu 12.10</a>
       </li>
     
   </ul>

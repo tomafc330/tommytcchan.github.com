@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-02-28T20:35:01-08:00</updated>
+  <updated>2013-03-01T19:10:47-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: correct way of before_save in model]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/"/>
+    <updated>2013-03-01T19:09:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model</id>
+    <content type="html"><![CDATA[<p>So I was reading a tutorial on the before_save and thought this was a valid syntax:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  def before_save(record)
+</span><span class='line'>
+</span><span class='line'>    if record.publishing
+</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
+</span><span class='line'>        publishing_tip.publishing = false
+</span><span class='line'>        publishing_tip.published = true
+</span><span class='line'>        publishing_tip.save
+</span><span class='line'>      end
+</span><span class='line'>    end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Turned out that this is the valid syntax for Rails 3.1:</p>
+
+<p>&#8220;`
+  before_save :update_publishing_state</p>
+
+<p>  def update_publishing_state</p>
+
+<pre><code>if self.publishing
+  Tip.find_all_by_publishing(true).each do |publishing_tip|
+    publishing_tip.publishing = false
+    publishing_tip.published = true
+    publishing_tip.save
+  end
+end
+</code></pre>
+
+<p>  end
+ &#8220;`</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Apache2: Negotiation: discovered file(s) matching request: ...yi (None could be negotiated)]]></title>

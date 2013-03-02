@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-02-28T20:35:01-08:00</updated>
+  <updated>2013-03-01T19:10:47-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: correct way of before_save in model]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/"/>
+    <updated>2013-03-01T19:09:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model</id>
+    <content type="html"><![CDATA[<p>So I was reading a tutorial on the before_save and thought this was a valid syntax:</p>
+
+<p>```
+  def before_save(record)</p>
+
+<pre><code>if record.publishing
+  Tip.find_all_by_publishing(true).each do |publishing_tip|
+    publishing_tip.publishing = false
+    publishing_tip.published = true
+    publishing_tip.save
+  end
+end
+</code></pre>
+
+<p>```</p>
+
+<p>Turned out that this is the valid syntax for Rails 3.1:</p>
+
+<p>```
+  before_save :update_publishing_state</p>
+
+<p>  def update_publishing_state</p>
+
+<pre><code>if self.publishing
+  Tip.find_all_by_publishing(true).each do |publishing_tip|
+    publishing_tip.publishing = false
+    publishing_tip.published = true
+    publishing_tip.save
+  end
+end
+</code></pre>
+
+<p>  end
+ ```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails: create a deploy script with ease]]></title>

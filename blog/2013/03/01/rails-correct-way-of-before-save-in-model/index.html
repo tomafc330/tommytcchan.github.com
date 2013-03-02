@@ -5,11 +5,19 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: xdebug - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Rails: correct way of before_save in model - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Category: xdebug">
+  <meta name="description" content="So I was reading a tutorial on the before_save and thought this was a valid syntax: 1
+2
+3
+4
+5
+6
+7
+8
+9 def before_save(record) if record.publishing &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +26,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.comblog/categories/xdebug/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,35 +84,127 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Xdebug</h1>
+    
+      <h1 class="entry-title">Rails: Correct Way of Before_save in Model</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-01T19:09:00-08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>So I was reading a tutorial on the before_save and thought this was a valid syntax:</p>
 
-  
-  <h2>2013</h2>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  def before_save(record)
+</span><span class='line'>
+</span><span class='line'>    if record.publishing
+</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
+</span><span class='line'>        publishing_tip.publishing = false
+</span><span class='line'>        publishing_tip.published = true
+</span><span class='line'>        publishing_tip.save
+</span><span class='line'>      end
+</span><span class='line'>    end</span></code></pre></td></tr></table></div></figure>
 
-<article>
-  
-<h1><a href="/blog/2013/02/17/php-set-up-xdebug/">PHP - Set up XDebug</a></h1>
-<time datetime="2013-02-17T16:24:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>17</span> <span class='year'>2013</span></time>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/php/'>php</a>, <a class='category' href='/blog/categories/setup/'>setup</a>, <a class='category' href='/blog/categories/xdebug/'>xdebug</a></span>
-</footer>
+<p>Turned out that this is the valid syntax for Rails 3.1:</p>
 
+<p>&#8220;`
+  before_save :update_publishing_state</p>
 
-</article>
+<p>  def update_publishing_state</p>
 
+<pre><code>if self.publishing
+  Tip.find_all_by_publishing(true).each do |publishing_tip|
+    publishing_tip.publishing = false
+    publishing_tip.published = true
+    publishing_tip.save
+  end
+end
+</code></pre>
+
+<p>  end
+ &#8220;`</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Tommy Chan (informotion software)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-01T19:09:00-08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rails/'>rails</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/" title="Previous Post: Apache2: Negotiation: discovered file(s) matching request: ...yi (None could be negotiated)">&laquo; Apache2: Negotiation: discovered file(s) matching request: ...yi (None could be negotiated)</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
