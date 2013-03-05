@@ -106,6 +106,8 @@
 
 <time datetime="2013-03-01T19:09:00-08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2013</time>
         
+         | <a href="#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -214,6 +216,12 @@
   </footer>
 </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
 </div>
 
 <aside class="sidebar">
@@ -266,7 +274,7 @@
         github.showRepos({
             user: 'tommytcchan',
             count: 0,
-            skip_forks: false,
+            skip_forks: true,
             target: '#gh_repos'
         });
     });
@@ -317,6 +325,22 @@
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'tommyssoftwareblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
