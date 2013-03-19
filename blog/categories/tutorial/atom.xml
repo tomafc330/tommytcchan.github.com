@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tutorial | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/tutorial/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-03-18T19:51:25-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Example: How to set up debugging with Karma (formerly Testacular) and Webstorm]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/"/>
+    <updated>2013-03-18T19:50:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm</id>
+    <content type="html"><![CDATA[<hr />
+
+<p>Introduction</p>
+
+<p>This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service.</p>
+
+<hr />
+
+<p>Debugging</p>
+
+<p>I'm using Webstorm to perform debugging. But to do this you will need to install <a href="http://karma-runner.github.com/0.8/intro/installation.html">Karma</a>, which is essentially Testacular 2.0.</p>
+
+<hr />
+
+<p>Set up</p>
+
+<p>To set this up, refer to the screenshots provided:</p>
+
+<p>Step 1:
+Create the Node js runner according to the screen shot.</p>
+
+<p>http://screencloud.net/v/ERqK</p>
+
+<p>Step 2:
+Create the Debug configuration according to the screen shot. Note that the port will be the port that you Karma server ran on for the Node.js configuration you defined for Step 1.</p>
+
+<p>http://screencloud.net/v/3sH0</p>
+
+<p>Step 3:
+Start the Node.js run, then start the Debug configuration after you set some breakpoints.
+http://screencloud.net/v/2oGA</p>
+
+<p>Read more at:
+https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
+]]></content>
+  </entry>
+  
+</feed>

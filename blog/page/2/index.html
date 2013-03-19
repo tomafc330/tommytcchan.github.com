@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass &hellip;">
+  <meta name="description" content="So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/17/php-set-up-xdebug/">PHP - Set Up XDebug</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-17T16:24:00-08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/17/php-set-up-xdebug/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and examine variables. Finally after an hour of fiddling with it I got it to work.</p>
+
+<h3>The setup</h3>
+
+<p>This guide uses the following:</p>
+
+<p>WAMP Server 2.2
+PHP 5.2
+Apache 2.2
+PHPStorm 5.0.1</p>
+
+<h3>Steps</h3>
+
+<ol>
+<li><p>Goto http://xdebug.org/download.php and download the Xdebug version 2.1.2. Note that&#8217;s the last version where they compiled a VC6 version. I got the Thread Safe (TS) version.</p></li>
+<li><p>Now edit your php.ini file. Make sure to put the following in:</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>zend_extension_ts= "C:\wamp\bin\php\php5.2.2\ext\php_xdebug-2.1.2-5.2-vc6.dll"
+</span><span class='line'>xdebug.idekey=PHPSTORM
+</span><span class='line'>xdebug.remote_enable=true
+</span><span class='line'>;extension=php_xdebug-2.1.2-5.2-vc6.dll</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`
+Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</em> want it.</p>
+
+<ol>
+<li><p>Now grab the bookmarklet generator from here: http://www.jetbrains.com/phpstorm/marklets/</p></li>
+<li><p>Restart the server</p></li>
+<li><p>Have PHPStorm start listening to the connections.</p></li>
+<li><p>Put a breakdown somethere you know that the execution will hit it.</p></li>
+<li><p>Enjoy!</p></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -400,6 +477,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/">Example: How to set up debugging with Karma (formerly Testacular) and Webstorm</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/">Rails: correct way of before_save in model</a>
       </li>
     
@@ -413,10 +494,6 @@
     
       <li class="post">
         <a href="/blog/2013/02/28/css-image-not-aligning-quite-right/">CSS: margin-top selector not working.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL error: (98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</a>
       </li>
     
   </ul>

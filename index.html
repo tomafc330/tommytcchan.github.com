@@ -9,15 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was reading a tutorial on the before_save and thought this was a valid syntax: 1
-2
-3
-4
-5
-6
-7
-8
-9 def before_save(record) if record.publishing &hellip;">
+  <meta name="description" content="Introduction This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service. Debugging I&#8217;m using &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +77,77 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/">Example: How to Set Up Debugging With Karma (Formerly Testacular) and Webstorm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-18T19:50:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<p>Introduction</p>
+
+<p>This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service.</p>
+
+<hr />
+
+<p>Debugging</p>
+
+<p>I&#8217;m using Webstorm to perform debugging. But to do this you will need to install <a href="http://karma-runner.github.com/0.8/intro/installation.html">Karma</a>, which is essentially Testacular 2.0.</p>
+
+<hr />
+
+<p>Set up</p>
+
+<p>To set this up, refer to the screenshots provided:</p>
+
+<p>Step 1:
+Create the Node js runner according to the screen shot.</p>
+
+<p>http://screencloud.net/v/ERqK</p>
+
+<p>Step 2:
+Create the Debug configuration according to the screen shot. Note that the port will be the port that you Karma server ran on for the Node.js configuration you defined for Step 1.</p>
+
+<p>http://screencloud.net/v/3sH0</p>
+
+<p>Step 3:
+Start the Node.js run, then start the Debug configuration after you set some breakpoints.
+http://screencloud.net/v/2oGA</p>
+
+<p>Read more at:
+https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -733,83 +796,6 @@ Also note that you can add the www-data user to the group that has the permissio
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/17/php-set-up-xdebug/">PHP - Set Up XDebug</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-17T16:24:00-08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/17/php-set-up-xdebug/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and examine variables. Finally after an hour of fiddling with it I got it to work.</p>
-
-<h3>The setup</h3>
-
-<p>This guide uses the following:</p>
-
-<p>WAMP Server 2.2
-PHP 5.2
-Apache 2.2
-PHPStorm 5.0.1</p>
-
-<h3>Steps</h3>
-
-<ol>
-<li><p>Goto http://xdebug.org/download.php and download the Xdebug version 2.1.2. Note that&#8217;s the last version where they compiled a VC6 version. I got the Thread Safe (TS) version.</p></li>
-<li><p>Now edit your php.ini file. Make sure to put the following in:</p></li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>zend_extension_ts= "C:\wamp\bin\php\php5.2.2\ext\php_xdebug-2.1.2-5.2-vc6.dll"
-</span><span class='line'>xdebug.idekey=PHPSTORM
-</span><span class='line'>xdebug.remote_enable=true
-</span><span class='line'>;extension=php_xdebug-2.1.2-5.2-vc6.dll</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`
-Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</em> want it.</p>
-
-<ol>
-<li><p>Now grab the bookmarklet generator from here: http://www.jetbrains.com/phpstorm/marklets/</p></li>
-<li><p>Restart the server</p></li>
-<li><p>Have PHPStorm start listening to the connections.</p></li>
-<li><p>Put a breakdown somethere you know that the execution will hit it.</p></li>
-<li><p>Enjoy!</p></li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -825,6 +811,10 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/">Example: How to set up debugging with Karma (formerly Testacular) and Webstorm</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/">Rails: correct way of before_save in model</a>
       </li>
     
@@ -838,10 +828,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
     
       <li class="post">
         <a href="/blog/2013/02/28/css-image-not-aligning-quite-right/">CSS: margin-top selector not working.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL error: (98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</a>
       </li>
     
   </ul>

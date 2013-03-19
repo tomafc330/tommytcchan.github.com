@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: intellij - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Example: How to set up debugging with Karma (formerly Testacular) and Webstorm - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Category: intellij">
+  <meta name="description" content="Introduction This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service. Debugging I&#8217;m using &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.comblog/categories/intellij/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,36 +76,130 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Intellij</h1>
+    
+      <h1 class="entry-title">Example: How to Set Up Debugging With Karma (Formerly Testacular) and Webstorm</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-18T19:50:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><hr />
 
-  
-  <h2>2013</h2>
+<p>Introduction</p>
 
-<article>
-  
-<h1><a href="/blog/2013/02/22/grails-and-intellij-discard-old-dependencies/">Grails and Intellij: discard old dependencies</a></h1>
-<time datetime="2013-02-22T10:36:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>22</span> <span class='year'>2013</span></time>
+<p>This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/grails/'>grails</a>, <a class='category' href='/blog/categories/intellij/'>intellij</a>, <a class='category' href='/blog/categories/setup/'>setup</a></span>
-</footer>
+<hr />
 
+<p>Debugging</p>
 
-</article>
+<p>I&#8217;m using Webstorm to perform debugging. But to do this you will need to install <a href="http://karma-runner.github.com/0.8/intro/installation.html">Karma</a>, which is essentially Testacular 2.0.</p>
 
+<hr />
+
+<p>Set up</p>
+
+<p>To set this up, refer to the screenshots provided:</p>
+
+<p>Step 1:
+Create the Node js runner according to the screen shot.</p>
+
+<p>http://screencloud.net/v/ERqK</p>
+
+<p>Step 2:
+Create the Debug configuration according to the screen shot. Note that the port will be the port that you Karma server ran on for the Node.js configuration you defined for Step 1.</p>
+
+<p>http://screencloud.net/v/3sH0</p>
+
+<p>Step 3:
+Start the Node.js run, then start the Debug configuration after you set some breakpoints.
+http://screencloud.net/v/2oGA</p>
+
+<p>Read more at:
+https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Tommy Chan (informotion software)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-18T19:50:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/setup/'>setup</a>, <a class='category' href='/blog/categories/tutorial/'>tutorial</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/" title="Previous Post: Rails: correct way of before_save in model">&laquo; Rails: correct way of before_save in model</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -215,7 +309,10 @@
       var disqus_shortname = 'tommyssoftwareblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
