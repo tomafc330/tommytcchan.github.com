@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Groovy | Tommy Chan's software blog (@tommytcchan)]]></title>
-  <link href="http://tommytcchan.github.com/blog/categories/groovy/atom.xml" rel="self"/>
+  <title><![CDATA[Category: currying | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/currying/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
   <updated>2013-03-25T21:31:16-07:00</updated>
   <id>http://tommytcchan.github.com/</id>

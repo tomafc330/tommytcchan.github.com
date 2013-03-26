@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: asset-pipeline - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Android: IntentService.onHandleIntent() not called - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Category: asset-pipeline">
+  <meta name="description" content="So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.comblog/categories/asset-pipeline/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,36 +76,111 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Asset-pipeline</h1>
+    
+      <h1 class="entry-title">Android: IntentService.onHandleIntent() Not Called</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-25T21:27:00-07:00" pubdate data-updated="true">Mar 25<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call out to the server once a day. Naturally I gravitated towards the <code>IntentSevice</code>, which seems to be the simplest to use. I had also overridden in my service.onStartCommand() to return <code>START_STICKY</code>, which would restart the service should it be stopped. Once I did that though, the system stopped calling my <code>onHandleIntent()</code> method. What&#8217;s going on?</p>
 
-  
-  <h2>2013</h2>
+<p>It turned out that I had forgotten to call <code>super.onStartCommand()</code> before I returned the static int. So the following fixed it:</p>
 
-<article>
-  
-<h1><a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/">Rails: production environment is missing application.js and application.css</a></h1>
-<time datetime="2013-02-23T16:03:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>23</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/asset-pipeline/'>asset-pipeline</a>, <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/setup/'>setup</a></span>
-</footer>
-
-
-</article>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public int onStartCommand(android.content.Intent intent, int flags, int startId) {
+</span><span class='line'>  super.onStartCommand(intent, flags, startId);
+</span><span class='line'>  return START_STICKY;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Tommy Chan (informotion software)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-25T21:27:00-07:00" pubdate data-updated="true">Mar 25<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/problems/'>problems</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/" title="Previous Post: Example: How to set up debugging with Karma (formerly Testacular) and Webstorm">&laquo; Example: How to set up debugging with Karma (formerly Testacular) and Webstorm</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -215,7 +290,10 @@
       var disqus_shortname = 'tommyssoftwareblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

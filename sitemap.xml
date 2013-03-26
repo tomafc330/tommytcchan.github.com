@@ -4,106 +4,118 @@
         <loc>
             http://tommytcchan.github.com/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/
         </loc>
-        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/
         </loc>
-        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/
         </loc>
-        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/
         </loc>
-        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/
         </loc>
-        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug/</loc>
-        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/22/grails-and-intellij-discard-old-dependencies/
         </loc>
-        <lastmod>2013-02-28T20:06:32-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/
         </loc>
-        <lastmod>2013-02-23T16:09:27-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/23/rails-create-a-deploy-script-with-ease/
         </loc>
-        <lastmod>2013-02-23T16:54:52-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/
         </loc>
-        <lastmod>2013-02-28T20:06:32-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/
         </loc>
-        <lastmod>2013-02-28T20:06:32-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/28/css-image-not-aligning-quite-right/
         </loc>
-        <lastmod>2013-02-28T20:06:32-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/
         </loc>
-        <lastmod>2013-02-28T20:08:39-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/
         </loc>
-        <lastmod>2013-02-28T20:34:55-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/
         </loc>
-        <lastmod>2013-03-02T02:15:08-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/
+        </loc>
+        <lastmod>2013-03-18T19:55:27-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/
         </loc>
-        <lastmod>2013-03-18T19:53:03-07:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/
+        </loc>
+        <lastmod>2013-03-25T21:31:06-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-03-18T19:53:03-07:00</lastmod>
+        <lastmod>2013-03-25T21:31:06-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-03-18T19:53:03-07:00</lastmod>
+        <lastmod>2013-03-25T21:31:06-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>
-        <lastmod>2013-02-23T10:53:19-08:00</lastmod>
+        <lastmod>2013-03-18T19:55:03-07:00</lastmod>
     </url>
 </urlset>
