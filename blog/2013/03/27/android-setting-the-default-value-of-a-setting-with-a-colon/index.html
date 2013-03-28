@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: testing - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Android:setting the default value of a setting with a colon - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Category: testing">
+  <meta name="description" content="So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.comblog/categories/testing/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,36 +76,103 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Testing</h1>
+    
+      <h1 class="entry-title">Android:setting the Default Value of a Setting With a Colon</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-27T20:34:00-07:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference defined in the xml. However, I was getting messages like these:</p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/">Groovy: unit testing method overridding using metaClass does not work</a></h1>
-<time datetime="2013-02-15T16:04:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>15</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/grails/'>grails</a>, <a class='category' href='/blog/categories/groovy/'>groovy</a>, <a class='category' href='/blog/categories/testing/'>testing</a></span>
-</footer>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>java.lang.RuntimeException: Unable to start activity ComponentInfo{com.codetipdaily/com.codetipdaily.Preferences}: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
-
+<p>I had no idea why, but I fixed it by setting the <code>android:key</code> to be a different key. I had the same key referenced as a CheckboxPreferences a few hours ago, and that seemed to have done the trick. Weird!</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Tommy Chan (informotion software)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-27T20:34:00-07:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>Android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/" title="Previous Post: Android: IntentService.onHandleIntent() not called">&laquo; Android: IntentService.onHandleIntent() not called</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -215,7 +282,10 @@
       var disqus_shortname = 'tommyssoftwareblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

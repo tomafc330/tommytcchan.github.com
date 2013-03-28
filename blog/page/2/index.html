@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="The problem So I&#8217;m working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, &hellip;">
+  <meta name="description" content="I was finding myself having to deploy manually everytime I push something to github, so I&#8217;ve decided to write a deploy shell script to help &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,74 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/">Rails: Create a Deploy Script With Ease</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T16:51:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was finding myself having to deploy manually everytime I push something to github, so I&#8217;ve decided to write a deploy shell script to help with this task. Coming from a Java background, I found that creating a deploy script for rails is so much easier. Here is the meat of it:</p>
+
+<p>In deploy.sh</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>#first kill the server if its running
+</span><span class='line'>kill -9 `lsof -i :80 | awk '{if (NR!=1) {print $2}}'`
+</span><span class='line'>pushd ~/codetipdaily
+</span><span class='line'>#then pull from gh
+</span><span class='line'>git pull origin master
+</span><span class='line'>#assets
+</span><span class='line'>rake assets:clean
+</span><span class='line'>rake assets:precompile
+</span><span class='line'>#start server as daemon
+</span><span class='line'>rails server -e production -p 80 --daemon
+</span><span class='line'>popd</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That was a piece of cake!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -604,6 +672,10 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/">Android:setting the default value of a setting with a colon</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/">Android: IntentService.onHandleIntent() not called</a>
       </li>
     
@@ -617,10 +689,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
     
       <li class="post">
         <a href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/">Rails: correct way of before_save in model</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/">Apache2: Negotiation: discovered file(s) matching request: &#8230;yi (None could be negotiated)</a>
       </li>
     
   </ul>

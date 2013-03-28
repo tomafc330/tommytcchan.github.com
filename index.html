@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call &hellip;">
+  <meta name="description" content="So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/">Android:setting the Default Value of a Setting With a Colon</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-27T20:34:00-07:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference defined in the xml. However, I was getting messages like these:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>java.lang.RuntimeException: Unable to start activity ComponentInfo{com.codetipdaily/com.codetipdaily.Preferences}: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I had no idea why, but I fixed it by setting the <code>android:key</code> to be a different key. I had the same key referenced as a CheckboxPreferences a few hours ago, and that seemed to have done the trick. Weird!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -845,74 +889,6 @@ Also note that you can add the www-data user to the group that has the permissio
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/">Rails: Create a Deploy Script With Ease</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-23T16:51:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was finding myself having to deploy manually everytime I push something to github, so I&#8217;ve decided to write a deploy shell script to help with this task. Coming from a Java background, I found that creating a deploy script for rails is so much easier. Here is the meat of it:</p>
-
-<p>In deploy.sh</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>#first kill the server if its running
-</span><span class='line'>kill -9 `lsof -i :80 | awk '{if (NR!=1) {print $2}}'`
-</span><span class='line'>pushd ~/codetipdaily
-</span><span class='line'>#then pull from gh
-</span><span class='line'>git pull origin master
-</span><span class='line'>#assets
-</span><span class='line'>rake assets:clean
-</span><span class='line'>rake assets:precompile
-</span><span class='line'>#start server as daemon
-</span><span class='line'>rails server -e production -p 80 --daemon
-</span><span class='line'>popd</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That was a piece of cake!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -928,6 +904,10 @@ Also note that you can add the www-data user to the group that has the permissio
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/">Android:setting the default value of a setting with a colon</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/">Android: IntentService.onHandleIntent() not called</a>
       </li>
     
@@ -941,10 +921,6 @@ Also note that you can add the www-data user to the group that has the permissio
     
       <li class="post">
         <a href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/">Rails: correct way of before_save in model</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/">Apache2: Negotiation: discovered file(s) matching request: &#8230;yi (None could be negotiated)</a>
       </li>
     
   </ul>
