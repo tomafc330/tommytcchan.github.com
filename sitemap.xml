@@ -113,12 +113,18 @@
         <lastmod>2013-03-27T22:04:58-07:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/
+        </loc>
+        <lastmod>2013-03-28T21:59:02-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-03-27T22:04:58-07:00</lastmod>
+        <lastmod>2013-03-28T21:59:02-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-03-27T22:04:58-07:00</lastmod>
+        <lastmod>2013-03-28T21:59:02-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>

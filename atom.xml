@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-03-27T22:05:04-07:00</updated>
+  <updated>2013-03-28T21:59:09-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: undefined method... after a migration script change]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/"/>
+    <updated>2013-03-28T21:56:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change</id>
+    <content type="html"><![CDATA[<p>So I updated my model by changing the migration script and then doing <code>rake db:drop</code> and &#8220;`rake db:create&#8220;&#8220; and thought I would be okay. However, when I started my app after I changed the view layer, I got something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>undefined method `command_name' for #&lt;Shortcut:0x00000003c3b4e8&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What gives? It turned out that I also needed to modify <code>schema.rb</code> to create the initial table. So that is a good place to check out if you find yourself changing the migration data.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android:setting the default value of a setting with a colon]]></title>

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Groovy: unit testing method overridding using metaClass does not work - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Rails: undefined method... after a migration script change - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass &hellip;">
+  <meta name="description" content="So I updated my model by changing the migration script and then doing rake db:drop and &#8220;`rake db:create&#8220;&#8220; and thought I would be &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,7 +80,7 @@
   
   <header>
     
-      <h1 class="entry-title">Groovy: Unit Testing Method Overridding Using metaClass Does Not Work</h1>
+      <h1 class="entry-title">Rails: Undefined Method... After a Migration Script Change</h1>
     
     
       <p class="meta">
@@ -96,7 +96,7 @@
   
 
 
-<time datetime="2013-02-15T16:04:00-08:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
+<time datetime="2013-03-28T21:56:00-07:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -105,50 +105,13 @@
   </header>
 
 
-<div class="entry-content"><p>So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass mechanism doesn&#8217;t work. Consider this code:</p>
+<div class="entry-content"><p>So I updated my model by changing the migration script and then doing <code>rake db:drop</code> and &#8220;`rake db:create&#8220;&#8220; and thought I would be okay. However, when I started my app after I changed the view layer, I got something like this:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>private void registerSuccessAction(RegistrationFormCommand cmd, userId) {
-</span><span class='line'>      def successUrl = '/register/success'
-</span><span class='line'>      ...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>undefined method `command_name' for #&lt;Shortcut:0x00000003c3b4e8&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>This was in my test</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>  controller.metaClass.registerSuccessAction = { command, userId -&gt;
-</span><span class='line'>      println "called"
-</span><span class='line'>                      }
-</span><span class='line'>
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, I was runing into the fact that my overridding method isn&#8217;t being called. What gives?</p>
-
-<p>It turned out that you <em>need</em> to qualify the first command with the type if the method has a typed parameter, otherwise groovy won&#8217;t override the behavior!</p>
-
-<p>This works:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>controller.metaClass.registerSuccessAction = { RegistrationFormCommand command, userId -&gt;
-</span><span class='line'>          throw new AssertionError("This should not be called.")
-</span><span class='line'>                  }
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`</p>
+<p>What gives? It turned out that I also needed to modify <code>schema.rb</code> to create the initial table. So that is a good place to check out if you find yourself changing the migration data.</p>
 </div>
 
 
@@ -171,12 +134,12 @@
   
 
 
-<time datetime="2013-02-15T16:04:00-08:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
+<time datetime="2013-03-28T21:56:00-07:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/grails/'>grails</a>, <a class='category' href='/blog/categories/groovy/'>groovy</a>, <a class='category' href='/blog/categories/testing/'>testing</a>
+    <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/problem/'>problem</a>
   
 </span>
 
@@ -185,7 +148,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -198,10 +161,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/" title="Previous Post: Fixing installing mysql2 gem in Ubuntu 12.10">&laquo; Fixing installing mysql2 gem in Ubuntu 12.10</a>
+        <a class="basic-alignment left" href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/" title="Previous Post: Android:setting the default value of a setting with a colon">&laquo; Android:setting the default value of a setting with a colon</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/02/17/php-set-up-xdebug/" title="Next Post: PHP - Set up XDebug">PHP - Set up XDebug &raquo;</a>
       
     </p>
   </footer>
@@ -322,8 +283,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/';
-        var disqus_url = 'http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/';
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/';
         var disqus_script = 'embed.js';
       
     (function () {
