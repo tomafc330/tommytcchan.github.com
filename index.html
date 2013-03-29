@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I updated my model by changing the migration script and then doing rake db:drop and &#8220;`rake db:create&#8220;&#8220; and thought I would be &hellip;">
+  <meta name="description" content="So I changed my environment to be production, and I had issues with serving static content. Since my app was a single page app, I needed this to work &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/29/rails-not-serving-assets-on-production/">Rails: Not Serving Assets on Production.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-29T10:57:00-07:00" pubdate data-updated="true">Mar 29<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/29/rails-not-serving-assets-on-production/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I changed my environment to be production, and I had issues with serving static content. Since my app was a single page app, I needed this to work (didn&#8217;t want to put nginx or apache in front of it).</p>
+
+<p>The error I was getting was this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ActionController::RoutingError (No route matches [GET] "/"):</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I did this in another project and forgot that I need to set the following parameter in <code>production.rb</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  config.serve_static_assets = true</span></code></pre></td></tr></table></div></figure>
+
+
+<p>All was good afterwards!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -734,56 +786,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL Error: (98)Address Already in Use: Make_sock: Could Not Bind to Address 0.0.0.0:443</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-26T17:49:00-08:00" pubdate data-updated="true">Feb 26<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;m now configuring SSL with my new httpd server, and for some reason it kept giving me this error when I first started the server:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But I did an <code>lsof -i :443</code> and I didn&#8217;t see anything.</p>
-
-<h3>The solution</h3>
-
-<p>Turns out that I forgotten that Ubuntu&#8217;s setup for httpd is a little non standard, in that they included a ports.conf file that includes a conditional which will start listening on port 443 if the ssl mod is enabled. I had also included a <code>listen 443</code> in my configuration, which led to the problem.</p>
-
-<p>Removing the <code>listen 443</code> in my declaration solved the problem.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -799,6 +801,10 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/03/29/rails-not-serving-assets-on-production/">Rails: not serving assets on production.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/">Rails: undefined method&#8230; after a migration script change</a>
       </li>
     
@@ -812,10 +818,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
     
       <li class="post">
         <a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/">Example: How to set up debugging with Karma (formerly Testacular) and Webstorm</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/">Groovy: The way to populate a csv/excel file.</a>
       </li>
     
   </ul>

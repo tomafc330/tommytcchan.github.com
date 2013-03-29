@@ -4,7 +4,7 @@
   <title><![CDATA[Category: problems | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/problems/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-03-28T21:59:09-07:00</updated>
+  <updated>2013-03-29T11:00:35-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: not serving assets on production.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production/"/>
+    <updated>2013-03-29T10:57:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production</id>
+    <content type="html"><![CDATA[<p>So I changed my environment to be production, and I had issues with serving static content. Since my app was a single page app, I needed this to work (didn't want to put nginx or apache in front of it).</p>
+
+<p>The error I was getting was this:</p>
+
+<p><code>
+ActionController::RoutingError (No route matches [GET] "/"):
+</code></p>
+
+<p>I did this in another project and forgot that I need to set the following parameter in <code>production.rb</code>:</p>
+
+<p><code>
+  config.serve_static_assets = true
+</code></p>
+
+<p>All was good afterwards!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android: IntentService.onHandleIntent() not called]]></title>

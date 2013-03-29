@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-03-28T21:59:09-07:00</updated>
+  <updated>2013-03-29T11:00:35-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: not serving assets on production.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production/"/>
+    <updated>2013-03-29T10:57:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production</id>
+    <content type="html"><![CDATA[<p>So I changed my environment to be production, and I had issues with serving static content. Since my app was a single page app, I needed this to work (didn&#8217;t want to put nginx or apache in front of it).</p>
+
+<p>The error I was getting was this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ActionController::RoutingError (No route matches [GET] "/"):</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I did this in another project and forgot that I need to set the following parameter in <code>production.rb</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  config.serve_static_assets = true</span></code></pre></td></tr></table></div></figure>
+
+
+<p>All was good afterwards!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails: undefined method... after a migration script change]]></title>
@@ -855,15 +878,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
     <updated>2013-02-04T20:16:00-08:00</updated>
     <id>http://tommytcchan.github.com/blog/2013/02/04/octopress-modify-the-default-new-post-post-action</id>
     <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A new beginning. Tommy's blog site gets a new backend.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/"/>
-    <updated>2013-02-02T13:29:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend</id>
-    <content type="html"><![CDATA[<p>Welcome to my new blog site! I&#8217;m excited to annouce my new site, www.tommytcchan.com after coming to the realization that the current system I have in place (Blogger on the web) doesn&#8217;t cater to my needs as a blogging developer. To check out my old posts (all 100+ of them), please visit tommytcchan.blogspot.com</p>
 ]]></content>
   </entry>
   

@@ -5,19 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Rails: correct way of before_save in model - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Rails: not serving assets on production. - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was reading a tutorial on the before_save and thought this was a valid syntax: 1
-2
-3
-4
-5
-6
-7
-8
-9 def before_save(record) if record.publishing &hellip;">
+  <meta name="description" content="So I changed my environment to be production, and I had issues with serving static content. Since my app was a single page app, I needed this to work &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -26,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -88,7 +80,7 @@
   
   <header>
     
-      <h1 class="entry-title">Rails: Correct Way of Before_save in Model</h1>
+      <h1 class="entry-title">Rails: Not Serving Assets on Production.</h1>
     
     
       <p class="meta">
@@ -104,7 +96,7 @@
   
 
 
-<time datetime="2013-03-01T19:09:00-08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2013</time>
+<time datetime="2013-03-29T10:57:00-07:00" pubdate data-updated="true">Mar 29<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -113,53 +105,21 @@
   </header>
 
 
-<div class="entry-content"><p>So I was reading a tutorial on the before_save and thought this was a valid syntax:</p>
+<div class="entry-content"><p>So I changed my environment to be production, and I had issues with serving static content. Since my app was a single page app, I needed this to work (didn&#8217;t want to put nginx or apache in front of it).</p>
+
+<p>The error I was getting was this:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  def before_save(record)
-</span><span class='line'>
-</span><span class='line'>    if record.publishing
-</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
-</span><span class='line'>        publishing_tip.publishing = false
-</span><span class='line'>        publishing_tip.published = true
-</span><span class='line'>        publishing_tip.save
-</span><span class='line'>      end
-</span><span class='line'>    end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ActionController::RoutingError (No route matches [GET] "/"):</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Turned out that this is the valid syntax for Rails 3.1:</p>
+<p>I did this in another project and forgot that I need to set the following parameter in <code>production.rb</code>:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  before_save :update_publishing_state
-</span><span class='line'>
-</span><span class='line'>  def update_publishing_state
-</span><span class='line'>    if self.publishing
-</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
-</span><span class='line'>        publishing_tip.publishing = false
-</span><span class='line'>        publishing_tip.published = true
-</span><span class='line'>        publishing_tip.save
-</span><span class='line'>      end
-</span><span class='line'>    end
-</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  config.serve_static_assets = true</span></code></pre></td></tr></table></div></figure>
 
+
+<p>All was good afterwards!</p>
 </div>
 
 
@@ -182,12 +142,12 @@
   
 
 
-<time datetime="2013-03-01T19:09:00-08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2013</time>
+<time datetime="2013-03-29T10:57:00-07:00" pubdate data-updated="true">Mar 29<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/rails/'>rails</a>
+    <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/problems/'>problems</a>
   
 </span>
 
@@ -196,7 +156,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -209,10 +169,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/" title="Previous Post: Apache2: Negotiation: discovered file(s) matching request: ...yi (None could be negotiated)">&laquo; Apache2: Negotiation: discovered file(s) matching request: ...yi (None could be negotiated)</a>
+        <a class="basic-alignment left" href="/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/" title="Previous Post: Rails: undefined method... after a migration script change">&laquo; Rails: undefined method... after a migration script change</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/" title="Next Post: Groovy: The way to populate a csv/excel file.">Groovy: The way to populate a csv/excel file. &raquo;</a>
       
     </p>
   </footer>
@@ -333,8 +291,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/';
-        var disqus_url = 'http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/';
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production/';
         var disqus_script = 'embed.js';
       
     (function () {
