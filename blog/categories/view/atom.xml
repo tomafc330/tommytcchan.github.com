@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: view | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/view/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-04-02T20:35:22-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: escape string for view to use.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/02/rails-escape-string-for-view-to-use/"/>
+    <updated>2013-04-02T20:33:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/02/rails-escape-string-for-view-to-use</id>
+    <content type="html"><![CDATA[<p>I had this issue with a Rails app where the string content has been html encoded. This was not good because I was feeding the information to view layer that contains some javascript. Therefore this was what I needed to do:</p>
+
+<p>```</p>
+
+<pre><code>@tags = Tag.all_as_str.html_safe
+</code></pre>
+
+<p>```</p>
+
+<p>so the <code>html_safe</code> does the trick here for me.</p>
+]]></content>
+  </entry>
+  
+</feed>

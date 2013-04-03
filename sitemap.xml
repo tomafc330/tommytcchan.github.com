@@ -96,9 +96,27 @@
     </url>
     <url>
         <loc>
+            http://tommytcchan.github.com/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup/
+        </loc>
+        <lastmod>2013-04-02T20:32:57-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/
+        </loc>
+        <lastmod>2013-04-02T20:32:57-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
             http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/
         </loc>
         <lastmod>2013-03-18T19:55:03-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/
+        </loc>
+        <lastmod>2013-04-02T20:32:57-07:00</lastmod>
     </url>
     <url>
         <loc>
@@ -125,12 +143,24 @@
         <lastmod>2013-03-29T11:00:30-07:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue/
+        </loc>
+        <lastmod>2013-04-02T20:32:57-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/04/02/rails-escape-string-for-view-to-use/
+        </loc>
+        <lastmod>2013-04-02T20:35:16-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-03-29T11:00:30-07:00</lastmod>
+        <lastmod>2013-04-02T20:35:16-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-03-29T11:00:30-07:00</lastmod>
+        <lastmod>2013-04-02T20:35:16-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>

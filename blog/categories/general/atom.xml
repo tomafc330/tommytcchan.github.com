@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: general | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/general/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-04-02T20:35:22-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Set cookie with domain of localhost will not work for chrome/chromium browswer]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/"/>
+    <updated>2013-03-18T12:09:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer</id>
+    <content type="html"><![CDATA[<p>So I was working on setting a cookie for one of the sites, and what I had done was something like this initially:</p>
+
+<p>```</p>
+
+<pre><code>        Cookie cookie = new Cookie(
+                key,
+                value);
+        cookie.setMaxAge(7);
+        cookie.setPath("/");
+        cookie.setDomain(serverDomain);
+
+        response.addCookie(cookie);
+</code></pre>
+
+<p><code>
+Everything was working on localhost in Firefox and Opera. However, when I looked at the inspector for Chrome, it wasn't working! I then tried to use 127.0.0.1 instead of localhost. That worked. So I read up some more about it and apparently if you tried to set the domain to localhost on a cookie, Chrome will reject it! so the fix was to removed the</code>cookie.setDomain(serverDomain);``` line and everything was great again.</p>
+]]></content>
+  </entry>
+  
+</feed>

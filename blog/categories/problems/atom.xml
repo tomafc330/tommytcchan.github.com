@@ -4,7 +4,7 @@
   <title><![CDATA[Category: problems | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/problems/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-03-29T11:00:35-07:00</updated>
+  <updated>2013-04-02T20:35:22-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Grails: groovy.lang.MissingMethodException: No signature of method: ....getPersistentValue()]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue/"/>
+    <updated>2013-04-02T15:42:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue</id>
+    <content type="html"><![CDATA[<p>So I'm writing a unit test that uses getPersistentValue in one of the controllers, and I ran into the problem where I got this error:</p>
+
+<p><code>
+groovy.lang.MissingMethodException: No signature of method: Domain.getPersistentValue()
+</code></p>
+
+<p>I assumed that when I have the <code>@Mock(domain)</code> annotation, I would get all the available methods to me in the test. However, upon inspecting the methods using <code>instance.metaClass.methods*.name</code>, I realized it was missing some of the methods. Therefore you will need to mock those in your tests.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails: not serving assets on production.]]></title>

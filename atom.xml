@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-03-29T11:00:35-07:00</updated>
+  <updated>2013-04-02T20:35:22-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: escape string for view to use.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/02/rails-escape-string-for-view-to-use/"/>
+    <updated>2013-04-02T20:33:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/02/rails-escape-string-for-view-to-use</id>
+    <content type="html"><![CDATA[<p>I had this issue with a Rails app where the string content has been html encoded. This was not good because I was feeding the information to view layer that contains some javascript. Therefore this was what I needed to do:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@tags = Tag.all_as_str.html_safe</span></code></pre></td></tr></table></div></figure>
+
+
+<p>so the <code>html_safe</code> does the trick here for me.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Grails: groovy.lang.MissingMethodException: No signature of method: ....getPersistentValue()]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue/"/>
+    <updated>2013-04-02T15:42:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue</id>
+    <content type="html"><![CDATA[<p>So I&#8217;m writing a unit test that uses getPersistentValue in one of the controllers, and I ran into the problem where I got this error:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>groovy.lang.MissingMethodException: No signature of method: Domain.getPersistentValue() </span></code></pre></td></tr></table></div></figure>
+
+
+<p>I assumed that when I have the <code>@Mock(domain)</code> annotation, I would get all the available methods to me in the test. However, upon inspecting the methods using <code>instance.metaClass.methods*.name</code>, I realized it was missing some of the methods. Therefore you will need to mock those in your tests.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails: not serving assets on production.]]></title>
@@ -90,6 +120,32 @@
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[Mocking Grails injected methods such as encodeAsURL in unit tests.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/"/>
+    <updated>2013-03-19T17:26:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests</id>
+    <content type="html"><![CDATA[<p>Today I was writing a test on a Grails service that used the encodeAsURL method. When I ran the test, I got something like the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>groovy.lang.MissingMethodException: No signature of method: java.lang.String.encodeAsURL() is applicable for argument types: () values: []</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Upon researching some more, I realized that Grails adds a whole bunch of utilit methods to the String class at runtime, such as <code>"encodeAsBase64", "encodeAsHTML",
+"encodeAsJSON", "encodeAsJavaScript", "encodeAsURL", "encodeAsXML"</code>.</p>
+
+<p>So what do you do when you run into this situation in your tests? Well, do what the Grails framework does&#8230;add it to the metaClass of String! Here&#8217;s the example that you need to add to the test (preferably the setup() method):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> String.metaClass.encodeAsURL = {
+</span><span class='line'>      delegate.toString()
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Example: How to set up debugging with Karma (formerly Testacular) and Webstorm]]></title>
     <link href="http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/"/>
     <updated>2013-03-18T19:50:00-07:00</updated>
@@ -126,6 +182,77 @@
 
 <p>Read more at:
 https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Set cookie with domain of localhost will not work for chrome/chromium browswer]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/"/>
+    <updated>2013-03-18T12:09:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer</id>
+    <content type="html"><![CDATA[<p>So I was working on setting a cookie for one of the sites, and what I had done was something like this initially:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>     Cookie cookie = new Cookie(
+</span><span class='line'>              key,
+</span><span class='line'>              value);
+</span><span class='line'>      cookie.setMaxAge(7);
+</span><span class='line'>      cookie.setPath("/");
+</span><span class='line'>      cookie.setDomain(serverDomain);
+</span><span class='line'>      
+</span><span class='line'>      response.addCookie(cookie);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Everything was working on localhost in Firefox and Opera. However, when I looked at the inspector for Chrome, it wasn&#8217;t working! I then tried to use 127.0.0.1 instead of localhost. That worked. So I read up some more about it and apparently if you tried to set the domain to localhost on a cookie, Chrome will reject it! so the fix was to removed the <code>cookie.setDomain(serverDomain);</code> line and everything was great again.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Caution: Testing Grails filter while overriding the request/response object in the setup().]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup/"/>
+    <updated>2013-03-15T12:34:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup</id>
+    <content type="html"><![CDATA[<p>So I&#8217;m doing some testing on the filter recently, and I of the things I notice right away was that the previous committer had initializers all over the place:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void test_filters_all_with_no_utmParams_noSession_with__invalid_Cookie() {
+</span><span class='line'>      FilterConfig filter = findConfig('all')
+</span><span class='line'>
+</span><span class='line'>      def request = new MockHttpServletRequest()
+</span><span class='line'>      def response = new MockHttpServletResponse()
+</span><span class='line'>      setUpWebCookieService(request, response)
+</span><span class='line'>
+</span><span class='line'>      request.session = createSession(null, null, 'true')
+</span><span class='line'>      request.cookies = [new Cookie('blah')]
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So I thought, why not just put of the same declarations on the setup method()? Well, it turns out that Grails dynamic closures will clobber the request/response variables. When I ran the tests with the declarations in the setup, no matter what I do I was not able to set my variable.</p>
+
+<p>After some digging around, I realized one thing:</p>
+
+<ol>
+<li>The test already injects the request/response objects in your filter tests, so overriding actually causes problems, leading to my variables not being set on the correct request/response instance.</li>
+</ol>
+
+
+<p>I&#8217;ll let you decide what&#8217;s best for yourself.</p>
 ]]></content>
   </entry>
   
@@ -677,207 +804,6 @@ Also note that you can add the www-data user to the group that has the permissio
 
 
 <p>Once it refreshes then you should be able to reference the plugin in your source tree rather than from remote.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PHP - Set up XDebug]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug/"/>
-    <updated>2013-02-17T16:24:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/17/php-set-up-xdebug</id>
-    <content type="html"><![CDATA[<p>So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and examine variables. Finally after an hour of fiddling with it I got it to work.</p>
-
-<h3>The setup</h3>
-
-<p>This guide uses the following:</p>
-
-<p>WAMP Server 2.2
-PHP 5.2
-Apache 2.2
-PHPStorm 5.0.1</p>
-
-<h3>Steps</h3>
-
-<ol>
-<li><p>Goto http://xdebug.org/download.php and download the Xdebug version 2.1.2. Note that&#8217;s the last version where they compiled a VC6 version. I got the Thread Safe (TS) version.</p></li>
-<li><p>Now edit your php.ini file. Make sure to put the following in:</p></li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>zend_extension_ts= "C:\wamp\bin\php\php5.2.2\ext\php_xdebug-2.1.2-5.2-vc6.dll"
-</span><span class='line'>xdebug.idekey=PHPSTORM
-</span><span class='line'>xdebug.remote_enable=true
-</span><span class='line'>;extension=php_xdebug-2.1.2-5.2-vc6.dll</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`
-Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</em> want it.</p>
-
-<ol>
-<li><p>Now grab the bookmarklet generator from here: http://www.jetbrains.com/phpstorm/marklets/</p></li>
-<li><p>Restart the server</p></li>
-<li><p>Have PHPStorm start listening to the connections.</p></li>
-<li><p>Put a breakdown somethere you know that the execution will hit it.</p></li>
-<li><p>Enjoy!</p></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Groovy: unit testing method overridding using metaClass does not work]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/"/>
-    <updated>2013-02-15T16:04:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work</id>
-    <content type="html"><![CDATA[<p>So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass mechanism doesn&#8217;t work. Consider this code:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>private void registerSuccessAction(RegistrationFormCommand cmd, userId) {
-</span><span class='line'>      def successUrl = '/register/success'
-</span><span class='line'>      ...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This was in my test</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>  controller.metaClass.registerSuccessAction = { command, userId -&gt;
-</span><span class='line'>      println "called"
-</span><span class='line'>                      }
-</span><span class='line'>
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, I was runing into the fact that my overridding method isn&#8217;t being called. What gives?</p>
-
-<p>It turned out that you <em>need</em> to qualify the first command with the type if the method has a typed parameter, otherwise groovy won&#8217;t override the behavior!</p>
-
-<p>This works:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>controller.metaClass.registerSuccessAction = { RegistrationFormCommand command, userId -&gt;
-</span><span class='line'>          throw new AssertionError("This should not be called.")
-</span><span class='line'>                  }
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fixing installing mysql2 gem in Ubuntu 12.10]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/"/>
-    <updated>2013-02-13T20:59:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10</id>
-    <content type="html"><![CDATA[<p>So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have control over the environment, which in the Rails case is very annoying. Apparently you can specify the ruby version but I gave up after I tried all the stops.</p>
-
-<p>Anyways I was setting up my server (using Ubuntu) and when I was doing <code>bundle install</code> it gave me a weird error:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>*** extconf.rb failed ***
-</span><span class='line'>Could not create Makefile due to some reason, probably lack of
-</span><span class='line'>necessary libraries and/or headers.  Check the mkmf.log file for more
-</span><span class='line'>details.  You may need configuration options.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After digging into it a little bit, it was found that my server doesn&#8217;t have the dev package <strong>libmysqlclient-dev</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install libmysqlclient-dev mysql-server</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After doing that and then trying to install</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install mysql2</span></code></pre></td></tr></table></div></figure>
-
-
-<p>everything worked.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby on Rails: Can't use the include keyword in model]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/"/>
-    <updated>2013-02-05T21:30:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model</id>
-    <content type="html"><![CDATA[<p>I&#8217;m building the backend of my current project using rails, and one of the things I wanted to do was create a module that I can use in both my controller and model to report issues to a messaging queue, but I was stuck with on the following:</p>
-
-<p>In error_mixin:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>module ErrorMixin
-</span><span class='line'>
-</span><span class='line'>  def error(msg)
-</span><span class='line'>    Exchange.instance.sendMsg(msg, 'error')
-</span><span class='line'>  end
-</span><span class='line'>
-</span><span class='line'>  def info(msg)
-</span><span class='line'>    Exchange.instance.sendMsg(msg, 'info')
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In my domain class:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Tip &lt; ActiveRecord::Base
-</span><span class='line'>
-</span><span class='line'>  module ErrorMixin
-</span><span class='line'>  
-</span><span class='line'>  self.get_random
-</span><span class='line'>
-</span><span class='line'>  ...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When I tried this, it didn&#8217;t work. What was the issue? It turned out that because in my module I call out to the class method get_random and that class methods can&#8217;t reference module methods.</p>
-
-<p>The solution:</p>
-
-<p>Simply replace the keyword include to extend instead.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Octopress: Modify the default new post POST action.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/"/>
-    <updated>2013-02-04T20:16:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/04/octopress-modify-the-default-new-post-post-action</id>
-    <content type="html"><![CDATA[
 ]]></content>
   </entry>
   
