@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Mocking Grails injected methods such as encodeAsURL in unit tests. - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Rails: controller css isn't precompiled - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Today I was writing a test on a Grails service that used the encodeAsURL method. When I ran the test, I got something like the following: 1
-groovy. &hellip;">
+  <meta name="description" content="I&#8217;m in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ groovy. &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -81,7 +80,7 @@ groovy. &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Mocking Grails Injected Methods Such as encodeAsURL in Unit Tests.</h1>
+      <h1 class="entry-title">Rails: Controller Css Isn't Precompiled</h1>
     
     
       <p class="meta">
@@ -97,7 +96,7 @@ groovy. &hellip;">
   
 
 
-<time datetime="2013-03-19T17:26:00-07:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
+<time datetime="2013-04-07T22:33:00-07:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -106,23 +105,18 @@ groovy. &hellip;">
   </header>
 
 
-<div class="entry-content"><p>Today I was writing a test on a Grails service that used the encodeAsURL method. When I ran the test, I got something like the following:</p>
+<div class="entry-content"><p>I&#8217;m in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around. By default Rails set the <code>application.css</code> to include <code>//= require_tree .</code>. So naturally I removed it and in my <code>application.html.erb</code> I added the following: <code> &lt;%= stylesheet_link_tag params[:controller] %&gt;</code></p>
+
+<p>All good, right? Wrong! When I started the app in prod mode, I got an error like this:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>groovy.lang.MissingMethodException: No signature of method: java.lang.String.encodeAsURL() is applicable for argument types: () values: []</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>shortcuts.css isn't precompiled</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Upon researching some more, I realized that Grails adds a whole bunch of utilit methods to the String class at runtime, such as <code>"encodeAsBase64", "encodeAsHTML",
-"encodeAsJSON", "encodeAsJavaScript", "encodeAsURL", "encodeAsXML"</code>.</p>
-
-<p>So what do you do when you run into this situation in your tests? Well, do what the Grails framework does&#8230;add it to the metaClass of String! Here&#8217;s the example that you need to add to the test (preferably the setup() method):</p>
+<p>What&#8217;s going on here? Well upon some searching and reading through the asset pipeline guide, I realized that by default Rails does not compile your css under the stylesheets folder. I had to do this in <code>production.rb</code> to make it work:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> String.metaClass.encodeAsURL = {
-</span><span class='line'>      delegate.toString()
-</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  config.assets.precompile += %w( *.css *.js )</span></code></pre></td></tr></table></div></figure>
 
 </div>
 
@@ -146,12 +140,12 @@ groovy. &hellip;">
   
 
 
-<time datetime="2013-03-19T17:26:00-07:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
+<time datetime="2013-04-07T22:33:00-07:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/grails/'>grails</a>, <a class='category' href='/blog/categories/groovy/'>groovy</a>
+    <a class='category' href='/blog/categories/problems/'>problems</a>, <a class='category' href='/blog/categories/rails/'>rails</a>
   
 </span>
 
@@ -160,7 +154,7 @@ groovy. &hellip;">
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -173,10 +167,8 @@ groovy. &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/" title="Previous Post: Example: How to set up debugging with Karma (formerly Testacular) and Webstorm">&laquo; Example: How to set up debugging with Karma (formerly Testacular) and Webstorm</a>
+        <a class="basic-alignment left" href="/blog/2013/04/02/rails-escape-string-for-view-to-use/" title="Previous Post: Rails: escape string for view to use.">&laquo; Rails: escape string for view to use.</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/" title="Next Post: Android: IntentService.onHandleIntent() not called">Android: IntentService.onHandleIntent() not called &raquo;</a>
       
     </p>
   </footer>
@@ -297,8 +289,8 @@ groovy. &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/';
-        var disqus_url = 'http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/';
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled/';
         var disqus_script = 'embed.js';
       
     (function () {

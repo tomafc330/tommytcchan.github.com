@@ -4,7 +4,7 @@
   <title><![CDATA[Category: problems | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/problems/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-04-02T20:35:22-07:00</updated>
+  <updated>2013-04-07T22:37:37-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: controller css isn't precompiled]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled/"/>
+    <updated>2013-04-07T22:33:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled</id>
+    <content type="html"><![CDATA[<p>I'm in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around. By default Rails set the <code>application.css</code> to include <code>//= require_tree .</code>. So naturally I removed it and in my <code>application.html.erb</code> I added the following: <code> &lt;%= stylesheet_link_tag params[:controller] %&gt;</code></p>
+
+<p>All good, right? Wrong! When I started the app in prod mode, I got an error like this:</p>
+
+<p><code>
+shortcuts.css isn't precompiled
+</code></p>
+
+<p>What's going on here? Well upon some searching and reading through the asset pipeline guide, I realized that by default Rails does not compile your css under the stylesheets folder. I had to do this in <code>production.rb</code> to make it work:</p>
+
+<p><code>
+  config.assets.precompile += %w( *.css *.js )
+</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Grails: groovy.lang.MissingMethodException: No signature of method: ....getPersistentValue()]]></title>
