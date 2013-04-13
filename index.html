@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;m in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around &hellip;">
+  <meta name="description" content="Ever run into the issue where you are returning your domain object using to_json but you want an extra field? Well it&#8217;s actually really easy to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,114 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/">Rails: Include Extra Fields on Returning a Model Object as Json</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-13T15:26:00-07:00" pubdate data-updated="true">Apr 13<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ever run into the issue where you are returning your domain object using <code>to_json</code> but you want an extra field? Well it&#8217;s actually really easy to add that in there.</p>
+
+<p>In your model:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  attr_accessor :key_stroke #note its attr_accessor not attr_accessible</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In your rendering:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>render :json =&gt; matches.values.to_json(:methods =&gt; :key_stroke)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, sometimes you don&#8217;t want to return your whole object in which case you which restrict it with <code>:only</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/">Grails: At org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T15:10:00-07:00" pubdate data-updated="true">Apr 12<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NullPointerException
+</span><span class='line'>at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I was like what&#8217;s going on here? There isn&#8217;t really any indications, so I had to use <code>git bisect</code> to see when I introduced the problem. Turns out (I don&#8217;t have an explaination for this) that one of my tablib closures had an extra <code>-&gt;</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def initFacebokShareBtn = { -&gt; //note this
+</span><span class='line'>  ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By having that extra notation it gave me errors. Once I removed it then it worked. Perhaps the Grails folks introduced something in 2.1.4?</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -463,133 +571,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/">Example: How to Set Up Debugging With Karma (Formerly Testacular) and Webstorm</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-18T19:50:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Introduction</h1>
-
-<p>This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service.</p>
-
-<h1>Debugging</h1>
-
-<p>I&#8217;m using Webstorm to perform debugging. But to do this you will need to install <a href="http://karma-runner.github.com/0.8/intro/installation.html">Karma</a>, which is essentially Testacular 2.0.</p>
-
-<h1>Set up</h1>
-
-<p>To set this up, refer to the screenshots provided:</p>
-
-<h6>Step 1:</h6>
-
-<p>Create the Node js runner according to the screen shot.</p>
-
-<p>http://screencloud.net/v/ERqK</p>
-
-<h6>Step 2:</h6>
-
-<p>Create the Debug configuration according to the screen shot. Note that the port will be the port that you Karma server ran on for the Node.js configuration you defined for Step 1.</p>
-
-<p>http://screencloud.net/v/3sH0</p>
-
-<h6>Step 3:</h6>
-
-<p>Start the Node.js run, then start the Debug configuration after you set some breakpoints.</p>
-
-<p>http://screencloud.net/v/2oGA</p>
-
-<p>Read more at:
-https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/">Set Cookie With Domain of Localhost Will Not Work for Chrome/chromium Browswer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-18T12:09:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was working on setting a cookie for one of the sites, and what I had done was something like this initially:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>     Cookie cookie = new Cookie(
-</span><span class='line'>              key,
-</span><span class='line'>              value);
-</span><span class='line'>      cookie.setMaxAge(7);
-</span><span class='line'>      cookie.setPath("/");
-</span><span class='line'>      cookie.setDomain(serverDomain);
-</span><span class='line'>      
-</span><span class='line'>      response.addCookie(cookie);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Everything was working on localhost in Firefox and Opera. However, when I looked at the inspector for Chrome, it wasn&#8217;t working! I then tried to use 127.0.0.1 instead of localhost. That worked. So I read up some more about it and apparently if you tried to set the domain to localhost on a cookie, Chrome will reject it! so the fix was to removed the <code>cookie.setDomain(serverDomain);</code> line and everything was great again.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -605,6 +586,14 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/">Rails: include extra fields on returning a model object as json</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/">Grails: at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/07/rails-controller-css-isnt-precompiled/">Rails: controller css isn&#8217;t precompiled</a>
       </li>
     
@@ -614,14 +603,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
     
       <li class="post">
         <a href="/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue/">Grails: groovy.lang.MissingMethodException: No signature of method: &#8230;.getPersistentValue()</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/29/rails-not-serving-assets-on-production/">Rails: not serving assets on production.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/">Rails: undefined method&#8230; after a migration script change</a>
       </li>
     
   </ul>

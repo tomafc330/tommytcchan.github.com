@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-04-07T22:37:37-07:00</updated>
+  <updated>2013-04-13T15:30:05-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: include extra fields on returning a model object as json]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/"/>
+    <updated>2013-04-13T15:26:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json</id>
+    <content type="html"><![CDATA[<p>Ever run into the issue where you are returning your domain object using <code>to_json</code> but you want an extra field? Well it's actually really easy to add that in there.</p>
+
+<p>In your model:</p>
+
+<p><code>
+  attr_accessor :key_stroke #note its attr_accessor not attr_accessible
+</code></p>
+
+<p>In your rendering:
+```</p>
+
+<pre><code>render :json =&gt; matches.values.to_json(:methods =&gt; :key_stroke)
+</code></pre>
+
+<p>```</p>
+
+<p>Of course, sometimes you don't want to return your whole object in which case you which restrict it with <code>:only</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails: not serving assets on production.]]></title>

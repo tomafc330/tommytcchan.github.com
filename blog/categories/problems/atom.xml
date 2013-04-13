@@ -4,7 +4,7 @@
   <title><![CDATA[Category: problems | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/problems/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-04-07T22:37:37-07:00</updated>
+  <updated>2013-04-13T15:30:05-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Grails: at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/"/>
+    <updated>2013-04-12T15:10:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291</id>
+    <content type="html"><![CDATA[<p>So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4:</p>
+
+<p><code>
+NullPointerException
+at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
+</code></p>
+
+<p>I was like what's going on here? There isn't really any indications, so I had to use <code>git bisect</code> to see when I introduced the problem. Turns out (I don't have an explaination for this) that one of my tablib closures had an extra <code>-&gt;</code>:</p>
+
+<p>```</p>
+
+<pre><code>def initFacebokShareBtn = { -&gt; //note this
+    ...
+}
+</code></pre>
+
+<p>```</p>
+
+<p>By having that extra notation it gave me errors. Once I removed it then it worked. Perhaps the Grails folks introduced something in 2.1.4?</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails: controller css isn't precompiled]]></title>
@@ -91,27 +118,6 @@ public int onStartCommand(android.content.Intent intent, int flags, int startId)
 </code></pre>
 
 <p>```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Apache: SSL error: (98)Address already in use: make_sock: could not bind to address 0.0.0.0:443]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/"/>
-    <updated>2013-02-26T17:49:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443</id>
-    <content type="html"><![CDATA[<p>So I'm now configuring SSL with my new httpd server, and for some reason it kept giving me this error when I first started the server:</p>
-
-<p><code>
-(98)Address already in use: make_sock: could not bind to address 0.0.0.0:443
-</code></p>
-
-<p>But I did an <code>lsof -i :443</code> and I didn't see anything.</p>
-
-<h3>The solution</h3>
-
-<p>Turns out that I forgotten that Ubuntu's setup for httpd is a little non standard, in that they included a ports.conf file that includes a conditional which will start listening on port 443 if the ssl mod is enabled. I had also included a <code>listen 443</code> in my configuration, which led to the problem.</p>
-
-<p>Removing the <code>listen 443</code> in my declaration solved the problem.</p>
 ]]></content>
   </entry>
   

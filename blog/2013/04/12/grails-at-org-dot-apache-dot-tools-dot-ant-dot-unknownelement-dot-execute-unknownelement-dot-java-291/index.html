@@ -5,11 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: httpd - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Grails: at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291) - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Category: httpd">
+  <meta name="description" content="So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4: 1
+2
+NullPointerException
+at org.apache.tools.ant.UnknownElement.execute( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.comblog/categories/httpd/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,64 +79,117 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Httpd</h1>
+    
+      <h1 class="entry-title">Grails: At org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T15:10:00-07:00" pubdate data-updated="true">Apr 12<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4:</p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/">Apache2: hosting sever from a user directory requires x7x permission</a></h1>
-<time datetime="2013-02-28T20:07:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>28</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/apache2/'>apache2</a>, <a class='category' href='/blog/categories/httpd/'>httpd</a>, <a class='category' href='/blog/categories/setup/'>setup</a></span>
-</footer>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NullPointerException
+</span><span class='line'>at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>I was like what&#8217;s going on here? There isn&#8217;t really any indications, so I had to use <code>git bisect</code> to see when I introduced the problem. Turns out (I don&#8217;t have an explaination for this) that one of my tablib closures had an extra <code>-&gt;</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def initFacebokShareBtn = { -&gt; //note this
+</span><span class='line'>  ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-
-<article>
-  
-<h1><a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL error: (98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</a></h1>
-<time datetime="2013-02-26T17:49:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>26</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/apache/'>apache</a>, <a class='category' href='/blog/categories/httpd/'>httpd</a>, <a class='category' href='/blog/categories/problems/'>problems</a>, <a class='category' href='/blog/categories/ssl/'>ssl</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/">Apache: Setting up rewrite rules for a server in Ubuntu 12.10</a></h1>
-<time datetime="2013-02-26T15:26:00-08:00" pubdate><span class='month'>Feb</span> <span class='day'>26</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>, <a class='category' href='/blog/categories/ajp/'>ajp</a>, <a class='category' href='/blog/categories/apache2/'>apache2</a>, <a class='category' href='/blog/categories/httpd/'>httpd</a>, <a class='category' href='/blog/categories/mod-rewrite/'>mod_rewrite</a></span>
-</footer>
-
-
-</article>
-
+<p>By having that extra notation it gave me errors. Once I removed it then it worked. Perhaps the Grails folks introduced something in 2.1.4?</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Tommy Chan (informotion software)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T15:10:00-07:00" pubdate data-updated="true">Apr 12<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/grails/'>Grails</a>, <a class='category' href='/blog/categories/problems/'>problems</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/04/07/rails-controller-css-isnt-precompiled/" title="Previous Post: Rails: controller css isn't precompiled">&laquo; Rails: controller css isn't precompiled</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/" title="Next Post: Rails: include extra fields on returning a model object as json">Rails: include extra fields on returning a model object as json &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -243,7 +299,10 @@
       var disqus_shortname = 'tommyssoftwareblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
