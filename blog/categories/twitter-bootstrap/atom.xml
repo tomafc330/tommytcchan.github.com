@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: twitter-bootstrap | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/twitter-bootstrap/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-04-13T17:21:50-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Twitter Bootstrap: creating popovers - what a pain!]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/"/>
+    <updated>2013-04-13T17:17:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain</id>
+    <content type="html"><![CDATA[<p>So I was troubleshooting the popover feature that bootstrap provides, and I must say that it is very buggy. I followed their tutorial but it didn't work until I put this in the beginning of my js:</p>
+
+<p>```
+$(document).ready(function () {</p>
+
+<pre><code>$("*[rel=popover]")
+    .popover({
+        offset: 10,
+        selector: '#map',
+        placement: 'left'
+    });
+</code></pre>
+
+<p>})
+```</p>
+
+<p>Why I needed to do this, I'm not sure but I think it's to initialize the popovers. Okay I was able to continue...however when it came time to destroy these popovers, I found that I wasn't able to do it with the their examples, ie: <code>$('#element').popover('destroy')</code>. Tried to figure it some more, but ran out of time...at the end of the day I just used good ol' jQuery do help me do it:</p>
+
+<p>```</p>
+
+<pre><code>        removeRepeatKeysPopovers: function() {
+            $(".learning-popover").remove();
+            $(".popover.left").remove();
+        },
+        removeAllPopovers: function () {
+            this.removeRepeatKeysPopovers();
+            $(".popover").remove();
+        },
+</code></pre>
+
+<p>```</p>
+
+<p>What a freakin pain!</p>
+]]></content>
+  </entry>
+  
+</feed>

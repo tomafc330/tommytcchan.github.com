@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Apache2: Negotiation: discovered file(s) matching request: ...yi (None could be negotiated) - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Twitter Bootstrap: creating popovers - what a pain! - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I received this message in my apache logs while accessing a rewrite on PHP 5.4: 1
-[Thu Feb 28 20:29:44 2013] [error] [client 127.0.0.1] Negotiation: &hellip;">
+  <meta name="description" content="So I was troubleshooting the popover feature that bootstrap provides, and I must say that it is very buggy. I followed their tutorial but it didn&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -81,7 +80,7 @@
   
   <header>
     
-      <h1 class="entry-title">Apache2: Negotiation: Discovered File(s) Matching Request: ...yi (None Could Be Negotiated)</h1>
+      <h1 class="entry-title">Twitter Bootstrap: Creating Popovers - What a Pain!</h1>
     
     
       <p class="meta">
@@ -97,7 +96,7 @@
   
 
 
-<time datetime="2013-02-28T20:32:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
+<time datetime="2013-04-13T17:17:00-07:00" pubdate data-updated="true">Apr 13<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -106,19 +105,47 @@
   </header>
 
 
-<div class="entry-content"><p>I received this message in my apache logs while accessing a rewrite on PHP 5.4:</p>
+<div class="entry-content"><p>So I was troubleshooting the popover feature that bootstrap provides, and I must say that it is very buggy. I followed their tutorial but it didn&#8217;t work until I put this in the beginning of my js:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Thu Feb 28 20:29:44 2013] [error] [client 127.0.0.1] Negotiation: discovered file(s) matching request: /home/ad/repo/yii/backend (None could be negotiated).</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$(document).ready(function () {
+</span><span class='line'>    $("*[rel=popover]")
+</span><span class='line'>        .popover({
+</span><span class='line'>            offset: 10,
+</span><span class='line'>            selector: '#map',
+</span><span class='line'>            placement: 'left'
+</span><span class='line'>        });
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure>
 
 
-<p>It turned out that I needed to add an extra type defn for PHP 5.4:</p>
+<p>Why I needed to do this, I&#8217;m not sure but I think it&#8217;s to initialize the popovers. Okay I was able to continue&#8230;however when it came time to destroy these popovers, I found that I wasn&#8217;t able to do it with the their examples, ie: <code>$('#element').popover('destroy')</code>. Tried to figure it some more, but ran out of time&#8230;at the end of the day I just used good ol&#8217; jQuery do help me do it:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>AddType application/x-httpd-php .php</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>        removeRepeatKeysPopovers: function() {
+</span><span class='line'>            $(".learning-popover").remove();
+</span><span class='line'>            $(".popover.left").remove();
+</span><span class='line'>        },
+</span><span class='line'>        removeAllPopovers: function () {
+</span><span class='line'>            this.removeRepeatKeysPopovers();
+</span><span class='line'>            $(".popover").remove();
+</span><span class='line'>        },</span></code></pre></td></tr></table></div></figure>
 
 
-<p>source: http://serverfault.com/questions/372733/apache-file-negotiation-failed</p>
+<p>What a freakin pain!</p>
 </div>
 
 
@@ -141,12 +168,12 @@
   
 
 
-<time datetime="2013-02-28T20:32:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
+<time datetime="2013-04-13T17:17:00-07:00" pubdate data-updated="true">Apr 13<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/apache2/'>apache2</a>, <a class='category' href='/blog/categories/setup/'>setup</a>
+    <a class='category' href='/blog/categories/problems/'>problems</a>, <a class='category' href='/blog/categories/twitter-bootstrap/'>twitter-bootstrap</a>
   
 </span>
 
@@ -155,7 +182,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -168,10 +195,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/" title="Previous Post: Apache2: hosting sever from a user directory requires x7x permission">&laquo; Apache2: hosting sever from a user directory requires x7x permission</a>
+        <a class="basic-alignment left" href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/" title="Previous Post: Rails: include extra fields on returning a model object as json">&laquo; Rails: include extra fields on returning a model object as json</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/" title="Next Post: Rails: correct way of before_save in model">Rails: correct way of before_save in model &raquo;</a>
       
     </p>
   </footer>
@@ -292,8 +317,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/';
-        var disqus_url = 'http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/';
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/';
         var disqus_script = 'embed.js';
       
     (function () {
