@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was troubleshooting the popover feature that bootstrap provides, and I must say that it is very buggy. I followed their tutorial but it didn&# &hellip;">
+  <meta name="description" content="I&#8217;m working on an angular js app that required the same functionality as the starRating example on KnockoutJS on this page about Creating &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,172 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs/">AngularJS: Implementing the starRating Example in KnockoutJS.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-21T11:03:00-07:00" pubdate data-updated="true">Apr 21<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m working on an angular js app that required the same functionality as the starRating example on KnockoutJS on this <a href="http://learn.knockoutjs.com/#/?tutorial=custombindings">page</a> about Creating custom bindings in the tutorial. Bascially it was tutorial to build a star rating system. Now it was pretty neat to see how knockout does the 2 way binding, but I wanted to implemented in AngularJS to see how it looks like.</p>
+
+<p>So let&#8217;s see how that looks like shall we?</p>
+
+<p>In app.js:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//updates the star rating of the element
+</span><span class='line'>directives.directive('starRating', function() {
+</span><span class='line'>    return {
+</span><span class='line'>        link: function(scope, element) {
+</span><span class='line'>            element.addClass("starRating");
+</span><span class='line'>            element.bind('mouseenter', function() {
+</span><span class='line'>                angular.element(element).addClass('chosen');
+</span><span class='line'>            })
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Some clarification here.</p>
+
+<p>In the link variable, we define a function that should be run when we do the link between the attribute and the element.</p>
+
+<p>In our view:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>          &lt;li class="favorite-item"&gt;
+</span><span class='line'>            &lt;img src="/img/question_mark_icon.png"/&gt;
+</span><span class='line'>            &lt;a href="#"&gt;Move Tool&lt;/a&gt;
+</span><span class='line'>            &lt;span star-rating/&gt;
+</span><span class='line'>          &lt;/li&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And our css:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.starRating {
+</span><span class='line'>    width: 24px;
+</span><span class='line'>    height: 24px;
+</span><span class='line'>    background-image: url(/img/stars.png);
+</span><span class='line'>    display: inline-block;
+</span><span class='line'>    cursor: pointer;
+</span><span class='line'>    background-position: -24px 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>.starRating.chosen {
+</span><span class='line'>    background-position: 0 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&#8217;s it! You then get something cool like this:</p>
+
+<p>http://screencloud.net/v/3To7
+Improvements:
+- We can actually restrict this element to only span (since that was what was used on the KnockoutJS example). You can do that easily with AngularJS&#8230;I&#8217;ll leave that exercise to the reader.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb/">Rails: Add in Extension Classes to application.rb.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-20T15:44:00-07:00" pubdate data-updated="true">Apr 20<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I had extended the String class in Rails so I can reuse a lot of the common methods. However I was adding the <code>require ext/string</code> to my controller, and I needed in a few places. Therefore I moved it to application.rb to say DRY. The declaration looked a little odd though (<code>require 'ext/string'</code> didn&#8217;t work&#8230;neither did trying <code>require '/lib/ext/string</code>)</p>
+
+<p>What I had to do at the end was this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require File.expand_path('../../lib', __FILE__) + '/ext/string'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looks kind of odd but it works..</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -498,102 +664,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/">Android:setting the Default Value of a Setting With a Colon</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-27T20:34:00-07:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference defined in the xml. However, I was getting messages like these:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>java.lang.RuntimeException: Unable to start activity ComponentInfo{com.codetipdaily/com.codetipdaily.Preferences}: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I had no idea why, but I fixed it by setting the <code>android:key</code> to be a different key. I had the same key referenced as a CheckboxPreferences a few hours ago, and that seemed to have done the trick. Weird!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/">Android: IntentService.onHandleIntent() Not Called</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-25T21:27:00-07:00" pubdate data-updated="true">Mar 25<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call out to the server once a day. Naturally I gravitated towards the <code>IntentSevice</code>, which seems to be the simplest to use. I had also overridden in my service.onStartCommand() to return <code>START_STICKY</code>, which would restart the service should it be stopped. Once I did that though, the system stopped calling my <code>onHandleIntent()</code> method. What&#8217;s going on?</p>
-
-<p>It turned out that I had forgotten to call <code>super.onStartCommand()</code> before I returned the static int. So the following fixed it:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
-</span><span class='line'>public int onStartCommand(android.content.Intent intent, int flags, int startId) {
-</span><span class='line'>  super.onStartCommand(intent, flags, startId);
-</span><span class='line'>  return START_STICKY;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -609,6 +679,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs/">AngularJS: Implementing the starRating example in KnockoutJS.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb/">Rails: add in extension classes to application.rb.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/">Twitter Bootstrap: creating popovers - what a pain!</a>
       </li>
     
@@ -618,14 +696,6 @@
     
       <li class="post">
         <a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/">Grails: at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/07/rails-controller-css-isnt-precompiled/">Rails: controller css isn&#8217;t precompiled</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/02/rails-escape-string-for-view-to-use/">Rails: escape string for view to use.</a>
       </li>
     
   </ul>

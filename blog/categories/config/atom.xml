@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: config | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/config/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-04-21T11:10:09-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: add in extension classes to application.rb.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb/"/>
+    <updated>2013-04-20T15:44:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb</id>
+    <content type="html"><![CDATA[<p>So I had extended the String class in Rails so I can reuse a lot of the common methods. However I was adding the <code>require ext/string</code> to my controller, and I needed in a few places. Therefore I moved it to application.rb to say DRY. The declaration looked a little odd though (<code>require 'ext/string'</code> didn't work...neither did trying <code>require '/lib/ext/string</code>)</p>
+
+<p>What I had to do at the end was this:</p>
+
+<p><code>
+require File.expand_path('../../lib', __FILE__) + '/ext/string'
+</code></p>
+
+<p>Looks kind of odd but it works..</p>
+]]></content>
+  </entry>
+  
+</feed>

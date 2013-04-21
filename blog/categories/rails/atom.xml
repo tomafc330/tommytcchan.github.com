@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Rails | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <title><![CDATA[Category: rails | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-04-13T17:21:50-07:00</updated>
+  <updated>2013-04-21T11:10:09-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -14,65 +14,135 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Rails: include extra fields on returning a model object as json]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/"/>
-    <updated>2013-04-13T15:26:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json</id>
-    <content type="html"><![CDATA[<p>Ever run into the issue where you are returning your domain object using <code>to_json</code> but you want an extra field? Well it's actually really easy to add that in there.</p>
+    <title type="html"><![CDATA[Rails: controller css isn't precompiled]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled/"/>
+    <updated>2013-04-07T22:33:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled</id>
+    <content type="html"><![CDATA[<p>I'm in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around. By default Rails set the <code>application.css</code> to include <code>//= require_tree .</code>. So naturally I removed it and in my <code>application.html.erb</code> I added the following: <code> &lt;%= stylesheet_link_tag params[:controller] %&gt;</code></p>
 
-<p>In your model:</p>
+<p>All good, right? Wrong! When I started the app in prod mode, I got an error like this:</p>
 
 <p><code>
-  attr_accessor :key_stroke #note its attr_accessor not attr_accessible
+shortcuts.css isn't precompiled
 </code></p>
 
-<p>In your rendering:
-```</p>
+<p>What's going on here? Well upon some searching and reading through the asset pipeline guide, I realized that by default Rails does not compile your css under the stylesheets folder. I had to do this in <code>production.rb</code> to make it work:</p>
 
-<pre><code>render :json =&gt; matches.values.to_json(:methods =&gt; :key_stroke)
+<p><code>
+  config.assets.precompile += %w( *.css *.js )
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: escape string for view to use.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/02/rails-escape-string-for-view-to-use/"/>
+    <updated>2013-04-02T20:33:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/02/rails-escape-string-for-view-to-use</id>
+    <content type="html"><![CDATA[<p>I had this issue with a Rails app where the string content has been html encoded. This was not good because I was feeding the information to view layer that contains some javascript. Therefore this was what I needed to do:</p>
+
+<p>```</p>
+
+<pre><code>@tags = Tag.all_as_str.html_safe
 </code></pre>
 
 <p>```</p>
 
-<p>Of course, sometimes you don't want to return your whole object in which case you which restrict it with <code>:only</code></p>
+<p>so the <code>html_safe</code> does the trick here for me.</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Rails: not serving assets on production.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production/"/>
-    <updated>2013-03-29T10:57:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production</id>
-    <content type="html"><![CDATA[<p>So I changed my environment to be production, and I had issues with serving static content. Since my app was a single page app, I needed this to work (didn't want to put nginx or apache in front of it).</p>
+    <title type="html"><![CDATA[Rails: correct way of before_save in model]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/"/>
+    <updated>2013-03-01T19:09:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model</id>
+    <content type="html"><![CDATA[<p>So I was reading a tutorial on the before_save and thought this was a valid syntax:</p>
 
-<p>The error I was getting was this:</p>
+<p>```
+  def before_save(record)</p>
 
-<p><code>
-ActionController::RoutingError (No route matches [GET] "/"):
-</code></p>
+<pre><code>if record.publishing
+  Tip.find_all_by_publishing(true).each do |publishing_tip|
+    publishing_tip.publishing = false
+    publishing_tip.published = true
+    publishing_tip.save
+  end
+end
+</code></pre>
 
-<p>I did this in another project and forgot that I need to set the following parameter in <code>production.rb</code>:</p>
+<p>```</p>
 
-<p><code>
-  config.serve_static_assets = true
-</code></p>
+<p>Turned out that this is the valid syntax for Rails 3.1:</p>
 
-<p>All was good afterwards!</p>
+<p>```
+  before_save :update_publishing_state</p>
+
+<p>  def update_publishing_state</p>
+
+<pre><code>if self.publishing
+  Tip.find_all_by_publishing(true).each do |publishing_tip|
+    publishing_tip.publishing = false
+    publishing_tip.published = true
+    publishing_tip.save
+  end
+end
+</code></pre>
+
+<p>  end
+```</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Rails: undefined method... after a migration script change]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/"/>
-    <updated>2013-03-28T21:56:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change</id>
-    <content type="html"><![CDATA[<p>So I updated my model by changing the migration script and then doing <code>rake db:drop</code> and ```rake db:create```` and thought I would be okay. However, when I started my app after I changed the view layer, I got something like this:</p>
+    <title type="html"><![CDATA[Rails: create a deploy script with ease]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/23/rails-create-a-deploy-script-with-ease/"/>
+    <updated>2013-02-23T16:51:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/23/rails-create-a-deploy-script-with-ease</id>
+    <content type="html"><![CDATA[<p>I was finding myself having to deploy manually everytime I push something to github, so I've decided to write a deploy shell script to help with this task. Coming from a Java background, I found that creating a deploy script for rails is so much easier. Here is the meat of it:</p>
 
-<p><code>
-undefined method `command_name' for #&lt;Shortcut:0x00000003c3b4e8&gt;
-</code></p>
+<p>In deploy.sh</p>
 
-<p>What gives? It turned out that I also needed to modify <code>schema.rb</code> to create the initial table. So that is a good place to check out if you find yourself changing the migration data.</p>
+<p>```</p>
+
+<h1>!/bin/bash</h1>
+
+<h1>first kill the server if its running</h1>
+
+<p>kill -9 <code>lsof -i :80 | awk '{if (NR!=1) {print $2}}'</code>
+pushd ~/codetipdaily</p>
+
+<h1>then pull from gh</h1>
+
+<p>git pull origin master</p>
+
+<h1>assets</h1>
+
+<p>rake assets:clean
+rake assets:precompile</p>
+
+<h1>start server as daemon</h1>
+
+<p>rails server -e production -p 80 --daemon
+popd
+```</p>
+
+<p>That was a piece of cake!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: production environment is missing application.js and application.css]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/"/>
+    <updated>2013-02-23T16:03:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css</id>
+    <content type="html"><![CDATA[<h3>The problem</h3>
+
+<p>So I'm working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, the application resources pointed to application.js and application.css even though my template was not change (ie. <code> &lt;%= stylesheet_link_tag    "application", :media =&gt; "all" %&gt;</code> and <code> &lt;%= javascript_include_tag "application" %&gt;</code>. That led to me believe something was wrong. In addition, when I ran <code>rake assets:precompile</code>, nothing was generated to the <code>public/assets</code> folder.</p>
+
+<h3>What was wrong</h3>
+
+<p>I checked my application.rb, and the <code>config.assets.enabled</code> was set to <code>true</code>. Then I realized that when I first created the app, I turned off that setting in <code>production.rb</code>. Simply turning it back on allowed the compilation of assets and leading rails to resolve to the right path (and not application.js/css).</p>
 ]]></content>
   </entry>
   

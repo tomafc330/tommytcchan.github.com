@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-04-13T17:21:50-07:00</updated>
+  <updated>2013-04-21T11:10:09-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,114 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS: Implementing the starRating example in KnockoutJS.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs/"/>
+    <updated>2013-04-21T11:03:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs</id>
+    <content type="html"><![CDATA[<p>I&#8217;m working on an angular js app that required the same functionality as the starRating example on KnockoutJS on this <a href="http://learn.knockoutjs.com/#/?tutorial=custombindings">page</a> about Creating custom bindings in the tutorial. Bascially it was tutorial to build a star rating system. Now it was pretty neat to see how knockout does the 2 way binding, but I wanted to implemented in AngularJS to see how it looks like.</p>
+
+<p>So let&#8217;s see how that looks like shall we?</p>
+
+<p>In app.js:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//updates the star rating of the element
+</span><span class='line'>directives.directive('starRating', function() {
+</span><span class='line'>    return {
+</span><span class='line'>        link: function(scope, element) {
+</span><span class='line'>            element.addClass("starRating");
+</span><span class='line'>            element.bind('mouseenter', function() {
+</span><span class='line'>                angular.element(element).addClass('chosen');
+</span><span class='line'>            })
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Some clarification here.</p>
+
+<p>In the link variable, we define a function that should be run when we do the link between the attribute and the element.</p>
+
+<p>In our view:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>          &lt;li class="favorite-item"&gt;
+</span><span class='line'>            &lt;img src="http://tommytcchan.github.com/img/question_mark_icon.png"/&gt;
+</span><span class='line'>            &lt;a href="#"&gt;Move Tool&lt;/a&gt;
+</span><span class='line'>            &lt;span star-rating/&gt;
+</span><span class='line'>          &lt;/li&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And our css:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.starRating {
+</span><span class='line'>    width: 24px;
+</span><span class='line'>    height: 24px;
+</span><span class='line'>    background-image: url(/img/stars.png);
+</span><span class='line'>    display: inline-block;
+</span><span class='line'>    cursor: pointer;
+</span><span class='line'>    background-position: -24px 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>.starRating.chosen {
+</span><span class='line'>    background-position: 0 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&#8217;s it! You then get something cool like this:</p>
+
+<p>http://screencloud.net/v/3To7
+Improvements:
+- We can actually restrict this element to only span (since that was what was used on the KnockoutJS example). You can do that easily with AngularJS&#8230;I&#8217;ll leave that exercise to the reader.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: add in extension classes to application.rb.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb/"/>
+    <updated>2013-04-20T15:44:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb</id>
+    <content type="html"><![CDATA[<p>So I had extended the String class in Rails so I can reuse a lot of the common methods. However I was adding the <code>require ext/string</code> to my controller, and I needed in a few places. Therefore I moved it to application.rb to say DRY. The declaration looked a little odd though (<code>require 'ext/string'</code> didn&#8217;t work&#8230;neither did trying <code>require '/lib/ext/string</code>)</p>
+
+<p>What I had to do at the end was this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require File.expand_path('../../lib', __FILE__) + '/ext/string'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looks kind of odd but it works..</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Twitter Bootstrap: creating popovers - what a pain!]]></title>
@@ -627,75 +735,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>sudo chmod 774 repo</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CSS: margin-top selector not working.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/28/css-image-not-aligning-quite-right/"/>
-    <updated>2013-02-28T14:51:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/28/css-image-not-aligning-quite-right</id>
-    <content type="html"><![CDATA[<h3>The problem:</h3>
-
-<p>So I&#8217;m trying to set margin-top on a div that contains an image:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="affiliate-logo"&gt;&lt;a href="http://www.gamechannel.de"&gt;&lt;img src="http://tommytcchan.github.com/logo.png"&gt;&lt;/a&gt;&lt;/div&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>.affiliate-logo {
-</span><span class='line'>    margin-top: 15px;
-</span><span class='line'>    text-align: center;
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, the margin-top didn&#8217;t work at all for whatever value I put in.</p>
-
-<h3>The solution:</h3>
-
-<p>Turns out that you have to float the div and make that 100% width in order for the margin-top to kick in:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.affiliate-logo {
-</span><span class='line'>    float: left;
-</span><span class='line'>    margin-top: 15px;
-</span><span class='line'>    text-align: center;
-</span><span class='line'>    width: 100%;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Apache: SSL error: (98)Address already in use: make_sock: could not bind to address 0.0.0.0:443]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/"/>
-    <updated>2013-02-26T17:49:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443</id>
-    <content type="html"><![CDATA[<p>So I&#8217;m now configuring SSL with my new httpd server, and for some reason it kept giving me this error when I first started the server:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But I did an <code>lsof -i :443</code> and I didn&#8217;t see anything.</p>
-
-<h3>The solution</h3>
-
-<p>Turns out that I forgotten that Ubuntu&#8217;s setup for httpd is a little non standard, in that they included a ports.conf file that includes a conditional which will start listening on port 443 if the ssl mod is enabled. I had also included a <code>listen 443</code> in my configuration, which led to the problem.</p>
-
-<p>Removing the <code>listen 443</code> in my declaration solved the problem.</p>
 ]]></content>
   </entry>
   
