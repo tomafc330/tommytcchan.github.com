@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-04-21T11:10:09-07:00</updated>
+  <updated>2013-05-02T20:49:45-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,719 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Javascript: push a javascript object in an array only if it's not in there already.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/"/>
+    <updated>2013-05-02T20:38:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already</id>
+    <content type="html"><![CDATA[<p>I just learned about the $.grep method today and it seem pretty cool. I had an array that I want to push objects to. However because the <code>Array.push</code> method doesn&#8217;t care if an item is in the Array or not, I had to figure out how not to push the same object in. This is what I came up with:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>            if (jQuery.grep($scope.recents,function (elem) {return elem.id == shortcut.id}).length == 0) {
+</span><span class='line'>                $scope.recents.push(shortcut);
+</span><span class='line'>            }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Using the <code>$.grep</code> method, I was able to iterate through easily. One can argue I could&#8217;ve used the underscore library but I had jQuery only at this point so why not use this one liner instead?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Grails: Upgrading to 2.1.4 gives BeanDefinitionStoreException.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception/"/>
+    <updated>2013-04-24T15:02:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception</id>
+    <content type="html"><![CDATA[<p>So I was upgrading my Grails installation to 2.1.4 (from 2.0.0) and one of the issues I came across was this error message when I tried to run the tests:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Caused by: org.springframework.beans.factory.BeanDefinitionStoreException: Invalid bean definition with name 'hibernateDatastore' defined in null: Could not resolve placeholder 'lang' </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Turns out that there is a problem with the evaluation of String in <code>Config.groovy</code></p>
+
+<p>The solution is to cast the values to <code>GStrings</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> myConf = "google.ca/${lang}/" as GString</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Atlassian building: unknown packaging]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/23/atlassian-building-unknown-packaging/"/>
+    <updated>2013-04-23T14:28:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/23/atlassian-building-unknown-packaging</id>
+    <content type="html"><![CDATA[<p>So I was running into issues while building the DVCS plugin because I wanted to make some modifications to it, and I check it out of BitBucket and did a <code>mvn clean install</code>. However it started giving me these errors:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Project build error: Unknown packaging: atlassian-plugin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To fix this, you need to do a few things:</p>
+
+<ul>
+<li><p>Install the atlassian sdk. To do this, visit this page:
+https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Linux+or+Mac</p></li>
+<li><p>Next, you will need to run the Jira server by issuing this command:</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>atlas-run-standalone --product jira</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Now, update your settings.xml in your ~/.m2 folder to have the following contents:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+<span class='line-number'>269</span>
+<span class='line-number'>270</span>
+<span class='line-number'>271</span>
+<span class='line-number'>272</span>
+<span class='line-number'>273</span>
+<span class='line-number'>274</span>
+<span class='line-number'>275</span>
+<span class='line-number'>276</span>
+<span class='line-number'>277</span>
+<span class='line-number'>278</span>
+<span class='line-number'>279</span>
+<span class='line-number'>280</span>
+<span class='line-number'>281</span>
+<span class='line-number'>282</span>
+<span class='line-number'>283</span>
+<span class='line-number'>284</span>
+<span class='line-number'>285</span>
+<span class='line-number'>286</span>
+<span class='line-number'>287</span>
+<span class='line-number'>288</span>
+<span class='line-number'>289</span>
+<span class='line-number'>290</span>
+<span class='line-number'>291</span>
+<span class='line-number'>292</span>
+<span class='line-number'>293</span>
+<span class='line-number'>294</span>
+<span class='line-number'>295</span>
+<span class='line-number'>296</span>
+<span class='line-number'>297</span>
+<span class='line-number'>298</span>
+<span class='line-number'>299</span>
+<span class='line-number'>300</span>
+<span class='line-number'>301</span>
+<span class='line-number'>302</span>
+<span class='line-number'>303</span>
+<span class='line-number'>304</span>
+<span class='line-number'>305</span>
+<span class='line-number'>306</span>
+<span class='line-number'>307</span>
+<span class='line-number'>308</span>
+<span class='line-number'>309</span>
+<span class='line-number'>310</span>
+<span class='line-number'>311</span>
+<span class='line-number'>312</span>
+<span class='line-number'>313</span>
+<span class='line-number'>314</span>
+<span class='line-number'>315</span>
+<span class='line-number'>316</span>
+<span class='line-number'>317</span>
+<span class='line-number'>318</span>
+<span class='line-number'>319</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;!--
+</span><span class='line'>Licensed to the Apache Software Foundation (ASF) under one
+</span><span class='line'>or more contributor license agreements.  See the NOTICE file
+</span><span class='line'>distributed with this work for additional information
+</span><span class='line'>regarding copyright ownership.  The ASF licenses this file
+</span><span class='line'>to you under the Apache License, Version 2.0 (the
+</span><span class='line'>"License"); you may not use this file except in compliance
+</span><span class='line'>with the License.  You may obtain a copy of the License at
+</span><span class='line'> 
+</span><span class='line'>    http://www.apache.org/licenses/LICENSE-2.0
+</span><span class='line'> 
+</span><span class='line'>Unless required by applicable law or agreed to in writing,
+</span><span class='line'>software distributed under the License is distributed on an
+</span><span class='line'>"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+</span><span class='line'>KIND, either express or implied.  See the License for the
+</span><span class='line'>specific language governing permissions and limitations
+</span><span class='line'>under the License.
+</span><span class='line'>--&gt;
+</span><span class='line'> 
+</span><span class='line'>&lt;!--
+</span><span class='line'> | This is the configuration file for Maven. It can be specified at two levels:
+</span><span class='line'> |
+</span><span class='line'> |  1. User Level. This settings.xml file provides configuration for a single user, 
+</span><span class='line'> |                 and is normally provided in ${user.home}/.m2/settings.xml.
+</span><span class='line'> |
+</span><span class='line'> |                 NOTE: This location can be overridden with the CLI option:
+</span><span class='line'> |
+</span><span class='line'> |                 -s /path/to/user/settings.xml
+</span><span class='line'> |
+</span><span class='line'> |  2. Global Level. This settings.xml file provides configuration for all Maven
+</span><span class='line'> |                 users on a machine (assuming they're all using the same Maven
+</span><span class='line'> |                 installation). It's normally provided in 
+</span><span class='line'> |                 ${maven.home}/conf/settings.xml.
+</span><span class='line'> |
+</span><span class='line'> |                 NOTE: This location can be overridden with the CLI option:
+</span><span class='line'> |
+</span><span class='line'> |                 -gs /path/to/global/settings.xml
+</span><span class='line'> |
+</span><span class='line'> | The sections in this sample file are intended to give you a running start at
+</span><span class='line'> | getting the most out of your Maven installation. Where appropriate, the default
+</span><span class='line'> | values (values used when the setting is not specified) are provided.
+</span><span class='line'> |
+</span><span class='line'> |--&gt;
+</span><span class='line'>&lt;settings xmlns="http://maven.apache.org/settings/1.0.0"
+</span><span class='line'>          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+</span><span class='line'>          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
+</span><span class='line'>  &lt;!-- localRepository
+</span><span class='line'>   | The path to the local repository maven will use to store artifacts.
+</span><span class='line'>   |
+</span><span class='line'>   | Default: ~/.m2/repository
+</span><span class='line'>  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+</span><span class='line'>  --&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;!-- interactiveMode
+</span><span class='line'>   | This will determine whether maven prompts you when it needs input. If set to false,
+</span><span class='line'>   | maven will use a sensible default value, perhaps based on some other setting, for
+</span><span class='line'>   | the parameter in question.
+</span><span class='line'>   |
+</span><span class='line'>   | Default: true
+</span><span class='line'>  &lt;interactiveMode&gt;true&lt;/interactiveMode&gt;
+</span><span class='line'>  --&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;!-- offline
+</span><span class='line'>   | Determines whether maven should attempt to connect to the network when executing a build.
+</span><span class='line'>   | This will have an effect on artifact downloads, artifact deployment, and others.
+</span><span class='line'>   |
+</span><span class='line'>   | Default: false
+</span><span class='line'>  &lt;offline&gt;false&lt;/offline&gt;
+</span><span class='line'>  --&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;!-- pluginGroups
+</span><span class='line'>   | This is a list of additional group identifiers that will be searched when resolving plugins by their prefix, i.e.
+</span><span class='line'>   | when invoking a command line like "mvn prefix:goal". Maven will automatically add the group identifiers
+</span><span class='line'>   | "org.apache.maven.plugins" and "org.codehaus.mojo" if these are not already contained in the list.
+</span><span class='line'>   |--&gt;
+</span><span class='line'>  &lt;pluginGroups&gt;
+</span><span class='line'>     &lt;!-- The Atlassian maven plugins group used for all Atlassian Maven plugins --&gt;
+</span><span class='line'>     &lt;pluginGroup&gt;com.atlassian.maven.plugins&lt;/pluginGroup&gt;
+</span><span class='line'>  &lt;/pluginGroups&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;!-- proxies
+</span><span class='line'>   | This is a list of proxies which can be used on this machine to connect to the network.
+</span><span class='line'>   | Unless otherwise specified (by system property or command-line switch), the first proxy
+</span><span class='line'>   | specification in this list marked as active will be used.
+</span><span class='line'>   |--&gt;
+</span><span class='line'>  &lt;proxies&gt;
+</span><span class='line'>    &lt;!-- proxy
+</span><span class='line'>     | Specification for one proxy, to be used in connecting to the network.
+</span><span class='line'>     |
+</span><span class='line'>    &lt;proxy&gt;
+</span><span class='line'>      &lt;id&gt;optional&lt;/id&gt;
+</span><span class='line'>      &lt;active&gt;true&lt;/active&gt;
+</span><span class='line'>      &lt;protocol&gt;http&lt;/protocol&gt;
+</span><span class='line'>      &lt;username&gt;proxyuser&lt;/username&gt;
+</span><span class='line'>      &lt;password&gt;proxypass&lt;/password&gt;
+</span><span class='line'>      &lt;host&gt;proxy.host.net&lt;/host&gt;
+</span><span class='line'>      &lt;port&gt;80&lt;/port&gt;
+</span><span class='line'>      &lt;nonProxyHosts&gt;local.net|some.host.com&lt;/nonProxyHosts&gt;
+</span><span class='line'>    &lt;/proxy&gt;
+</span><span class='line'>    --&gt;
+</span><span class='line'>  &lt;/proxies&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;!-- servers
+</span><span class='line'>   | This is a list of authentication profiles, keyed by the server-id used within the system.
+</span><span class='line'>   | Authentication profiles can be used whenever maven must make a connection to a remote server.
+</span><span class='line'>   |--&gt;
+</span><span class='line'>  &lt;servers&gt;
+</span><span class='line'>    &lt;!-- server
+</span><span class='line'>     | Specifies the authentication information to use when connecting to a particular server, identified by
+</span><span class='line'>     | a unique name within the system (referred to by the 'id' attribute below).
+</span><span class='line'>     | 
+</span><span class='line'>     | NOTE: You should either specify username/password OR privateKey/passphrase, since these pairings are 
+</span><span class='line'>     |       used together.
+</span><span class='line'>     |
+</span><span class='line'>    &lt;server&gt;
+</span><span class='line'>      &lt;id&gt;deploymentRepo&lt;/id&gt;
+</span><span class='line'>      &lt;username&gt;repouser&lt;/username&gt;
+</span><span class='line'>      &lt;password&gt;repopwd&lt;/password&gt;
+</span><span class='line'>    &lt;/server&gt;
+</span><span class='line'>    --&gt;
+</span><span class='line'>     
+</span><span class='line'>    &lt;!-- Another sample, using keys to authenticate.
+</span><span class='line'>    &lt;server&gt;
+</span><span class='line'>      &lt;id&gt;siteServer&lt;/id&gt;
+</span><span class='line'>      &lt;privateKey&gt;/path/to/private/key&lt;/privateKey&gt;
+</span><span class='line'>      &lt;passphrase&gt;optional; leave empty if not used.&lt;/passphrase&gt;
+</span><span class='line'>    &lt;/server&gt;
+</span><span class='line'>    --&gt;
+</span><span class='line'>  &lt;/servers&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;!-- mirrors
+</span><span class='line'>   | This is a list of mirrors to be used in downloading artifacts from remote repositories.
+</span><span class='line'>   | 
+</span><span class='line'>   | It works like this: a POM may declare a repository to use in resolving certain artifacts.
+</span><span class='line'>   | However, this repository may have problems with heavy traffic at times, so people have mirrored
+</span><span class='line'>   | it to several places.
+</span><span class='line'>   |
+</span><span class='line'>   | That repository definition will have a unique id, so we can create a mirror reference for that
+</span><span class='line'>   | repository, to be used as an alternate download site. The mirror site will be the preferred 
+</span><span class='line'>   | server for that repository.
+</span><span class='line'>   |--&gt;
+</span><span class='line'>  &lt;mirrors&gt;
+</span><span class='line'>    &lt;!-- mirror
+</span><span class='line'>     | Specifies a repository mirror site to use instead of a given repository. The repository that
+</span><span class='line'>     | this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used
+</span><span class='line'>     | for inheritance and direct lookup purposes, and must be unique across the set of mirrors.
+</span><span class='line'>     |
+</span><span class='line'>    &lt;mirror&gt;
+</span><span class='line'>      &lt;id&gt;mirrorId&lt;/id&gt;
+</span><span class='line'>      &lt;mirrorOf&gt;repositoryId&lt;/mirrorOf&gt;
+</span><span class='line'>      &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;
+</span><span class='line'>      &lt;url&gt;http://my.repository.com/repo/path&lt;/url&gt;
+</span><span class='line'>    &lt;/mirror&gt;
+</span><span class='line'>     --&gt;
+</span><span class='line'>  &lt;/mirrors&gt;
+</span><span class='line'>   
+</span><span class='line'>  &lt;!-- profiles
+</span><span class='line'>   | This is a list of profiles which can be activated in a variety of ways, and which can modify
+</span><span class='line'>   | the build process. Profiles provided in the settings.xml are intended to provide local machine-
+</span><span class='line'>   | specific paths and repository locations which allow the build to work in the local environment.
+</span><span class='line'>   |
+</span><span class='line'>   | For example, if you have an integration testing plugin - like cactus - that needs to know where
+</span><span class='line'>   | your Tomcat instance is installed, you can provide a variable here such that the variable is 
+</span><span class='line'>   | dereferenced during the build process to configure the cactus plugin.
+</span><span class='line'>   |
+</span><span class='line'>   | As noted above, profiles can be activated in a variety of ways. One way - the activeProfiles
+</span><span class='line'>   | section of this document (settings.xml) - will be discussed later. Another way essentially
+</span><span class='line'>   | relies on the detection of a system property, either matching a particular value for the property,
+</span><span class='line'>   | or merely testing its existence. Profiles can also be activated by JDK version prefix, where a 
+</span><span class='line'>   | value of '1.4' might activate a profile when the build is executed on a JDK version of '1.4.2_07'.
+</span><span class='line'>   | Finally, the list of active profiles can be specified directly from the command line.
+</span><span class='line'>   |
+</span><span class='line'>   | NOTE: For profiles defined in the settings.xml, you are restricted to specifying only artifact
+</span><span class='line'>   |       repositories, plugin repositories, and free-form properties to be used as configuration
+</span><span class='line'>   |       variables for plugins in the POM.
+</span><span class='line'>   |
+</span><span class='line'>   |--&gt;
+</span><span class='line'>  &lt;profiles&gt;
+</span><span class='line'>    &lt;!-- profile
+</span><span class='line'>     | Specifies a set of introductions to the build process, to be activated using one or more of the
+</span><span class='line'>     | mechanisms described above. For inheritance purposes, and to activate profiles via &lt;activatedProfiles/&gt;
+</span><span class='line'>     | or the command line, profiles have to have an ID that is unique.
+</span><span class='line'>     |
+</span><span class='line'>     | An encouraged best practice for profile identification is to use a consistent naming convention
+</span><span class='line'>     | for profiles, such as 'env-dev', 'env-test', 'env-production', 'user-jdcasey', 'user-brett', etc.
+</span><span class='line'>     | This will make it more intuitive to understand what the set of introduced profiles is attempting
+</span><span class='line'>     | to accomplish, particularly when you only have a list of profile id's for debug.
+</span><span class='line'>     |
+</span><span class='line'>     | This profile example uses the JDK version to trigger activation, and provides a JDK-specific repo.
+</span><span class='line'>     &lt;profile&gt;
+</span><span class='line'>      &lt;id&gt;jdk-1.4&lt;/id&gt;
+</span><span class='line'> 
+</span><span class='line'>      &lt;activation&gt;
+</span><span class='line'>        &lt;jdk&gt;1.4&lt;/jdk&gt;
+</span><span class='line'>      &lt;/activation&gt;
+</span><span class='line'> 
+</span><span class='line'>      &lt;repositories&gt;
+</span><span class='line'>        &lt;repository&gt;
+</span><span class='line'>          &lt;id&gt;jdk14&lt;/id&gt;
+</span><span class='line'>          &lt;name&gt;Repository for JDK 1.4 builds&lt;/name&gt;
+</span><span class='line'>          &lt;url&gt;http://www.myhost.com/maven/jdk14&lt;/url&gt;
+</span><span class='line'>          &lt;layout&gt;default&lt;/layout&gt;
+</span><span class='line'>          &lt;snapshotPolicy&gt;always&lt;/snapshotPolicy&gt;
+</span><span class='line'>        &lt;/repository&gt;
+</span><span class='line'>      &lt;/repositories&gt;
+</span><span class='line'>    &lt;/profile&gt;
+</span><span class='line'>    --&gt;
+</span><span class='line'> 
+</span><span class='line'>    &lt;!--
+</span><span class='line'>     | Here is another profile, activated by the system property 'target-env' with a value of 'dev',
+</span><span class='line'>     | which provides a specific path to the Tomcat instance. To use this, your plugin configuration
+</span><span class='line'>     | might hypothetically look like:
+</span><span class='line'>     |
+</span><span class='line'>     | ...
+</span><span class='line'>     | &lt;plugin&gt;
+</span><span class='line'>     |   &lt;groupId&gt;org.myco.myplugins&lt;/groupId&gt;
+</span><span class='line'>     |   &lt;artifactId&gt;myplugin&lt;/artifactId&gt;
+</span><span class='line'>     |   
+</span><span class='line'>     |   &lt;configuration&gt;
+</span><span class='line'>     |     &lt;tomcatLocation&gt;${tomcatPath}&lt;/tomcatLocation&gt;
+</span><span class='line'>     |   &lt;/configuration&gt;
+</span><span class='line'>     | &lt;/plugin&gt;
+</span><span class='line'>     | ...
+</span><span class='line'>     |
+</span><span class='line'>     | NOTE: If you just wanted to inject this configuration whenever someone set 'target-env' to
+</span><span class='line'>     |       anything, you could just leave off the &lt;value/&gt; inside the activation-property.
+</span><span class='line'>     |
+</span><span class='line'>    &lt;profile&gt;
+</span><span class='line'>      &lt;id&gt;env-dev&lt;/id&gt;
+</span><span class='line'> 
+</span><span class='line'>      &lt;activation&gt;
+</span><span class='line'>        &lt;property&gt;
+</span><span class='line'>          &lt;name&gt;target-env&lt;/name&gt;
+</span><span class='line'>          &lt;value&gt;dev&lt;/value&gt;
+</span><span class='line'>        &lt;/property&gt;
+</span><span class='line'>      &lt;/activation&gt;
+</span><span class='line'> 
+</span><span class='line'>      &lt;properties&gt;
+</span><span class='line'>        &lt;tomcatPath&gt;/path/to/tomcat/instance&lt;/tomcatPath&gt;
+</span><span class='line'>      &lt;/properties&gt;
+</span><span class='line'>    &lt;/profile&gt;
+</span><span class='line'>    --&gt;
+</span><span class='line'>     &lt;!-- Default profile containing Atlassian servers --&gt;
+</span><span class='line'>     &lt;profile&gt;
+</span><span class='line'>       &lt;id&gt;defaultProfile&lt;/id&gt;
+</span><span class='line'>       &lt;activation&gt;
+</span><span class='line'>         &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+</span><span class='line'>       &lt;/activation&gt;
+</span><span class='line'>  
+</span><span class='line'>       &lt;repositories&gt;
+</span><span class='line'>         &lt;repository&gt;
+</span><span class='line'>           &lt;id&gt;atlassian-public&lt;/id&gt;
+</span><span class='line'>           &lt;url&gt;https://m2proxy.atlassian.com/repository/public&lt;/url&gt;
+</span><span class='line'>           &lt;snapshots&gt;
+</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
+</span><span class='line'>             &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+</span><span class='line'>           &lt;/snapshots&gt;
+</span><span class='line'>           &lt;releases&gt;
+</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
+</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+</span><span class='line'>           &lt;/releases&gt;
+</span><span class='line'>         &lt;/repository&gt;
+</span><span class='line'>          &lt;repository&gt;
+</span><span class='line'>            &lt;id&gt;atlassian-plugin-sdk&lt;/id&gt;
+</span><span class='line'>           &lt;url&gt;file://${env.ATLAS_HOME}/repository&lt;/url&gt;
+</span><span class='line'>           &lt;snapshots&gt;
+</span><span class='line'>             &lt;enabled&gt;false&lt;/enabled&gt;
+</span><span class='line'>           &lt;/snapshots&gt;
+</span><span class='line'>           &lt;releases&gt;
+</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
+</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+</span><span class='line'>           &lt;/releases&gt;
+</span><span class='line'>         &lt;/repository&gt;
+</span><span class='line'>       &lt;/repositories&gt;
+</span><span class='line'>  
+</span><span class='line'>       &lt;pluginRepositories&gt;
+</span><span class='line'>         &lt;pluginRepository&gt;
+</span><span class='line'>           &lt;id&gt;atlassian-public&lt;/id&gt;
+</span><span class='line'>           &lt;url&gt;https://m2proxy.atlassian.com/repository/public&lt;/url&gt;
+</span><span class='line'>           &lt;releases&gt;
+</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
+</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+</span><span class='line'>           &lt;/releases&gt;
+</span><span class='line'>           &lt;snapshots&gt;
+</span><span class='line'>             &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
+</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+</span><span class='line'>           &lt;/snapshots&gt;
+</span><span class='line'>         &lt;/pluginRepository&gt;
+</span><span class='line'>         &lt;pluginRepository&gt;
+</span><span class='line'>           &lt;id&gt;atlassian-plugin-sdk&lt;/id&gt;
+</span><span class='line'>           &lt;url&gt;file://${env.ATLAS_HOME}/repository&lt;/url&gt;
+</span><span class='line'>           &lt;releases&gt;
+</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
+</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
+</span><span class='line'>           &lt;/releases&gt;
+</span><span class='line'>           &lt;snapshots&gt;
+</span><span class='line'>             &lt;enabled&gt;false&lt;/enabled&gt;
+</span><span class='line'>           &lt;/snapshots&gt;
+</span><span class='line'>         &lt;/pluginRepository&gt;
+</span><span class='line'>       &lt;/pluginRepositories&gt;
+</span><span class='line'>       &lt;properties&gt;
+</span><span class='line'>         &lt;downloadSources&gt;true&lt;/downloadSources&gt;
+</span><span class='line'>         &lt;downloadJavadocs&gt;true&lt;/downloadJavadocs&gt;
+</span><span class='line'>       &lt;/properties&gt;
+</span><span class='line'>    &lt;/profile&gt;
+</span><span class='line'>  &lt;/profiles&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;!-- activeProfiles
+</span><span class='line'>   | List of profiles that are active for all builds.
+</span><span class='line'>   |
+</span><span class='line'>  &lt;activeProfiles&gt;
+</span><span class='line'>    &lt;activeProfile&gt;alwaysActiveProfile&lt;/activeProfile&gt;
+</span><span class='line'>    &lt;activeProfile&gt;anotherAlwaysActiveProfile&lt;/activeProfile&gt;
+</span><span class='line'>  &lt;/activeProfiles&gt;
+</span><span class='line'>  --&gt;
+</span><span class='line'>&lt;/settings&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then try doing <code>mvn clean install</code> and everything should work.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[AngularJS: Implementing the starRating example in KnockoutJS.]]></title>
@@ -98,8 +811,9 @@
 
 <p>That&#8217;s it! You then get something cool like this:</p>
 
-<p>http://screencloud.net/v/3To7
-Improvements:
+<p>http://screencloud.net/v/3To7</p>
+
+<p>Improvements:
 - We can actually restrict this element to only span (since that was what was used on the KnockoutJS example). You can do that easily with AngularJS&#8230;I&#8217;ll leave that exercise to the reader.</p>
 ]]></content>
   </entry>
@@ -118,6 +832,27 @@ Improvements:
 
 
 <p>Looks kind of odd but it works..</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Maven: running mvn clean install gives unsupported major minor version.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/15/maven-running-mvn-clean-install-gives-unsupported-major-minor-version/"/>
+    <updated>2013-04-15T22:00:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/15/maven-running-mvn-clean-install-gives-unsupported-major-minor-version</id>
+    <content type="html"><![CDATA[<p>I ran into this problem when I was building a maven project:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Fatal error during compilation org.apache.tools.ant.BuildException: java.lang.UnsupportedClassVersionError: com/sun/tools/javac/Main : Unsupported major.minor version 51.0 (Use --stacktrace to see the full trace)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Want to know the reason? It&#8217;s because my JAVA_HOME dir has java 7 defined while the output of <code>java -version</code> points to a java 6 installation. So fix this on Ubuntu:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo update-alternatives --config java</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Choose the correct java version and you&#8217;re done!</p>
 ]]></content>
   </entry>
   
@@ -481,260 +1216,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
 
 
 <p>I&#8217;ll let you decide what&#8217;s best for yourself.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Groovy: The way to populate a csv/excel file.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/"/>
-    <updated>2013-03-08T13:52:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file</id>
-    <content type="html"><![CDATA[<p>I was working on a refactoring for a method that did csv export, and I found a prime a candidate for using the currying mechanism in Groovy.</p>
-
-<p>Consider this example of the code before:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def export = {
-</span><span class='line'>  final string[] csvcolumnheadings = ['game', 'campaign name', 'campaign medium', 'campaign code', 'campaign term', 'campaign content',
-</span><span class='line'>      'campaign source', 'additional paramter','status', 'created by', 'updated by', 'date created', 'last updated']
-</span><span class='line'>  
-</span><span class='line'>  ...
-</span><span class='line'>
-</span><span class='line'>      campaigns.resultset.each { campaign -&gt;
-</span><span class='line'>          string[] row = new string[13]
-</span><span class='line'>          
-</span><span class='line'>          row[0] = campaign.game ? campaign.game : ''
-</span><span class='line'>          row[1] = campaign.campaignname ? campaign.campaignname : ''
-</span><span class='line'>          row[2] = campaign.type ? campaign.type.tostring() : ''
-</span><span class='line'>          row[3] = campaign.campaigncode ? campaign.campaigncode : ''
-</span><span class='line'>          row[4] = campaign.campaignterm ?: ''
-</span><span class='line'>          row[5] = campaign.campaigncontent?: ''
-</span><span class='line'>          row[6] = campaign.source ? campaign.source : ''
-</span><span class='line'>          row[7] = campaign.parameter ? campaign.parameter : ''
-</span><span class='line'>          row[8] = campaign.status.name ? campaign.status.name : ''
-</span><span class='line'>          row[9] = campaign.createdby ? campaign.createdby : ''
-</span><span class='line'>          row[10] = campaign.updatedby ? campaign.updatedby : ''
-</span><span class='line'>          row[11] = campaign.datecreated ? campaign.datecreated.getdatetimestring() : ''
-</span><span class='line'>          row[12] = campaign.lastupdated ? campaign.lastupdated.getdatetimestring() : ''
-</span><span class='line'>          
-</span><span class='line'>          csvwriter.writenext(row)
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>  ...
-</span><span class='line'>      
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<p>So what&#8217;s the problem here? Well, I was adding a couple of fields to the export, and the problem is that there are 4 things I needed to do:
-* Add it to the <code>csvcolumnheadings</code>
-* Update the number of elements in decl of the array <code>row</code>
-* Add the elements
-* Update all the numberings</p>
-
-<p>Also, it&#8217;s not a very Groovy way of doing it. Come curryin to the rescue!</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def valRetrieveFunc = {fieldName, campaign -&gt;
-</span><span class='line'>      def result
-</span><span class='line'>
-</span><span class='line'>      if (fieldName instanceof Closure) {
-</span><span class='line'>          result = fieldName(campaign)
-</span><span class='line'>      } else {
-</span><span class='line'>          result = campaign."${fieldName}"
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      return result ?: ''
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  final Map map = [
-</span><span class='line'>          'Game': valRetrieveFunc.curry('game'),
-</span><span class='line'>          'Campaign Name': valRetrieveFunc.curry('campaignName'),
-</span><span class='line'>          'Campaign Medium': valRetrieveFunc.curry({campaign -&gt; return campaign.type?.toString()}),
-</span><span class='line'>          'Campaign Code': valRetrieveFunc.curry('campaignCode'),
-</span><span class='line'>          'Campaign Term': valRetrieveFunc.curry('campaignTerm'),
-</span><span class='line'>          'Campaign Content': valRetrieveFunc.curry('campaignContent'),
-</span><span class='line'>          'Campaign Source': valRetrieveFunc.curry('source'),
-</span><span class='line'>          'Additional Paramter': valRetrieveFunc.curry('parameter'),
-</span><span class='line'>          'Status': valRetrieveFunc.curry({campaign -&gt; return campaign.status?.name}),
-</span><span class='line'>          'Created By': valRetrieveFunc.curry('createdBy'),
-</span><span class='line'>          'Updated By': valRetrieveFunc.curry('updatedBy'),
-</span><span class='line'>          'Date Created': valRetrieveFunc.curry({campaign -&gt; return campaign.dateCreated?.getDateTimeString()}),
-</span><span class='line'>          'Last Updated': valRetrieveFunc.curry({campaign -&gt; return campaign.lastUpdated?.getDateTimeString()})]
-</span><span class='line'>
-</span><span class='line'>  final String[] csvColumnHeadings = map.keySet()
-</span><span class='line'>
-</span><span class='line'>  ...
-</span><span class='line'>
-</span><span class='line'>      campaigns.resultSet.each { campaign -&gt;
-</span><span class='line'>          def row = []
-</span><span class='line'>          csvColumnHeadings.each({
-</span><span class='line'>              row &lt;&lt; map[it](campaign)
-</span><span class='line'>          })
-</span><span class='line'>
-</span><span class='line'>          csvWriter.writeNext(row.toArray() as String[])
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>  ...                 </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let me annotate this a little bit. The first thing we define was a func on how to get the parameter from the domain object. Notice for complex retrievals we can pass in a closure to how to fetch the object graph. The more important bit here is the <code>curry</code> method, which defines a new closure with the same content, except that the first parameter has been <code>curried</code> and embedded in the new closure. By using <code>curry</code> in this way, the caller of the curried closure doesn&#8217;t need worry about the first parameter..they can just invoke it with the campaign object in this case (ie. <code>row &lt;&lt; map[it](campaign)</code>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails: correct way of before_save in model]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model/"/>
-    <updated>2013-03-01T19:09:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/01/rails-correct-way-of-before-save-in-model</id>
-    <content type="html"><![CDATA[<p>So I was reading a tutorial on the before_save and thought this was a valid syntax:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  def before_save(record)
-</span><span class='line'>
-</span><span class='line'>    if record.publishing
-</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
-</span><span class='line'>        publishing_tip.publishing = false
-</span><span class='line'>        publishing_tip.published = true
-</span><span class='line'>        publishing_tip.save
-</span><span class='line'>      end
-</span><span class='line'>    end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Turned out that this is the valid syntax for Rails 3.1:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  before_save :update_publishing_state
-</span><span class='line'>
-</span><span class='line'>  def update_publishing_state
-</span><span class='line'>    if self.publishing
-</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
-</span><span class='line'>        publishing_tip.publishing = false
-</span><span class='line'>        publishing_tip.published = true
-</span><span class='line'>        publishing_tip.save
-</span><span class='line'>      end
-</span><span class='line'>    end
-</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Apache2: Negotiation: discovered file(s) matching request: ...yi (None could be negotiated)]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/"/>
-    <updated>2013-02-28T20:32:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated</id>
-    <content type="html"><![CDATA[<p>I received this message in my apache logs while accessing a rewrite on PHP 5.4:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Thu Feb 28 20:29:44 2013] [error] [client 127.0.0.1] Negotiation: discovered file(s) matching request: /home/ad/repo/yii/backend (None could be negotiated).</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It turned out that I needed to add an extra type defn for PHP 5.4:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>AddType application/x-httpd-php .php</span></code></pre></td></tr></table></div></figure>
-
-
-<p>source: http://serverfault.com/questions/372733/apache-file-negotiation-failed</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Apache2: hosting sever from a user directory requires x7x permission]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/"/>
-    <updated>2013-02-28T20:07:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission</id>
-    <content type="html"><![CDATA[<p>I&#8217;ve been experimenting running a webapp in a a directory where I host my code, and in order for the server to read the dir, the base directory had to be x7x, such as</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chmod 774 repo</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

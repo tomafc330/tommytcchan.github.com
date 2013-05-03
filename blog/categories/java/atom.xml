@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Java | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-05-02T20:49:45-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Maven: running mvn clean install gives unsupported major minor version.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/15/maven-running-mvn-clean-install-gives-unsupported-major-minor-version/"/>
+    <updated>2013-04-15T22:00:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/15/maven-running-mvn-clean-install-gives-unsupported-major-minor-version</id>
+    <content type="html"><![CDATA[<p>I ran into this problem when I was building a maven project:
+<code>
+Fatal error during compilation org.apache.tools.ant.BuildException: java.lang.UnsupportedClassVersionError: com/sun/tools/javac/Main : Unsupported major.minor version 51.0 (Use --stacktrace to see the full trace)
+</code></p>
+
+<p>Want to know the reason? It's because my JAVA_HOME dir has java 7 defined while the output of <code>java -version</code> points to a java 6 installation. So fix this on Ubuntu:</p>
+
+<p><code>
+sudo update-alternatives --config java
+</code></p>
+
+<p>Choose the correct java version and you're done!</p>
+]]></content>
+  </entry>
+  
+</feed>

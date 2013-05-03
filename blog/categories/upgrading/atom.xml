@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: upgrading | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/upgrading/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-05-02T20:49:45-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Grails: Upgrading to 2.1.4 gives BeanDefinitionStoreException.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception/"/>
+    <updated>2013-04-24T15:02:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception</id>
+    <content type="html"><![CDATA[<p>So I was upgrading my Grails installation to 2.1.4 (from 2.0.0) and one of the issues I came across was this error message when I tried to run the tests:</p>
+
+<p><code>
+Caused by: org.springframework.beans.factory.BeanDefinitionStoreException: Invalid bean definition with name 'hibernateDatastore' defined in null: Could not resolve placeholder 'lang'
+</code></p>
+
+<p>Turns out that there is a problem with the evaluation of String in <code>Config.groovy</code></p>
+
+<p>The solution is to cast the values to <code>GStrings</code></p>
+
+<p>```</p>
+
+<pre><code>    myConf = "google.ca/${lang}/" as GString
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

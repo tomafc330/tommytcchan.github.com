@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jquery | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/jquery/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-05-02T20:49:45-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Javascript: push a javascript object in an array only if it's not in there already.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/"/>
+    <updated>2013-05-02T20:38:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already</id>
+    <content type="html"><![CDATA[<p>I just learned about the $.grep method today and it seem pretty cool. I had an array that I want to push objects to. However because the <code>Array.push</code> method doesn't care if an item is in the Array or not, I had to figure out how not to push the same object in. This is what I came up with:</p>
+
+<p>```</p>
+
+<pre><code>            if (jQuery.grep($scope.recents,function (elem) {return elem.id == shortcut.id}).length == 0) {
+                $scope.recents.push(shortcut);
+            }
+</code></pre>
+
+<p>```</p>
+
+<p>Using the <code>$.grep</code> method, I was able to iterate through easily. One can argue I could've used the underscore library but I had jQuery only at this point so why not use this one liner instead?</p>
+]]></content>
+  </entry>
+  
+</feed>
