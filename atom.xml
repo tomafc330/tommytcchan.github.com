@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-05-02T20:49:45-07:00</updated>
+  <updated>2013-06-08T20:33:33-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,58 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Use .blank? in rails instead of just evaluating the variable]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/"/>
+    <updated>2013-06-08T20:29:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been working a lot in Rails on my spare time right now, and one of the things that I find myself often doing is testing for either an empty string, or empty array, or null.</p>
+
+<p>Groovy actually does this test if you evaluate the variable, such as <code>if (params)</code> and it will does that check for you. However, by default, ruby does not have that mechanism, but luckily the Rails people created the <code>blank?</code> method for us to use.</p>
+
+<p>As stated from the website:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>An object is blank if it’s false, empty, or a whitespace string. For example, “”, “ ”, nil, [], and {} are all blank.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is exactly what I need most of time. So instead of</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (shortcut.pc_shortcut != '') ... end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>one can do:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if (!shortcut.pc_shortcut.blank?) .... end</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: get specific attribute from model]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/05/08/rails-get-specific-attribute-from-model/"/>
+    <updated>2013-05-08T20:49:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/05/08/rails-get-specific-attribute-from-model</id>
+    <content type="html"><![CDATA[<p>I was working getting just the ids from a list of models, and in Rails 3 you can actually use the <code>pluck</code> method for that!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>shortcuts = Shortcut.where(:software_id =&gt; params[:software_id]).pluck(:id)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This returns:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[58, 59, 60 ...]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>awesome!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Javascript: push a javascript object in an array only if it's not in there already.]]></title>
@@ -1145,77 +1197,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
 <p>Read more at:
 https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Set cookie with domain of localhost will not work for chrome/chromium browswer]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/"/>
-    <updated>2013-03-18T12:09:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer</id>
-    <content type="html"><![CDATA[<p>So I was working on setting a cookie for one of the sites, and what I had done was something like this initially:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>     Cookie cookie = new Cookie(
-</span><span class='line'>              key,
-</span><span class='line'>              value);
-</span><span class='line'>      cookie.setMaxAge(7);
-</span><span class='line'>      cookie.setPath("/");
-</span><span class='line'>      cookie.setDomain(serverDomain);
-</span><span class='line'>      
-</span><span class='line'>      response.addCookie(cookie);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Everything was working on localhost in Firefox and Opera. However, when I looked at the inspector for Chrome, it wasn&#8217;t working! I then tried to use 127.0.0.1 instead of localhost. That worked. So I read up some more about it and apparently if you tried to set the domain to localhost on a cookie, Chrome will reject it! so the fix was to removed the <code>cookie.setDomain(serverDomain);</code> line and everything was great again.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Caution: Testing Grails filter while overriding the request/response object in the setup().]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup/"/>
-    <updated>2013-03-15T12:34:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup</id>
-    <content type="html"><![CDATA[<p>So I&#8217;m doing some testing on the filter recently, and I of the things I notice right away was that the previous committer had initializers all over the place:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void test_filters_all_with_no_utmParams_noSession_with__invalid_Cookie() {
-</span><span class='line'>      FilterConfig filter = findConfig('all')
-</span><span class='line'>
-</span><span class='line'>      def request = new MockHttpServletRequest()
-</span><span class='line'>      def response = new MockHttpServletResponse()
-</span><span class='line'>      setUpWebCookieService(request, response)
-</span><span class='line'>
-</span><span class='line'>      request.session = createSession(null, null, 'true')
-</span><span class='line'>      request.cookies = [new Cookie('blah')]
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So I thought, why not just put of the same declarations on the setup method()? Well, it turns out that Grails dynamic closures will clobber the request/response variables. When I ran the tests with the declarations in the setup, no matter what I do I was not able to set my variable.</p>
-
-<p>After some digging around, I realized one thing:</p>
-
-<ol>
-<li>The test already injects the request/response objects in your filter tests, so overriding actually causes problems, leading to my variables not being set on the correct request/response instance.</li>
-</ol>
-
-
-<p>I&#8217;ll let you decide what&#8217;s best for yourself.</p>
 ]]></content>
   </entry>
   

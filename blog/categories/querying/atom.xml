@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: querying | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/querying/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-06-08T20:33:33-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: get specific attribute from model]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/05/08/rails-get-specific-attribute-from-model/"/>
+    <updated>2013-05-08T20:49:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/05/08/rails-get-specific-attribute-from-model</id>
+    <content type="html"><![CDATA[<p>I was working getting just the ids from a list of models, and in Rails 3 you can actually use the <code>pluck</code> method for that!</p>
+
+<p>```</p>
+
+<pre><code>shortcuts = Shortcut.where(:software_id =&gt; params[:software_id]).pluck(:id)
+</code></pre>
+
+<p>```</p>
+
+<p>This returns:</p>
+
+<p><code>
+[58, 59, 60 ...]
+</code></p>
+
+<p>awesome!</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -9,7 +9,14 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I was working on a refactoring for a method that did csv export, and I found a prime a candidate for using the currying mechanism in Groovy. Consider &hellip;">
+  <meta name="description" content="So I was working on setting a cookie for one of the sites, and what I had done was something like this initially: 1
+2
+3
+4
+5
+6
+7
+8 Cookie cookie = new &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +84,135 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/">Set Cookie With Domain of Localhost Will Not Work for Chrome/chromium Browswer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-18T12:09:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was working on setting a cookie for one of the sites, and what I had done was something like this initially:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>     Cookie cookie = new Cookie(
+</span><span class='line'>              key,
+</span><span class='line'>              value);
+</span><span class='line'>      cookie.setMaxAge(7);
+</span><span class='line'>      cookie.setPath("/");
+</span><span class='line'>      cookie.setDomain(serverDomain);
+</span><span class='line'>      
+</span><span class='line'>      response.addCookie(cookie);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Everything was working on localhost in Firefox and Opera. However, when I looked at the inspector for Chrome, it wasn&#8217;t working! I then tried to use 127.0.0.1 instead of localhost. That worked. So I read up some more about it and apparently if you tried to set the domain to localhost on a cookie, Chrome will reject it! so the fix was to removed the <code>cookie.setDomain(serverDomain);</code> line and everything was great again.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup/">Caution: Testing Grails Filter While Overriding the Request/response Object in the Setup().</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-15T12:34:00-07:00" pubdate data-updated="true">Mar 15<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;m doing some testing on the filter recently, and I of the things I notice right away was that the previous committer had initializers all over the place:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void test_filters_all_with_no_utmParams_noSession_with__invalid_Cookie() {
+</span><span class='line'>      FilterConfig filter = findConfig('all')
+</span><span class='line'>
+</span><span class='line'>      def request = new MockHttpServletRequest()
+</span><span class='line'>      def response = new MockHttpServletResponse()
+</span><span class='line'>      setUpWebCookieService(request, response)
+</span><span class='line'>
+</span><span class='line'>      request.session = createSession(null, null, 'true')
+</span><span class='line'>      request.cookies = [new Cookie('blah')]
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So I thought, why not just put of the same declarations on the setup method()? Well, it turns out that Grails dynamic closures will clobber the request/response variables. When I ran the tests with the declarations in the setup, no matter what I do I was not able to set my variable.</p>
+
+<p>After some digging around, I realized one thing:</p>
+
+<ol>
+<li>The test already injects the request/response objects in your filter tests, so overriding actually causes problems, leading to my variables not being set on the correct request/response instance.</li>
+</ol>
+
+
+<p>I&#8217;ll let you decide what&#8217;s best for yourself.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -792,133 +928,6 @@ Also note that you can add the www-data user to the group that has the permissio
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/">Rails: Production Environment Is Missing application.js and application.css</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-23T16:03:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>The problem</h3>
-
-<p>So I&#8217;m working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, the application resources pointed to application.js and application.css even though my template was not change (ie. <code> &lt;%= stylesheet_link_tag    "application", :media =&gt; "all" %&gt;</code> and <code> &lt;%= javascript_include_tag "application" %&gt;</code>. That led to me believe something was wrong. In addition, when I ran <code>rake assets:precompile</code>, nothing was generated to the <code>public/assets</code> folder.</p>
-
-<h3>What was wrong</h3>
-
-<p>I checked my application.rb, and the <code>config.assets.enabled</code> was set to <code>true</code>. Then I realized that when I first created the app, I turned off that setting in <code>production.rb</code>. Simply turning it back on allowed the compilation of assets and leading rails to resolve to the right path (and not application.js/css).</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/22/grails-and-intellij-discard-old-dependencies/">Grails and Intellij: Discard Old Dependencies</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-22T10:36:00-08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/22/grails-and-intellij-discard-old-dependencies/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;m working on a project that relies on a custom plugin, and it was listed as a dependency. However, I wanted it to reference a relative path instead. This was what was listed originally:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>In BuildConfig.groovy
-</span><span class='line'>...
-</span><span class='line'>  plugins {
-</span><span class='line'>      test ":code-coverage:1.2.5"
-</span><span class='line'>      test ":spock:0.7"
-</span><span class='line'>      compile ":hibernate:2.0.0"
-</span><span class='line'>      compile ":quartz:1.0-RC2"
-</span><span class='line'>      compile ":rest:0.7"
-</span><span class='line'>      compile ":springcache:1.3.1"
-</span><span class='line'>          compile ":mycustomplugin:1.0"
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In order to make it use your project relative project mycustomplugin (instead of fetching it from Archiva using maven), perform the following steps:</p>
-
-<ol>
-<li>Change your BuildConfig.groovy &#8211; remove the above decl in the plugins block.</li>
-<li>Update your BuildConfig.groovy to add the following:</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grails.plugin.location.'mycustomplugin' = "../mycustomplugin"</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>Run <code>grails refresh-dependencies</code> in Intellij</li>
-</ol>
-
-
-<p>Once it refreshes then you should be able to reference the plugin in your source tree rather than from remote.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -936,6 +945,14 @@ Also note that you can add the www-data user to the group that has the permissio
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/">Use .blank? in rails instead of just evaluating the variable</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/05/08/rails-get-specific-attribute-from-model/">Rails: get specific attribute from model</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/">Javascript: push a javascript object in an array only if it&#8217;s not in there already.</a>
       </li>
     
@@ -945,14 +962,6 @@ Also note that you can add the www-data user to the group that has the permissio
     
       <li class="post">
         <a href="/blog/2013/04/23/atlassian-building-unknown-packaging/">Atlassian building: unknown packaging</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs/">AngularJS: Implementing the starRating example in KnockoutJS.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb/">Rails: add in extension classes to application.rb.</a>
       </li>
     
   </ul>
