@@ -9,7 +9,8 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;ve been working a lot in Rails on my spare time right now, and one of the things that I find myself often doing is testing for either an &hellip;">
+  <meta name="description" content="So I was working on an app that is using devise (who isn&#8217;t?!) and I got this message: 1
+Couldn't find User with id=sign_in Turned out I had a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +78,92 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/">Couldn&#8217;t Find User With Id=sign_in Devise on Rails 3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-17T08:47:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was working on an app that is using devise (who isn&#8217;t?!) and I got this message:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Couldn't find User with id=sign_in</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Turned out I had a <code>resources :users</code> declared as well as <code>devise_for :users</code> and the standard flow overridden the devise sign in flow.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/">Rails 3 Devise Gem: Sign Out</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T08:26:00-07:00" pubdate data-updated="true">Jun 10<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;ve been using this awesome gem for the authentication module&#8230;so far I&#8217;m loving it. Follows the convention over configuration model. I needed to log out my user and this is all I needed in my view (note the method :delete is required):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "Sign out", destroy_user_session_path, :method =&gt; :delete %&gt;</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1205,136 +1292,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/">Twitter Bootstrap: Creating Popovers - What a Pain!</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-13T17:17:00-07:00" pubdate data-updated="true">Apr 13<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was troubleshooting the popover feature that bootstrap provides, and I must say that it is very buggy. I followed their tutorial but it didn&#8217;t work until I put this in the beginning of my js:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$(document).ready(function () {
-</span><span class='line'>    $("*[rel=popover]")
-</span><span class='line'>        .popover({
-</span><span class='line'>            offset: 10,
-</span><span class='line'>            selector: '#map',
-</span><span class='line'>            placement: 'left'
-</span><span class='line'>        });
-</span><span class='line'>})</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Why I needed to do this, I&#8217;m not sure but I think it&#8217;s to initialize the popovers. Okay I was able to continue&#8230;however when it came time to destroy these popovers, I found that I wasn&#8217;t able to do it with the their examples, ie: <code>$('#element').popover('destroy')</code>. Tried to figure it some more, but ran out of time&#8230;at the end of the day I just used good ol&#8217; jQuery do help me do it:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>        removeRepeatKeysPopovers: function() {
-</span><span class='line'>            $(".learning-popover").remove();
-</span><span class='line'>            $(".popover.left").remove();
-</span><span class='line'>        },
-</span><span class='line'>        removeAllPopovers: function () {
-</span><span class='line'>            this.removeRepeatKeysPopovers();
-</span><span class='line'>            $(".popover").remove();
-</span><span class='line'>        },</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What a freakin pain!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/">Rails: Include Extra Fields on Returning a Model Object as Json</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-13T15:26:00-07:00" pubdate data-updated="true">Apr 13<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ever run into the issue where you are returning your domain object using <code>to_json</code> but you want an extra field? Well it&#8217;s actually really easy to add that in there.</p>
-
-<p>In your model:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  attr_accessor :key_stroke #note its attr_accessor not attr_accessible</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In your rendering:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>render :json =&gt; matches.values.to_json(:methods =&gt; :key_stroke)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Of course, sometimes you don&#8217;t want to return your whole object in which case you which restrict it with <code>:only</code></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1350,6 +1307,14 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/">Couldn&#8217;t find User with id=sign_in Devise on Rails 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/">Rails 3 devise gem: sign out</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/">Use .blank? in rails instead of just evaluating the variable</a>
       </li>
     
@@ -1359,14 +1324,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
     
       <li class="post">
         <a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/">Javascript: push a javascript object in an array only if it&#8217;s not in there already.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception/">Grails: Upgrading to 2.1.4 gives BeanDefinitionStoreException.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/23/atlassian-building-unknown-packaging/">Atlassian building: unknown packaging</a>
       </li>
     
   </ul>

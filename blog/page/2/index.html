@@ -9,10 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4: 1
-2
-NullPointerException
-at org.apache.tools.ant.UnknownElement.execute( &hellip;">
+  <meta name="description" content="So I was troubleshooting the popover feature that bootstrap provides, and I must say that it is very buggy. I followed their tutorial but it didn&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +77,136 @@ at org.apache.tools.ant.UnknownElement.execute( &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/">Twitter Bootstrap: Creating Popovers - What a Pain!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-13T17:17:00-07:00" pubdate data-updated="true">Apr 13<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/13/twitter-bootstrap-creating-popovers-what-a-pain/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was troubleshooting the popover feature that bootstrap provides, and I must say that it is very buggy. I followed their tutorial but it didn&#8217;t work until I put this in the beginning of my js:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$(document).ready(function () {
+</span><span class='line'>    $("*[rel=popover]")
+</span><span class='line'>        .popover({
+</span><span class='line'>            offset: 10,
+</span><span class='line'>            selector: '#map',
+</span><span class='line'>            placement: 'left'
+</span><span class='line'>        });
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Why I needed to do this, I&#8217;m not sure but I think it&#8217;s to initialize the popovers. Okay I was able to continue&#8230;however when it came time to destroy these popovers, I found that I wasn&#8217;t able to do it with the their examples, ie: <code>$('#element').popover('destroy')</code>. Tried to figure it some more, but ran out of time&#8230;at the end of the day I just used good ol&#8217; jQuery do help me do it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>        removeRepeatKeysPopovers: function() {
+</span><span class='line'>            $(".learning-popover").remove();
+</span><span class='line'>            $(".popover.left").remove();
+</span><span class='line'>        },
+</span><span class='line'>        removeAllPopovers: function () {
+</span><span class='line'>            this.removeRepeatKeysPopovers();
+</span><span class='line'>            $(".popover").remove();
+</span><span class='line'>        },</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What a freakin pain!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/">Rails: Include Extra Fields on Returning a Model Object as Json</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-13T15:26:00-07:00" pubdate data-updated="true">Apr 13<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ever run into the issue where you are returning your domain object using <code>to_json</code> but you want an extra field? Well it&#8217;s actually really easy to add that in there.</p>
+
+<p>In your model:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  attr_accessor :key_stroke #note its attr_accessor not attr_accessible</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In your rendering:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>render :json =&gt; matches.values.to_json(:methods =&gt; :key_stroke)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, sometimes you don&#8217;t want to return your whole object in which case you which restrict it with <code>:only</code></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -467,130 +594,6 @@ at org.apache.tools.ant.UnknownElement.execute( &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/">Mocking Grails Injected Methods Such as encodeAsURL in Unit Tests.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-19T17:26:00-07:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Today I was writing a test on a Grails service that used the encodeAsURL method. When I ran the test, I got something like the following:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>groovy.lang.MissingMethodException: No signature of method: java.lang.String.encodeAsURL() is applicable for argument types: () values: []</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Upon researching some more, I realized that Grails adds a whole bunch of utilit methods to the String class at runtime, such as <code>"encodeAsBase64", "encodeAsHTML",
-"encodeAsJSON", "encodeAsJavaScript", "encodeAsURL", "encodeAsXML"</code>.</p>
-
-<p>So what do you do when you run into this situation in your tests? Well, do what the Grails framework does&#8230;add it to the metaClass of String! Here&#8217;s the example that you need to add to the test (preferably the setup() method):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> String.metaClass.encodeAsURL = {
-</span><span class='line'>      delegate.toString()
-</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/">Example: How to Set Up Debugging With Karma (Formerly Testacular) and Webstorm</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-18T19:50:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Introduction</h1>
-
-<p>This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service.</p>
-
-<h1>Debugging</h1>
-
-<p>I&#8217;m using Webstorm to perform debugging. But to do this you will need to install <a href="http://karma-runner.github.com/0.8/intro/installation.html">Karma</a>, which is essentially Testacular 2.0.</p>
-
-<h1>Set up</h1>
-
-<p>To set this up, refer to the screenshots provided:</p>
-
-<h6>Step 1:</h6>
-
-<p>Create the Node js runner according to the screen shot.</p>
-
-<p>http://screencloud.net/v/ERqK</p>
-
-<h6>Step 2:</h6>
-
-<p>Create the Debug configuration according to the screen shot. Note that the port will be the port that you Karma server ran on for the Node.js configuration you defined for Step 1.</p>
-
-<p>http://screencloud.net/v/3sH0</p>
-
-<h6>Step 3:</h6>
-
-<p>Start the Node.js run, then start the Debug configuration after you set some breakpoints.</p>
-
-<p>http://screencloud.net/v/2oGA</p>
-
-<p>Read more at:
-https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -608,6 +611,14 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/">Couldn&#8217;t find User with id=sign_in Devise on Rails 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/">Rails 3 devise gem: sign out</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/">Use .blank? in rails instead of just evaluating the variable</a>
       </li>
     
@@ -617,14 +628,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
     
       <li class="post">
         <a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/">Javascript: push a javascript object in an array only if it&#8217;s not in there already.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception/">Grails: Upgrading to 2.1.4 gives BeanDefinitionStoreException.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/23/atlassian-building-unknown-packaging/">Atlassian building: unknown packaging</a>
       </li>
     
   </ul>

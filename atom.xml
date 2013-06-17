@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-06-08T20:33:33-07:00</updated>
+  <updated>2013-06-17T08:54:36-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Couldn't find User with id=sign_in Devise on Rails 3]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/"/>
+    <updated>2013-06-17T08:47:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3</id>
+    <content type="html"><![CDATA[<p>So I was working on an app that is using devise (who isn&#8217;t?!) and I got this message:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Couldn't find User with id=sign_in</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Turned out I had a <code>resources :users</code> declared as well as <code>devise_for :users</code> and the standard flow overridden the devise sign in flow.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 3 devise gem: sign out]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/10/rails-3-devise-gem-sign-out/"/>
+    <updated>2013-06-10T08:26:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/10/rails-3-devise-gem-sign-out</id>
+    <content type="html"><![CDATA[<p>So I&#8217;ve been using this awesome gem for the authentication module&#8230;so far I&#8217;m loving it. Follows the convention over configuration model. I needed to log out my user and this is all I needed in my view (note the method :delete is required):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "Sign out", destroy_user_session_path, :method =&gt; :delete %&gt;</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Use .blank? in rails instead of just evaluating the variable]]></title>
@@ -1131,72 +1159,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 </span><span class='line'>  return START_STICKY;
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mocking Grails injected methods such as encodeAsURL in unit tests.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/"/>
-    <updated>2013-03-19T17:26:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests</id>
-    <content type="html"><![CDATA[<p>Today I was writing a test on a Grails service that used the encodeAsURL method. When I ran the test, I got something like the following:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>groovy.lang.MissingMethodException: No signature of method: java.lang.String.encodeAsURL() is applicable for argument types: () values: []</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Upon researching some more, I realized that Grails adds a whole bunch of utilit methods to the String class at runtime, such as <code>"encodeAsBase64", "encodeAsHTML",
-"encodeAsJSON", "encodeAsJavaScript", "encodeAsURL", "encodeAsXML"</code>.</p>
-
-<p>So what do you do when you run into this situation in your tests? Well, do what the Grails framework does&#8230;add it to the metaClass of String! Here&#8217;s the example that you need to add to the test (preferably the setup() method):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> String.metaClass.encodeAsURL = {
-</span><span class='line'>      delegate.toString()
-</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Example: How to set up debugging with Karma (formerly Testacular) and Webstorm]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/"/>
-    <updated>2013-03-18T19:50:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm</id>
-    <content type="html"><![CDATA[<h1>Introduction</h1>
-
-<p>This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service.</p>
-
-<h1>Debugging</h1>
-
-<p>I&#8217;m using Webstorm to perform debugging. But to do this you will need to install <a href="http://karma-runner.github.com/0.8/intro/installation.html">Karma</a>, which is essentially Testacular 2.0.</p>
-
-<h1>Set up</h1>
-
-<p>To set this up, refer to the screenshots provided:</p>
-
-<h6>Step 1:</h6>
-
-<p>Create the Node js runner according to the screen shot.</p>
-
-<p>http://screencloud.net/v/ERqK</p>
-
-<h6>Step 2:</h6>
-
-<p>Create the Debug configuration according to the screen shot. Note that the port will be the port that you Karma server ran on for the Node.js configuration you defined for Step 1.</p>
-
-<p>http://screencloud.net/v/3sH0</p>
-
-<h6>Step 3:</h6>
-
-<p>Start the Node.js run, then start the Debug configuration after you set some breakpoints.</p>
-
-<p>http://screencloud.net/v/2oGA</p>
-
-<p>Read more at:
-https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
 ]]></content>
   </entry>
   

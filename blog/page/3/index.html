@@ -9,14 +9,8 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was working on setting a cookie for one of the sites, and what I had done was something like this initially: 1
-2
-3
-4
-5
-6
-7
-8 Cookie cookie = new &hellip;">
+  <meta name="description" content="Today I was writing a test on a Grails service that used the encodeAsURL method. When I ran the test, I got something like the following: 1
+groovy. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +78,130 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/">Mocking Grails Injected Methods Such as encodeAsURL in Unit Tests.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-19T17:26:00-07:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I was writing a test on a Grails service that used the encodeAsURL method. When I ran the test, I got something like the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>groovy.lang.MissingMethodException: No signature of method: java.lang.String.encodeAsURL() is applicable for argument types: () values: []</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Upon researching some more, I realized that Grails adds a whole bunch of utilit methods to the String class at runtime, such as <code>"encodeAsBase64", "encodeAsHTML",
+"encodeAsJSON", "encodeAsJavaScript", "encodeAsURL", "encodeAsXML"</code>.</p>
+
+<p>So what do you do when you run into this situation in your tests? Well, do what the Grails framework does&#8230;add it to the metaClass of String! Here&#8217;s the example that you need to add to the test (preferably the setup() method):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> String.metaClass.encodeAsURL = {
+</span><span class='line'>      delegate.toString()
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/">Example: How to Set Up Debugging With Karma (Formerly Testacular) and Webstorm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-18T19:50:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>Introduction</h1>
+
+<p>This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service.</p>
+
+<h1>Debugging</h1>
+
+<p>I&#8217;m using Webstorm to perform debugging. But to do this you will need to install <a href="http://karma-runner.github.com/0.8/intro/installation.html">Karma</a>, which is essentially Testacular 2.0.</p>
+
+<h1>Set up</h1>
+
+<p>To set this up, refer to the screenshots provided:</p>
+
+<h6>Step 1:</h6>
+
+<p>Create the Node js runner according to the screen shot.</p>
+
+<p>http://screencloud.net/v/ERqK</p>
+
+<h6>Step 2:</h6>
+
+<p>Create the Debug configuration according to the screen shot. Note that the port will be the port that you Karma server ran on for the Node.js configuration you defined for Step 1.</p>
+
+<p>http://screencloud.net/v/3sH0</p>
+
+<h6>Step 3:</h6>
+
+<p>Start the Node.js run, then start the Debug configuration after you set some breakpoints.</p>
+
+<p>http://screencloud.net/v/2oGA</p>
+
+<p>Read more at:
+https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -711,223 +829,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/">Apache: Setting Up Rewrite Rules for a Server in Ubuntu 12.10</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-26T15:26:00-08:00" pubdate data-updated="true">Feb 26<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Introduction</h3>
-
-<p>So I was configuring a Java app today, trying to get it deployed on httpd using ajp on Ubuntu. However, there was twist to it, and it is that the /static resources would have to point to a local file system folder (checked out with SCM).</p>
-
-<p>I&#8217;m going to document how this is done on Ubuntu since it was somewhat of a painful process.</p>
-
-<h3>Setup</h3>
-
-<p>I had apache2 install via <code>apt-get</code>. The next step was to configure the apache2 server. The first thing needed was to specify the directory where the /static path resources will look in:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory "~/web-assets"&gt;
-</span><span class='line'>    Options Indexes FollowSymLinks
-</span><span class='line'>    AllowOverride None
-</span><span class='line'>    Order allow,deny
-</span><span class='line'>    Allow from all
-</span><span class='line'>&lt;/Directory&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The next thing to do is to set up the ajp port.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;VirtualHost *:80&gt;
-</span><span class='line'>  ...
-</span><span class='line'>  
-</span><span class='line'>  ProxyPass           /           ajp://localhost:8010/
-</span><span class='line'>  ProxyPassReverse    /           ajp://localhost:8010/
-</span><span class='line'>
-</span><span class='line'>  ProxyPreserveHost On
-</span><span class='line'>
-</span><span class='line'>  ...
-</span><span class='line'>      
-</span><span class='line'>&lt;/VirtualHost&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We then need to set up the rewrite rule:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(...same VirtualHost declaration...)
-</span><span class='line'>RewriteRule       ^/static/\d+/(.*)                               %{DOCUMENT_ROOT}/world/$1       [L,E=STATIC_ASSET:1]
-</span><span class='line'>RewriteRule       ^/static/(.*)                                   %{DOCUMENT_ROOT}/world/$1       [L,E=STATIC_ASSET:1]
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It&#8217;s also good to have logging:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(...same VirtualHost declaration...)
-</span><span class='line'># logging
-</span><span class='line'>RewriteLog "/home/tchan/logs/rewrite.log"
-</span><span class='line'>RewriteLogLevel 3
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now enable the mods (using a2enmod):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a2enmod proxy
-</span><span class='line'>a2enmod rewrite
-</span><span class='line'>a2enmod ssl</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You might not need proxy or ssl but I did.</p>
-
-<p>The next thing you need to do is to set up the permissions on your folder:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd ~/web-assets
-</span><span class='line'>chmod a=rwx -R *</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that if your location is somewhere else you might need to give the same permission to the parent of the folder that apache is looking it.
-Also note that you can add the www-data user to the group that has the permission in your file system if you are hesitate to make that directory global.</p>
-
-<p>Once you have it configured, all you need then is to configure you Java app to use the port 8010 defined above:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Connector port="8010" protocol="AJP/1.3" redirectPort="8443"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>One last thing: I had to change the deploy context of the Java app from /app to / (root):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;Context docBase="my-app" path="/" reloadable="true" source="org.eclipse.jst.j2ee.server:my-app"/&gt;&lt;/Host&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/">Rails: Create a Deploy Script With Ease</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-23T16:51:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was finding myself having to deploy manually everytime I push something to github, so I&#8217;ve decided to write a deploy shell script to help with this task. Coming from a Java background, I found that creating a deploy script for rails is so much easier. Here is the meat of it:</p>
-
-<p>In deploy.sh</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>#first kill the server if its running
-</span><span class='line'>kill -9 `lsof -i :80 | awk '{if (NR!=1) {print $2}}'`
-</span><span class='line'>pushd ~/codetipdaily
-</span><span class='line'>#then pull from gh
-</span><span class='line'>git pull origin master
-</span><span class='line'>#assets
-</span><span class='line'>rake assets:clean
-</span><span class='line'>rake assets:precompile
-</span><span class='line'>#start server as daemon
-</span><span class='line'>rails server -e production -p 80 --daemon
-</span><span class='line'>popd</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That was a piece of cake!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -945,6 +846,14 @@ Also note that you can add the www-data user to the group that has the permissio
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/">Couldn&#8217;t find User with id=sign_in Devise on Rails 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/">Rails 3 devise gem: sign out</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/">Use .blank? in rails instead of just evaluating the variable</a>
       </li>
     
@@ -954,14 +863,6 @@ Also note that you can add the www-data user to the group that has the permissio
     
       <li class="post">
         <a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/">Javascript: push a javascript object in an array only if it&#8217;s not in there already.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception/">Grails: Upgrading to 2.1.4 gives BeanDefinitionStoreException.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/23/atlassian-building-unknown-packaging/">Atlassian building: unknown packaging</a>
       </li>
     
   </ul>

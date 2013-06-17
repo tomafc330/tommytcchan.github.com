@@ -4,7 +4,7 @@
   <title><![CDATA[Category: problems | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/problems/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-06-08T20:33:33-07:00</updated>
+  <updated>2013-06-17T08:54:36-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Couldn't find User with id=sign_in Devise on Rails 3]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/"/>
+    <updated>2013-06-17T08:47:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3</id>
+    <content type="html"><![CDATA[<p>So I was working on an app that is using devise (who isn't?!) and I got this message:</p>
+
+<p><code>
+Couldn't find User with id=sign_in
+</code></p>
+
+<p>Turned out I had a <code>resources :users</code> declared as well as <code>devise_for :users</code> and the standard flow overridden the devise sign in flow.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Grails: Upgrading to 2.1.4 gives BeanDefinitionStoreException.]]></title>
@@ -476,33 +491,6 @@ $(document).ready(function () {</p>
 <p>```</p>
 
 <p>What a freakin pain!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Grails: at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/"/>
-    <updated>2013-04-12T15:10:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291</id>
-    <content type="html"><![CDATA[<p>So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4:</p>
-
-<p><code>
-NullPointerException
-at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)
-</code></p>
-
-<p>I was like what's going on here? There isn't really any indications, so I had to use <code>git bisect</code> to see when I introduced the problem. Turns out (I don't have an explaination for this) that one of my tablib closures had an extra <code>-&gt;</code>:</p>
-
-<p>```</p>
-
-<pre><code>def initFacebokShareBtn = { -&gt; //note this
-    ...
-}
-</code></pre>
-
-<p>```</p>
-
-<p>By having that extra notation it gave me errors. Once I removed it then it worked. Perhaps the Grails folks introduced something in 2.1.4?</p>
 ]]></content>
   </entry>
   
