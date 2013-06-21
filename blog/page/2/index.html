@@ -9,7 +9,8 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was troubleshooting the popover feature that bootstrap provides, and I must say that it is very buggy. I followed their tutorial but it didn&# &hellip;">
+  <meta name="description" content="I ran into this problem when I was building a maven project: 1
+Fatal error during compilation org.apache.tools.ant.BuildException: java.lang. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +78,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/15/maven-running-mvn-clean-install-gives-unsupported-major-minor-version/">Maven: Running Mvn Clean Install Gives Unsupported Major Minor Version.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-15T22:00:00-07:00" pubdate data-updated="true">Apr 15<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/15/maven-running-mvn-clean-install-gives-unsupported-major-minor-version/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I ran into this problem when I was building a maven project:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Fatal error during compilation org.apache.tools.ant.BuildException: java.lang.UnsupportedClassVersionError: com/sun/tools/javac/Main : Unsupported major.minor version 51.0 (Use --stacktrace to see the full trace)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Want to know the reason? It&#8217;s because my JAVA_HOME dir has java 7 defined while the output of <code>java -version</code> points to a java 6 installation. So fix this on Ubuntu:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo update-alternatives --config java</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Choose the correct java version and you&#8217;re done!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -542,58 +593,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/">Android: IntentService.onHandleIntent() Not Called</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-25T21:27:00-07:00" pubdate data-updated="true">Mar 25<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call out to the server once a day. Naturally I gravitated towards the <code>IntentSevice</code>, which seems to be the simplest to use. I had also overridden in my service.onStartCommand() to return <code>START_STICKY</code>, which would restart the service should it be stopped. Once I did that though, the system stopped calling my <code>onHandleIntent()</code> method. What&#8217;s going on?</p>
-
-<p>It turned out that I had forgotten to call <code>super.onStartCommand()</code> before I returned the static int. So the following fixed it:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
-</span><span class='line'>public int onStartCommand(android.content.Intent intent, int flags, int startId) {
-</span><span class='line'>  super.onStartCommand(intent, flags, startId);
-</span><span class='line'>  return START_STICKY;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -611,6 +610,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/">Rails 3 redirect_to with flash :notice does not show up - problem.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/">Couldn&#8217;t find User with id=sign_in Devise on Rails 3</a>
       </li>
     
@@ -624,10 +627,6 @@
     
       <li class="post">
         <a href="/blog/2013/05/08/rails-get-specific-attribute-from-model/">Rails: get specific attribute from model</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/">Javascript: push a javascript object in an array only if it&#8217;s not in there already.</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-06-17T08:54:36-07:00</updated>
+  <updated>2013-06-20T22:07:57-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 3 redirect_to with flash :notice does not show up - problem.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/"/>
+    <updated>2013-06-20T22:02:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem</id>
+    <content type="html"><![CDATA[<p>I was working on my app just now and finally got rid of a stupid annoying thing &#8211; it wouldn&#8217;t update my flash messages for some reason after I do a redirect_to.</p>
+
+<p>This was what I had:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    format.html { redirect_to venues_path, notice: 'Venue space was successfully created.' }
+</span><span class='line'>    format.json { render json: @venue_space, status: :created, location: @venue_space }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty standard stuff right? But for some reason I couldn&#8217;t get the flash messages working at all! I was so baffled by it but then I started tracing down the calls.</p>
+
+<p>Turns out that the <code>venues_path</code> redirects to the index method, and in the index method it does a redirect to the edit method, and in Rails 3 you need <code>flash.keep</code> in order to preserve the flash message. Doh!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Couldn't find User with id=sign_in Devise on Rails 3]]></title>
@@ -1136,29 +1157,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
 
 <p>I had no idea why, but I fixed it by setting the <code>android:key</code> to be a different key. I had the same key referenced as a CheckboxPreferences a few hours ago, and that seemed to have done the trick. Weird!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android: IntentService.onHandleIntent() not called]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/"/>
-    <updated>2013-03-25T21:27:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called</id>
-    <content type="html"><![CDATA[<p>So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call out to the server once a day. Naturally I gravitated towards the <code>IntentSevice</code>, which seems to be the simplest to use. I had also overridden in my service.onStartCommand() to return <code>START_STICKY</code>, which would restart the service should it be stopped. Once I did that though, the system stopped calling my <code>onHandleIntent()</code> method. What&#8217;s going on?</p>
-
-<p>It turned out that I had forgotten to call <code>super.onStartCommand()</code> before I returned the static int. So the following fixed it:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
-</span><span class='line'>public int onStartCommand(android.content.Intent intent, int flags, int startId) {
-</span><span class='line'>  super.onStartCommand(intent, flags, startId);
-</span><span class='line'>  return START_STICKY;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

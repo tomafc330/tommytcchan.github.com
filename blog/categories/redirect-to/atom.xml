@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: redirect_to | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/redirect-to/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-06-20T22:07:57-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 3 redirect_to with flash :notice does not show up - problem.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/"/>
+    <updated>2013-06-20T22:02:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem</id>
+    <content type="html"><![CDATA[<p>I was working on my app just now and finally got rid of a stupid annoying thing -- it wouldn't update my flash messages for some reason after I do a redirect_to.</p>
+
+<p>This was what I had:</p>
+
+<p>```</p>
+
+<pre><code>    format.html { redirect_to venues_path, notice: 'Venue space was successfully created.' }
+    format.json { render json: @venue_space, status: :created, location: @venue_space }
+</code></pre>
+
+<p>```</p>
+
+<p>Pretty standard stuff right? But for some reason I couldn't get the flash messages working at all! I was so baffled by it but then I started tracing down the calls.</p>
+
+<p>Turns out that the <code>venues_path</code> redirects to the index method, and in the index method it does a redirect to the edit method, and in Rails 3 you need <code>flash.keep</code> in order to preserve the flash message. Doh!</p>
+]]></content>
+  </entry>
+  
+</feed>

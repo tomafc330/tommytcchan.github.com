@@ -237,12 +237,18 @@
         <lastmod>2013-06-17T08:53:07-07:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/
+        </loc>
+        <lastmod>2013-06-20T22:07:34-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-06-17T08:53:07-07:00</lastmod>
+        <lastmod>2013-06-20T22:07:34-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-06-17T08:53:07-07:00</lastmod>
+        <lastmod>2013-06-20T22:07:34-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>

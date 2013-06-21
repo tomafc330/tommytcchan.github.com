@@ -9,8 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was working on an app that is using devise (who isn&#8217;t?!) and I got this message: 1
-Couldn't find User with id=sign_in Turned out I had a &hellip;">
+  <meta name="description" content="I was working on my app just now and finally got rid of a stupid annoying thing &#8211; it wouldn&#8217;t update my flash messages for some reason &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +77,56 @@ Couldn't find User with id=sign_in Turned out I had a &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/">Rails 3 Redirect_to With Flash :notice Does Not Show Up - Problem.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-20T22:02:00-07:00" pubdate data-updated="true">Jun 20<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was working on my app just now and finally got rid of a stupid annoying thing &#8211; it wouldn&#8217;t update my flash messages for some reason after I do a redirect_to.</p>
+
+<p>This was what I had:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    format.html { redirect_to venues_path, notice: 'Venue space was successfully created.' }
+</span><span class='line'>    format.json { render json: @venue_space, status: :created, location: @venue_space }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty standard stuff right? But for some reason I couldn&#8217;t get the flash messages working at all! I was so baffled by it but then I started tracing down the calls.</p>
+
+<p>Turns out that the <code>venues_path</code> redirects to the index method, and in the index method it does a redirect to the edit method, and in Rails 3 you need <code>flash.keep</code> in order to preserve the flash message. Doh!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1242,56 +1291,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/15/maven-running-mvn-clean-install-gives-unsupported-major-minor-version/">Maven: Running Mvn Clean Install Gives Unsupported Major Minor Version.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-15T22:00:00-07:00" pubdate data-updated="true">Apr 15<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/15/maven-running-mvn-clean-install-gives-unsupported-major-minor-version/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I ran into this problem when I was building a maven project:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Fatal error during compilation org.apache.tools.ant.BuildException: java.lang.UnsupportedClassVersionError: com/sun/tools/javac/Main : Unsupported major.minor version 51.0 (Use --stacktrace to see the full trace)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Want to know the reason? It&#8217;s because my JAVA_HOME dir has java 7 defined while the output of <code>java -version</code> points to a java 6 installation. So fix this on Ubuntu:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo update-alternatives --config java</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Choose the correct java version and you&#8217;re done!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1307,6 +1306,10 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/">Rails 3 redirect_to with flash :notice does not show up - problem.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/">Couldn&#8217;t find User with id=sign_in Devise on Rails 3</a>
       </li>
     
@@ -1320,10 +1323,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
     
       <li class="post">
         <a href="/blog/2013/05/08/rails-get-specific-attribute-from-model/">Rails: get specific attribute from model</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/">Javascript: push a javascript object in an array only if it&#8217;s not in there already.</a>
       </li>
     
   </ul>
