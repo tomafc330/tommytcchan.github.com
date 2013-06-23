@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-06-22T17:33:03-07:00</updated>
+  <updated>2013-06-23T15:38:33-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Use of select_tag to map associated model in dropdowns.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/"/>
+    <updated>2013-06-23T15:33:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns</id>
+    <content type="html"><![CDATA[<p>Here&#8217;s a way to create a dropdown to save associated model in dropdown.</p>
+
+<p>In _addform.html.erb:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>      &lt;%= select_tag(:organization_id, options_for_select(current_user.organizations.collect { |p| [p.name, p.id] }), {:include_blank =&gt; false}) %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In _editform.html.erb:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;%= select_tag(:organization_id, options_for_select(current_user.organizations.collect { |p| [p.name, p.id] }, :selected =&gt; @advertisement.organization.id), {:include_blank =&gt; false}) %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And in the controller:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@advertisement.organization = Organization.find(params[:organization_id])</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I would like to not have two different _form templates so what I would do is probably extract that logic in the helper so we can just have one tag for both create and edit.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rant post: Shit will not work if you include Angular.js twice]]></title>
@@ -1136,21 +1165,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
 
 <p>All was good afterwards!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails: undefined method... after a migration script change]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/"/>
-    <updated>2013-03-28T21:56:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change</id>
-    <content type="html"><![CDATA[<p>So I updated my model by changing the migration script and then doing <code>rake db:drop</code> and &#8220;`rake db:create&#8220;&#8220; and thought I would be okay. However, when I started my app after I changed the view layer, I got something like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>undefined method `command_name' for #&lt;Shortcut:0x00000003c3b4e8&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What gives? It turned out that I also needed to modify <code>schema.rb</code> to create the initial table. So that is a good place to check out if you find yourself changing the migration data.</p>
 ]]></content>
   </entry>
   

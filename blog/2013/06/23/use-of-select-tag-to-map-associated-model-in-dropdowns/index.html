@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Maven - Tommy Chan's software blog (@tommytcchan)</title>
+  <title>Use of select_tag to map associated model in dropdowns. - Tommy Chan's software blog (@tommytcchan)</title>
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Category: Maven">
+  <meta name="description" content="Here&#8217;s a way to create a dropdown to save associated model in dropdown. In _addform.html.erb: 1 &lt;%= select_tag(:organization_id, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tommytcchan.github.comblog/categories/maven/">
+  <link rel="canonical" href="http://tommytcchan.github.com/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,36 +76,117 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Maven</h1>
+    
+      <h1 class="entry-title">Use of Select_tag to Map Associated Model in Dropdowns.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-23T15:33:00-07:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>Here&#8217;s a way to create a dropdown to save associated model in dropdown.</p>
 
-  
-  <h2>2013</h2>
+<p>In _addform.html.erb:</p>
 
-<article>
-  
-<h1><a href="/blog/2013/04/15/maven-running-mvn-clean-install-gives-unsupported-major-minor-version/">Maven: running mvn clean install gives unsupported major minor version.</a></h1>
-<time datetime="2013-04-15T22:00:00-07:00" pubdate><span class='month'>Apr</span> <span class='day'>15</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/java/'>Java</a>, <a class='category' href='/blog/categories/maven/'>Maven</a>, <a class='category' href='/blog/categories/problems/'>problems</a></span>
-</footer>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>      &lt;%= select_tag(:organization_id, options_for_select(current_user.organizations.collect { |p| [p.name, p.id] }), {:include_blank =&gt; false}) %&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>In _editform.html.erb:</p>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;%= select_tag(:organization_id, options_for_select(current_user.organizations.collect { |p| [p.name, p.id] }, :selected =&gt; @advertisement.organization.id), {:include_blank =&gt; false}) %&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And in the controller:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@advertisement.organization = Organization.find(params[:organization_id])</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I would like to not have two different _form templates so what I would do is probably extract that logic in the helper so we can just have one tag for both create and edit.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Tommy Chan (informotion software)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-23T15:33:00-07:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/select-tag/'>select_tag</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tommytcchan.github.com/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/" data-via="tommytcchan" data-counturl="http://tommytcchan.github.com/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/" title="Previous Post: Rant post: Shit will not work if you include Angular.js twice">&laquo; Rant post: Shit will not work if you include Angular.js twice</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -215,7 +296,10 @@
       var disqus_shortname = 'tommyssoftwareblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tommytcchan.github.com/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/';
+        var disqus_url = 'http://tommytcchan.github.com/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

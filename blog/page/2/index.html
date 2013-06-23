@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I had extended the String class in Rails so I can reuse a lot of the common methods. However I was adding the require ext/string to my controller &hellip;">
+  <meta name="description" content="I&#8217;m working on an angular js app that required the same functionality as the starRating example on KnockoutJS on this page about Creating &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,127 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs/">AngularJS: Implementing the starRating Example in KnockoutJS.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-21T11:03:00-07:00" pubdate data-updated="true">Apr 21<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m working on an angular js app that required the same functionality as the starRating example on KnockoutJS on this <a href="http://learn.knockoutjs.com/#/?tutorial=custombindings">page</a> about Creating custom bindings in the tutorial. Bascially it was tutorial to build a star rating system. Now it was pretty neat to see how knockout does the 2 way binding, but I wanted to implemented in AngularJS to see how it looks like.</p>
+
+<p>So let&#8217;s see how that looks like shall we?</p>
+
+<p>In app.js:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//updates the star rating of the element
+</span><span class='line'>directives.directive('starRating', function() {
+</span><span class='line'>    return {
+</span><span class='line'>        link: function(scope, element) {
+</span><span class='line'>            element.addClass("starRating");
+</span><span class='line'>            element.bind('mouseenter', function() {
+</span><span class='line'>                angular.element(element).addClass('chosen');
+</span><span class='line'>            })
+</span><span class='line'>        }
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>})</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Some clarification here.</p>
+
+<p>In the link variable, we define a function that should be run when we do the link between the attribute and the element.</p>
+
+<p>In our view:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>          &lt;li class="favorite-item"&gt;
+</span><span class='line'>            &lt;img src="/img/question_mark_icon.png"/&gt;
+</span><span class='line'>            &lt;a href="#"&gt;Move Tool&lt;/a&gt;
+</span><span class='line'>            &lt;span star-rating/&gt;
+</span><span class='line'>          &lt;/li&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And our css:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.starRating {
+</span><span class='line'>    width: 24px;
+</span><span class='line'>    height: 24px;
+</span><span class='line'>    background-image: url(/img/stars.png);
+</span><span class='line'>    display: inline-block;
+</span><span class='line'>    cursor: pointer;
+</span><span class='line'>    background-position: -24px 0;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>.starRating.chosen {
+</span><span class='line'>    background-position: 0 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&#8217;s it! You then get something cool like this:</p>
+
+<p>http://screencloud.net/v/3To7</p>
+
+<p>Improvements:
+- We can actually restrict this element to only span (since that was what was used on the KnockoutJS example). You can do that easily with AngularJS&#8230;I&#8217;ll leave that exercise to the reader.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -550,50 +671,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/">Rails: Undefined Method&#8230; After a Migration Script Change</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-28T21:56:00-07:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I updated my model by changing the migration script and then doing <code>rake db:drop</code> and &#8220;`rake db:create&#8220;&#8220; and thought I would be okay. However, when I started my app after I changed the view layer, I got something like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>undefined method `command_name' for #&lt;Shortcut:0x00000003c3b4e8&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What gives? It turned out that I also needed to modify <code>schema.rb</code> to create the initial table. So that is a good place to check out if you find yourself changing the migration data.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -611,6 +688,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">Use of select_tag to map associated model in dropdowns.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant post: Shit will not work if you include Angular.js twice</a>
       </li>
     
@@ -624,10 +705,6 @@
     
       <li class="post">
         <a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/">Rails 3 devise gem: sign out</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/">Use .blank? in rails instead of just evaluating the variable</a>
       </li>
     
   </ul>
