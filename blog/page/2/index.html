@@ -9,8 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I ran into this problem when I was building a maven project: 1
-Fatal error during compilation org.apache.tools.ant.BuildException: java.lang. &hellip;">
+  <meta name="description" content="So I had extended the String class in Rails so I can reuse a lot of the common methods. However I was adding the require ext/string to my controller &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +77,52 @@ Fatal error during compilation org.apache.tools.ant.BuildException: java.lang. &
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb/">Rails: Add in Extension Classes to application.rb.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-20T15:44:00-07:00" pubdate data-updated="true">Apr 20<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I had extended the String class in Rails so I can reuse a lot of the common methods. However I was adding the <code>require ext/string</code> to my controller, and I needed in a few places. Therefore I moved it to application.rb to say DRY. The declaration looked a little odd though (<code>require 'ext/string'</code> didn&#8217;t work&#8230;neither did trying <code>require '/lib/ext/string</code>)</p>
+
+<p>What I had to do at the end was this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require File.expand_path('../../lib', __FILE__) + '/ext/string'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looks kind of odd but it works..</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -549,50 +594,6 @@ Fatal error during compilation org.apache.tools.ant.BuildException: java.lang. &
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/">Android:setting the Default Value of a Setting With a Colon</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-27T20:34:00-07:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference defined in the xml. However, I was getting messages like these:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>java.lang.RuntimeException: Unable to start activity ComponentInfo{com.codetipdaily/com.codetipdaily.Preferences}: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I had no idea why, but I fixed it by setting the <code>android:key</code> to be a different key. I had the same key referenced as a CheckboxPreferences a few hours ago, and that seemed to have done the trick. Weird!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -610,6 +611,10 @@ Fatal error during compilation org.apache.tools.ant.BuildException: java.lang. &
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant post: Shit will not work if you include Angular.js twice</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/">Rails 3 redirect_to with flash :notice does not show up - problem.</a>
       </li>
     
@@ -623,10 +628,6 @@ Fatal error during compilation org.apache.tools.ant.BuildException: java.lang. &
     
       <li class="post">
         <a href="/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/">Use .blank? in rails instead of just evaluating the variable</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/08/rails-get-specific-attribute-from-model/">Rails: get specific attribute from model</a>
       </li>
     
   </ul>

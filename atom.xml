@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-06-20T22:07:57-07:00</updated>
+  <updated>2013-06-22T17:33:03-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rant post: Shit will not work if you include Angular.js twice]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/"/>
+    <updated>2013-06-22T17:28:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice</id>
+    <content type="html"><![CDATA[<p>Alright I&#8217;m going to rant more than blog for this entry. I spent the last hour trying to find out why a library I&#8217;m planning to use (jquery-upload) didn&#8217;t work. I&#8217;ve learn that the asset pipeline is sort of a double edge sword&#8230;if you define something in the application and you define it again in your controller specific template, it will include the js file twice. Why isn&#8217;t Sprockets smarter?! Also, when I include AngularJS twice, subtle things stop working. Why can&#8217;t the AnglarJS guys not include the library if it detected that it&#8217;s already included??! Anyways end of rant. Back to work..</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails 3 redirect_to with flash :notice does not show up - problem.]]></title>
@@ -1142,21 +1151,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
 
 <p>What gives? It turned out that I also needed to modify <code>schema.rb</code> to create the initial table. So that is a good place to check out if you find yourself changing the migration data.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android:setting the default value of a setting with a colon]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/"/>
-    <updated>2013-03-27T20:34:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon</id>
-    <content type="html"><![CDATA[<p>So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference defined in the xml. However, I was getting messages like these:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>java.lang.RuntimeException: Unable to start activity ComponentInfo{com.codetipdaily/com.codetipdaily.Preferences}: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I had no idea why, but I fixed it by setting the <code>android:key</code> to be a different key. I had the same key referenced as a CheckboxPreferences a few hours ago, and that seemed to have done the trick. Weird!</p>
 ]]></content>
   </entry>
   

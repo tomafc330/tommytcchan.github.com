@@ -9,8 +9,14 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;m now configuring SSL with my new httpd server, and for some reason it kept giving me this error when I first started the server: 1
-(98) &hellip;">
+  <meta name="description" content="The problem: So I&#8217;m trying to set margin-top on a div that contains an image: 1
+2
+3
+4
+5
+6
+7
+&lt;div class="affiliate-logo"&gt;&lt;a href="http &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +84,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/28/css-image-not-aligning-quite-right/">CSS: Margin-top Selector Not Working.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-28T14:51:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/28/css-image-not-aligning-quite-right/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>The problem:</h3>
+
+<p>So I&#8217;m trying to set margin-top on a div that contains an image:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="affiliate-logo"&gt;&lt;a href="http://www.gamechannel.de"&gt;&lt;img src="/logo.png"&gt;&lt;/a&gt;&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>.affiliate-logo {
+</span><span class='line'>    margin-top: 15px;
+</span><span class='line'>    text-align: center;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, the margin-top didn&#8217;t work at all for whatever value I put in.</p>
+
+<h3>The solution:</h3>
+
+<p>Turns out that you have to float the div and make that 100% width in order for the margin-top to kick in:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.affiliate-logo {
+</span><span class='line'>    float: left;
+</span><span class='line'>    margin-top: 15px;
+</span><span class='line'>    text-align: center;
+</span><span class='line'>    width: 100%;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -781,44 +864,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/">Octopress: Modify the Default New Post POST Action.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-04T20:16:00-08:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -836,6 +881,10 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant post: Shit will not work if you include Angular.js twice</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/">Rails 3 redirect_to with flash :notice does not show up - problem.</a>
       </li>
     
@@ -849,10 +898,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
     
       <li class="post">
         <a href="/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/">Use .blank? in rails instead of just evaluating the variable</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/05/08/rails-get-specific-attribute-from-model/">Rails: get specific attribute from model</a>
       </li>
     
   </ul>
