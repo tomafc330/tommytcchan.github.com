@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-06-23T15:38:33-07:00</updated>
+  <updated>2013-06-23T18:45:12-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS and X-Editable - Calling .editable after the last element with ng-repeat.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat/"/>
+    <updated>2013-06-23T18:39:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat</id>
+    <content type="html"><![CDATA[<p>I had a pretty complicated scenario that I&#8217;m working on which entails the use of AngularJS and the X-Editable plugin.</p>
+
+<h1>The scenario.</h1>
+
+<p>I have a page where it loads the Assets using ajax, and that collection gets rendered using an ng-repeat. Complicated to the fact is that the fields of the Assets are inline editable, which meant I need to call the <code>$(.editable).editable()</code> after all the elements are rendered (you can&#8217;t do it on <code>document.ready</code> since it&#8217;s loaded via ajax.</p>
+
+<p>Here&#8217;s the visual: http://screencloud.net/v/qbd0</p>
+
+<h1>The solution.</h1>
+
+<p>Here&#8217;s how I fixed it. Basically add a custom directive <code>makeEditable</code> which has this declaration:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>        .directive('makeEditable', function() {
+</span><span class='line'>            return function(scope, element, attrs) {
+</span><span class='line'>                scope.$watch('$last',function(){
+</span><span class='line'>                    $('.editable').editable();
+</span><span class='line'>                });
+</span><span class='line'>            };
+</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and in your view, just do this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>    &lt;div class="span4" data-toggle="modal-gallery" data-target="#modal-gallery" data-ng-repeat="file in queue" make-editable&gt;
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now the input elements should be editable!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Use of select_tag to map associated model in dropdowns.]]></title>
@@ -1142,29 +1191,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
 
 <p>I assumed that when I have the <code>@Mock(domain)</code> annotation, I would get all the available methods to me in the test. However, upon inspecting the methods using <code>instance.metaClass.methods*.name</code>, I realized it was missing some of the methods. Therefore you will need to mock those in your tests.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails: not serving assets on production.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production/"/>
-    <updated>2013-03-29T10:57:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/29/rails-not-serving-assets-on-production</id>
-    <content type="html"><![CDATA[<p>So I changed my environment to be production, and I had issues with serving static content. Since my app was a single page app, I needed this to work (didn&#8217;t want to put nginx or apache in front of it).</p>
-
-<p>The error I was getting was this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ActionController::RoutingError (No route matches [GET] "/"):</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I did this in another project and forgot that I need to set the following parameter in <code>production.rb</code>:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  config.serve_static_assets = true</span></code></pre></td></tr></table></div></figure>
-
-
-<p>All was good afterwards!</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ng-repeat | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/ng-repeat/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-06-23T18:45:12-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS and X-Editable - Calling .editable after the last element with ng-repeat.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat/"/>
+    <updated>2013-06-23T18:39:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat</id>
+    <content type="html"><![CDATA[<p>I had a pretty complicated scenario that I'm working on which entails the use of AngularJS and the X-Editable plugin.</p>
+
+<h1>The scenario.</h1>
+
+<p>I have a page where it loads the Assets using ajax, and that collection gets rendered using an ng-repeat. Complicated to the fact is that the fields of the Assets are inline editable, which meant I need to call the <code>$(.editable).editable()</code> after all the elements are rendered (you can't do it on <code>document.ready</code> since it's loaded via ajax.</p>
+
+<p>Here's the visual: http://screencloud.net/v/qbd0</p>
+
+<h1>The solution.</h1>
+
+<p>Here's how I fixed it. Basically add a custom directive <code>makeEditable</code> which has this declaration:</p>
+
+<p>```
+...</p>
+
+<pre><code>    .directive('makeEditable', function() {
+        return function(scope, element, attrs) {
+            scope.$watch('$last',function(){
+                $('.editable').editable();
+            });
+        };
+    });
+</code></pre>
+
+<p>```</p>
+
+<p>and in your view, just do this:</p>
+
+<p>```
+...</p>
+
+<pre><code>&lt;div class="span4" data-toggle="modal-gallery" data-target="#modal-gallery" data-ng-repeat="file in queue" make-editable&gt;
+</code></pre>
+
+<p>...
+```</p>
+
+<p>Now the input elements should be editable!</p>
+]]></content>
+  </entry>
+  
+</feed>
