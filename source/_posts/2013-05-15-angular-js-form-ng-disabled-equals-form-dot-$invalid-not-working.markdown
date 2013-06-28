@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Angular JS: form ng-disabled="form.$invalid" not working"
+title: "Angular JS - form ng-disabled='form.$invalid' not working"
 date: 2013-05-15 12:58
 comments: true
 categories: [angualrjs,problems]
