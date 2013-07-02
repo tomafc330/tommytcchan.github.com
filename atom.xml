@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-06-23T18:45:12-07:00</updated>
+  <updated>2013-07-01T17:08:47-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: using link_to to include icons.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/07/01/rails-using-link-to-to-include-icons/"/>
+    <updated>2013-07-01T17:04:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/07/01/rails-using-link-to-to-include-icons</id>
+    <content type="html"><![CDATA[<p>So I was trying to make my links look pretty by adding the <code>icon-*</code> classes to the link. However I was using the <code>link_to</code> method and it was not clear reading the docs how to do that. Luckily I figured it out:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to '&lt;i class="icon-remove"&gt;&lt;/i&gt;'.html_safe, message, {:method =&gt; :delete, :class =&gt; 'btn btn-small'}%&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty awesome!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[mvn grails plugin: run test coverage]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/06/24/mvn-grails-plugin-run-test-coverage/"/>
+    <updated>2013-06-24T17:58:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/06/24/mvn-grails-plugin-run-test-coverage</id>
+    <content type="html"><![CDATA[<p>I was stuck on how to pass the <code>-coverage</code> variable into a mavenized grails project. After looking from the inter web I got this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn grails:exec -Dcommand=test-app -Dargs=-coverage</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That did the trick. Thanks Google!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[AngularJS and X-Editable - Calling .editable after the last element with ng-repeat.]]></title>
@@ -177,6 +207,27 @@
 
 
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Angular JS - form ng-disabled='form.$invalid' not working]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-%24invalid-not-working/"/>
+    <updated>2013-05-15T12:58:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-$invalid-not-working</id>
+    <content type="html"><![CDATA[<p>I was writing some validation using Angular JS, and I had something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;button name="update" class="btn btn-primary" data-ng-disabled="form.$invalid"&gt;Edit&lt;/button&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Judging from the code examples I saw, that should just work. However it didn&#8217;t for me, until I realized that the <form>&#8217;s id attribute had to named in order for angular to reference it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;form action="/save" method="post" name="form" id="form" &gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The problem was solved after I added the id attr to the form.</p>
 ]]></content>
   </entry>
   
@@ -1140,57 +1191,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
 
 <p>By having that extra notation it gave me errors. Once I removed it then it worked. Perhaps the Grails folks introduced something in 2.1.4?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails: controller css isn't precompiled]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled/"/>
-    <updated>2013-04-07T22:33:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/07/rails-controller-css-isnt-precompiled</id>
-    <content type="html"><![CDATA[<p>I&#8217;m in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around. By default Rails set the <code>application.css</code> to include <code>//= require_tree .</code>. So naturally I removed it and in my <code>application.html.erb</code> I added the following: <code> &lt;%= stylesheet_link_tag params[:controller] %&gt;</code></p>
-
-<p>All good, right? Wrong! When I started the app in prod mode, I got an error like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>shortcuts.css isn't precompiled</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What&#8217;s going on here? Well upon some searching and reading through the asset pipeline guide, I realized that by default Rails does not compile your css under the stylesheets folder. I had to do this in <code>production.rb</code> to make it work:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  config.assets.precompile += %w( *.css *.js )</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails: escape string for view to use.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/02/rails-escape-string-for-view-to-use/"/>
-    <updated>2013-04-02T20:33:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/02/rails-escape-string-for-view-to-use</id>
-    <content type="html"><![CDATA[<p>I had this issue with a Rails app where the string content has been html encoded. This was not good because I was feeding the information to view layer that contains some javascript. Therefore this was what I needed to do:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@tags = Tag.all_as_str.html_safe</span></code></pre></td></tr></table></div></figure>
-
-
-<p>so the <code>html_safe</code> does the trick here for me.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Grails: groovy.lang.MissingMethodException: No signature of method: ....getPersistentValue()]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue/"/>
-    <updated>2013-04-02T15:42:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue</id>
-    <content type="html"><![CDATA[<p>So I&#8217;m writing a unit test that uses getPersistentValue in one of the controllers, and I ran into the problem where I got this error:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>groovy.lang.MissingMethodException: No signature of method: Domain.getPersistentValue() </span></code></pre></td></tr></table></div></figure>
-
-
-<p>I assumed that when I have the <code>@Mock(domain)</code> annotation, I would get all the available methods to me in the test. However, upon inspecting the methods using <code>instance.metaClass.methods*.name</code>, I realized it was missing some of the methods. Therefore you will need to mock those in your tests.</p>
 ]]></content>
   </entry>
   

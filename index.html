@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I had a pretty complicated scenario that I&#8217;m working on which entails the use of AngularJS and the X-Editable plugin. The scenario. I have a &hellip;">
+  <meta name="description" content="So I was trying to make my links look pretty by adding the icon-* classes to the link. However I was using the link_to method and it was not clear &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,94 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: Using Link_to to Include Icons.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-01T17:04:00-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was trying to make my links look pretty by adding the <code>icon-*</code> classes to the link. However I was using the <code>link_to</code> method and it was not clear reading the docs how to do that. Luckily I figured it out:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to '&lt;i class="icon-remove"&gt;&lt;/i&gt;'.html_safe, message, {:method =&gt; :delete, :class =&gt; 'btn btn-small'}%&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty awesome!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/24/mvn-grails-plugin-run-test-coverage/">Mvn Grails Plugin: Run Test Coverage</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-24T17:58:00-07:00" pubdate data-updated="true">Jun 24<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/06/24/mvn-grails-plugin-run-test-coverage/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was stuck on how to pass the <code>-coverage</code> variable into a mavenized grails project. After looking from the inter web I got this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn grails:exec -Dcommand=test-app -Dargs=-coverage</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That did the trick. Thanks Google!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -453,7 +541,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/05/08/rails-get-specific-attribute-from-model/">Rails: Get Specific Attribute From Model</a></h1>
+      <h1 class="entry-title"><a href="/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-%24invalid-not-working/">Angular JS - Form Ng-disabled=&#8217;form.$invalid&#8217; Not Working</a></h1>
     
     
       <p class="meta">
@@ -469,126 +557,28 @@
   
 
 
-<time datetime="2013-05-08T20:49:00-07:00" pubdate data-updated="true">May 8<span>th</span>, 2013</time>
+<time datetime="2013-05-15T12:58:00-07:00" pubdate data-updated="true">May 15<span>th</span>, 2013</time>
         
-         | <a href="/blog/2013/05/08/rails-get-specific-attribute-from-model/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was working getting just the ids from a list of models, and in Rails 3 you can actually use the <code>pluck</code> method for that!</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>shortcuts = Shortcut.where(:software_id =&gt; params[:software_id]).pluck(:id)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This returns:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[58, 59, 60 ...]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>awesome!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/">Javascript: Push a Javascript Object in an Array Only if It&#8217;s Not in There Already.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-02T20:38:00-07:00" pubdate data-updated="true">May 2<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/#disqus_thread">Comments</a>
+         | <a href="/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-%24invalid-not-working/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>I just learned about the $.grep method today and it seem pretty cool. I had an array that I want to push objects to. However because the <code>Array.push</code> method doesn&#8217;t care if an item is in the Array or not, I had to figure out how not to push the same object in. This is what I came up with:</p>
+  <div class="entry-content"><p>I was writing some validation using Angular JS, and I had something like this:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>            if (jQuery.grep($scope.recents,function (elem) {return elem.id == shortcut.id}).length == 0) {
-</span><span class='line'>                $scope.recents.push(shortcut);
-</span><span class='line'>            }</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;button name="update" class="btn btn-primary" data-ng-disabled="form.$invalid"&gt;Edit&lt;/button&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Using the <code>$.grep</code> method, I was able to iterate through easily. One can argue I could&#8217;ve used the underscore library but I had jQuery only at this point so why not use this one liner instead?</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception/">Grails: Upgrading to 2.1.4 Gives BeanDefinitionStoreException.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-24T15:02:00-07:00" pubdate data-updated="true">Apr 24<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was upgrading my Grails installation to 2.1.4 (from 2.0.0) and one of the issues I came across was this error message when I tried to run the tests:</p>
+<p>Judging from the code examples I saw, that should just work. However it didn&#8217;t for me, until I realized that the <form>&#8217;s id attribute had to named in order for angular to reference it:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Caused by: org.springframework.beans.factory.BeanDefinitionStoreException: Invalid bean definition with name 'hibernateDatastore' defined in null: Could not resolve placeholder 'lang' </span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;form action="/save" method="post" name="form" id="form" &gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Turns out that there is a problem with the evaluation of String in <code>Config.groovy</code></p>
-
-<p>The solution is to cast the values to <code>GStrings</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> myConf = "google.ca/${lang}/" as GString</span></code></pre></td></tr></table></div></figure>
-
+<p>The problem was solved after I added the id attr to the form.</p>
 </div>
   
   
@@ -611,6 +601,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: using link_to to include icons.</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/24/mvn-grails-plugin-run-test-coverage/">mvn grails plugin: run test coverage</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat/">AngularJS and X-Editable - Calling .editable after the last element with ng-repeat.</a>
       </li>
     
@@ -620,14 +618,6 @@
     
       <li class="post">
         <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant post: Shit will not work if you include Angular.js twice</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/">Rails 3 redirect_to with flash :notice does not show up - problem.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/">Couldn&#8217;t find User with id=sign_in Devise on Rails 3</a>
       </li>
     
   </ul>

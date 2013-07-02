@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: link_to | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/link-to/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-07-01T17:08:47-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: using link_to to include icons.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/07/01/rails-using-link-to-to-include-icons/"/>
+    <updated>2013-07-01T17:04:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/07/01/rails-using-link-to-to-include-icons</id>
+    <content type="html"><![CDATA[<p>So I was trying to make my links look pretty by adding the <code>icon-*</code> classes to the link. However I was using the <code>link_to</code> method and it was not clear reading the docs how to do that. Luckily I figured it out:</p>
+
+<p><code>
+&lt;%= link_to '&lt;i class="icon-remove"&gt;&lt;/i&gt;'.html_safe, message, {:method =&gt; :delete, :class =&gt; 'btn btn-small'}%&gt;
+</code></p>
+
+<p>Pretty awesome!</p>
+]]></content>
+  </entry>
+  
+</feed>
