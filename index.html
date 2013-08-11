@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;ve started foraying out of the standard MiniTest framework and into rspec, since I&#8217;ve been writing a lot more Jasmine unit tests lately &hellip;">
+  <meta name="description" content="Okay so I ran into another problem. Just when I thought I got it figured out with the sign_in helper provided from the page in the previous post, a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,72 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/">RSpec and Devise: Not Hitting Controller Action.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T12:26:00-07:00" pubdate data-updated="true">Aug 11<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Okay so I ran into another problem. Just when I thought I got it figured out with the <code>sign_in</code> helper provided from the page in the previous post, a gaint boulder fell right in front of me. For whatever reason, the test method will not call into my controller method under test.</p>
+
+<p>This is what I had originally:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>before (:each) do
+</span><span class='line'>  sign_in users(:organizer)
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe "GET new with no bid id" do
+</span><span class='line'>  it "returns not found" do
+</span><span class='line'>      get :new, {}, valid_session
+</span><span class='line'>      flash[:error].should equal('error')
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty straight forward one would persume right? Wrong!</p>
+
+<p>Upon more digging around, I realized that Devise&#8217;s helpers are overridding the session variables, and so if we do <code>get :new, {}, valid_session</code>, the valid_session will override what was put into the session, causing issues with &#8216;signing in&#8217;. Therefore the solution is to remove that. If you still need to populate a session, click <a href="http://stackoverflow.com/a/9658682/151899">here</a> for a workaround.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -520,66 +586,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/">Use .blank? In Rails Instead of Just Evaluating the Variable</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-08T20:29:00-07:00" pubdate data-updated="true">Jun 8<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve been working a lot in Rails on my spare time right now, and one of the things that I find myself often doing is testing for either an empty string, or empty array, or null.</p>
-
-<p>Groovy actually does this test if you evaluate the variable, such as <code>if (params)</code> and it will does that check for you. However, by default, ruby does not have that mechanism, but luckily the Rails people created the <code>blank?</code> method for us to use.</p>
-
-<p>As stated from the website:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>An object is blank if it’s false, empty, or a whitespace string. For example, “”, “ ”, nil, [], and {} are all blank.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is exactly what I need most of time. So instead of</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (shortcut.pc_shortcut != '') ... end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>one can do:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (!shortcut.pc_shortcut.blank?) .... end</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -595,6 +601,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/">RSpec and Devise: not hitting controller action.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass</a>
       </li>
     
@@ -608,10 +618,6 @@
     
       <li class="post">
         <a href="/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat/">AngularJS and X-Editable - Calling .editable after the last element with ng-repeat.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">Use of select_tag to map associated model in dropdowns.</a>
       </li>
     
   </ul>
