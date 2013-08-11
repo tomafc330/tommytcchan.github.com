@@ -279,12 +279,18 @@
         <lastmod>2013-07-01T17:07:26-07:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/
+        </loc>
+        <lastmod>2013-08-11T11:48:55-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-07-01T17:08:33-07:00</lastmod>
+        <lastmod>2013-08-11T11:48:55-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-07-01T17:08:33-07:00</lastmod>
+        <lastmod>2013-08-11T11:48:55-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>

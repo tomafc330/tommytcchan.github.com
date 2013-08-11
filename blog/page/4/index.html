@@ -9,7 +9,14 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;m doing some testing on the filter recently, and I of the things I notice right away was that the previous committer had initializers all &hellip;">
+  <meta name="description" content="So I was working on setting a cookie for one of the sites, and what I had done was something like this initially: 1
+2
+3
+4
+5
+6
+7
+8 Cookie cookie = new &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +84,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/">Set Cookie With Domain of Localhost Will Not Work for Chrome/chromium Browswer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-18T12:09:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was working on setting a cookie for one of the sites, and what I had done was something like this initially:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>     Cookie cookie = new Cookie(
+</span><span class='line'>              key,
+</span><span class='line'>              value);
+</span><span class='line'>      cookie.setMaxAge(7);
+</span><span class='line'>      cookie.setPath("/");
+</span><span class='line'>      cookie.setDomain(serverDomain);
+</span><span class='line'>      
+</span><span class='line'>      response.addCookie(cookie);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Everything was working on localhost in Firefox and Opera. However, when I looked at the inspector for Chrome, it wasn&#8217;t working! I then tried to use 127.0.0.1 instead of localhost. That worked. So I read up some more about it and apparently if you tried to set the domain to localhost on a cookie, Chrome will reject it! so the fix was to removed the <code>cookie.setDomain(serverDomain);</code> line and everything was great again.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -863,50 +928,6 @@ Also note that you can add the www-data user to the group that has the permissio
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/">Rails: Production Environment Is Missing application.js and application.css</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-23T16:03:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>The problem</h3>
-
-<p>So I&#8217;m working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, the application resources pointed to application.js and application.css even though my template was not change (ie. <code> &lt;%= stylesheet_link_tag    "application", :media =&gt; "all" %&gt;</code> and <code> &lt;%= javascript_include_tag "application" %&gt;</code>. That led to me believe something was wrong. In addition, when I ran <code>rake assets:precompile</code>, nothing was generated to the <code>public/assets</code> folder.</p>
-
-<h3>What was wrong</h3>
-
-<p>I checked my application.rb, and the <code>config.assets.enabled</code> was set to <code>true</code>. Then I realized that when I first created the app, I turned off that setting in <code>production.rb</code>. Simply turning it back on allowed the compilation of assets and leading rails to resolve to the right path (and not application.js/css).</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -924,6 +945,10 @@ Also note that you can add the www-data user to the group that has the permissio
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: using link_to to include icons.</a>
       </li>
     
@@ -937,10 +962,6 @@ Also note that you can add the www-data user to the group that has the permissio
     
       <li class="post">
         <a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">Use of select_tag to map associated model in dropdowns.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant post: Shit will not work if you include Angular.js twice</a>
       </li>
     
   </ul>

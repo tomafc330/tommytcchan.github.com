@@ -9,8 +9,8 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I was working getting just the ids from a list of models, and in Rails 3 you can actually use the pluck method for that! 1
-shortcuts = Shortcut.where &hellip;">
+  <meta name="description" content="I was writing some validation using Angular JS, and I had something like this: 1
+&lt;button name="update" class="btn btn-primary" data-ng-disabled=" &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,56 @@ shortcuts = Shortcut.where &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-%24invalid-not-working/">Angular JS - Form Ng-disabled=&#8217;form.$invalid&#8217; Not Working</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-15T12:58:00-07:00" pubdate data-updated="true">May 15<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-%24invalid-not-working/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was writing some validation using Angular JS, and I had something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;button name="update" class="btn btn-primary" data-ng-disabled="form.$invalid"&gt;Edit&lt;/button&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Judging from the code examples I saw, that should just work. However it didn&#8217;t for me, until I realized that the <form>&#8217;s id attribute had to named in order for angular to reference it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;form action="/save" method="post" name="form" id="form" &gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The problem was solved after I added the id attr to the form.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1276,62 +1326,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/">Grails: At org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-12T15:10:00-07:00" pubdate data-updated="true">Apr 12<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NullPointerException
-</span><span class='line'>at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I was like what&#8217;s going on here? There isn&#8217;t really any indications, so I had to use <code>git bisect</code> to see when I introduced the problem. Turns out (I don&#8217;t have an explaination for this) that one of my tablib closures had an extra <code>-&gt;</code>:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def initFacebokShareBtn = { -&gt; //note this
-</span><span class='line'>  ...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>By having that extra notation it gave me errors. Once I removed it then it worked. Perhaps the Grails folks introduced something in 2.1.4?</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1349,6 +1343,10 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: using link_to to include icons.</a>
       </li>
     
@@ -1362,10 +1360,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
     
       <li class="post">
         <a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">Use of select_tag to map associated model in dropdowns.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant post: Shit will not work if you include Angular.js twice</a>
       </li>
     
   </ul>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rspec | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/rspec/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-08-11T11:49:02-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/"/>
+    <updated>2013-08-11T11:45:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass</id>
+    <content type="html"><![CDATA[<p>I've started foraying out of the standard MiniTest framework and into rspec, since I've been writing a lot more Jasmine unit tests lately. One of the very first things I got (unfortunately) was this:</p>
+
+<p><code>
+NoMethodError: undefined method `authenticate!' for nil:NilClass
+</code></p>
+
+<p>Luckily, the devise docs tells you exactly what's wrong on their docs <a href="https://github.com/plataformatec/devise#test-helpers">page</a> regarding test helpers. So if you are seeing the same issue, consult their docs!</p>
+]]></content>
+  </entry>
+  
+</feed>

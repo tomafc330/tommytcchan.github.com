@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was trying to make my links look pretty by adding the icon-* classes to the link. However I was using the link_to method and it was not clear &hellip;">
+  <meta name="description" content="I&#8217;ve started foraying out of the standard MiniTest framework and into rspec, since I&#8217;ve been writing a lot more Jasmine unit tests lately &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails Unit Test: NoMethodError: Undefined Method Authenticate for nil:NilClass</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T11:45:00-07:00" pubdate data-updated="true">Aug 11<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve started foraying out of the standard MiniTest framework and into rspec, since I&#8217;ve been writing a lot more Jasmine unit tests lately. One of the very first things I got (unfortunately) was this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError: undefined method `authenticate!' for nil:NilClass</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Luckily, the devise docs tells you exactly what&#8217;s wrong on their docs <a href="https://github.com/plataformatec/devise#test-helpers">page</a> regarding test helpers. So if you are seeing the same issue, consult their docs!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -536,56 +580,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-%24invalid-not-working/">Angular JS - Form Ng-disabled=&#8217;form.$invalid&#8217; Not Working</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-15T12:58:00-07:00" pubdate data-updated="true">May 15<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-%24invalid-not-working/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was writing some validation using Angular JS, and I had something like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;button name="update" class="btn btn-primary" data-ng-disabled="form.$invalid"&gt;Edit&lt;/button&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Judging from the code examples I saw, that should just work. However it didn&#8217;t for me, until I realized that the <form>&#8217;s id attribute had to named in order for angular to reference it:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;form action="/save" method="post" name="form" id="form" &gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The problem was solved after I added the id attr to the form.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -601,6 +595,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: using link_to to include icons.</a>
       </li>
     
@@ -614,10 +612,6 @@
     
       <li class="post">
         <a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">Use of select_tag to map associated model in dropdowns.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant post: Shit will not work if you include Angular.js twice</a>
       </li>
     
   </ul>

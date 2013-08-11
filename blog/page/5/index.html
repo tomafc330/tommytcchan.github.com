@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;m working on a project that relies on a custom plugin, and it was listed as a dependency. However, I wanted it to reference a relative &hellip;">
+  <meta name="description" content="The problem So I&#8217;m working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/">Rails: Production Environment Is Missing application.js and application.css</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T16:03:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>The problem</h3>
+
+<p>So I&#8217;m working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, the application resources pointed to application.js and application.css even though my template was not change (ie. <code> &lt;%= stylesheet_link_tag    "application", :media =&gt; "all" %&gt;</code> and <code> &lt;%= javascript_include_tag "application" %&gt;</code>. That led to me believe something was wrong. In addition, when I ran <code>rake assets:precompile</code>, nothing was generated to the <code>public/assets</code> folder.</p>
+
+<h3>What was wrong</h3>
+
+<p>I checked my application.rb, and the <code>config.assets.enabled</code> was set to <code>true</code>. Then I realized that when I first created the app, I turned off that setting in <code>production.rb</code>. Simply turning it back on allowed the compilation of assets and leading rails to resolve to the right path (and not application.js/css).</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -560,6 +604,10 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: using link_to to include icons.</a>
       </li>
     
@@ -573,10 +621,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
     
       <li class="post">
         <a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">Use of select_tag to map associated model in dropdowns.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant post: Shit will not work if you include Angular.js twice</a>
       </li>
     
   </ul>

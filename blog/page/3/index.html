@@ -9,7 +9,10 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;m in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around &hellip;">
+  <meta name="description" content="So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4: 1
+2
+NullPointerException
+at org.apache.tools.ant.UnknownElement.execute( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +80,62 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/">Grails: At org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T15:10:00-07:00" pubdate data-updated="true">Apr 12<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NullPointerException
+</span><span class='line'>at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I was like what&#8217;s going on here? There isn&#8217;t really any indications, so I had to use <code>git bisect</code> to see when I introduced the problem. Turns out (I don&#8217;t have an explaination for this) that one of my tablib closures had an extra <code>-&gt;</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def initFacebokShareBtn = { -&gt; //note this
+</span><span class='line'>  ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By having that extra notation it gave me errors. Once I removed it then it worked. Perhaps the Grails folks introduced something in 2.1.4?</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -532,64 +591,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/">Set Cookie With Domain of Localhost Will Not Work for Chrome/chromium Browswer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-18T12:09:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was working on setting a cookie for one of the sites, and what I had done was something like this initially:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>     Cookie cookie = new Cookie(
-</span><span class='line'>              key,
-</span><span class='line'>              value);
-</span><span class='line'>      cookie.setMaxAge(7);
-</span><span class='line'>      cookie.setPath("/");
-</span><span class='line'>      cookie.setDomain(serverDomain);
-</span><span class='line'>      
-</span><span class='line'>      response.addCookie(cookie);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Everything was working on localhost in Firefox and Opera. However, when I looked at the inspector for Chrome, it wasn&#8217;t working! I then tried to use 127.0.0.1 instead of localhost. That worked. So I read up some more about it and apparently if you tried to set the domain to localhost on a cookie, Chrome will reject it! so the fix was to removed the <code>cookie.setDomain(serverDomain);</code> line and everything was great again.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -607,6 +608,10 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: using link_to to include icons.</a>
       </li>
     
@@ -620,10 +625,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
     
       <li class="post">
         <a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">Use of select_tag to map associated model in dropdowns.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant post: Shit will not work if you include Angular.js twice</a>
       </li>
     
   </ul>
