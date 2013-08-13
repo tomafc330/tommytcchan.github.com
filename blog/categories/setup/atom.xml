@@ -4,7 +4,7 @@
   <title><![CDATA[Category: setup | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/setup/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-08-11T12:31:08-07:00</updated>
+  <updated>2013-08-12T21:30:23-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,94 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Passenger]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/08/12/passenger/"/>
+    <updated>2013-08-12T12:52:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/08/12/passenger</id>
+    <content type="html"><![CDATA[<p>I'm setting up our beta site for <a href="http://venuespot.co">venuespot</a>, and one of the golden rules is that everything should be as close to the production site as possible.</p>
+
+<p>Here are the instructions for how to use passenger with nginx and rails (3.2.11) on Ubuntu 12.10. I did read the docs but I found that it was missing a few things, so hopefully this tutorial will address your problems. See the section on Troubleshooting for more solutions to the problems I encountered.</p>
+
+<h1>Introduction</h1>
+
+<p>First, you will want to install passenger:
+<code>
+gem install passenger
+</code>
+(Optional). Then, you would want to get the latest rvm:
+<code>
+rvm get latest
+rvm reload
+</code></p>
+
+<p>Now install nginx with the passenger mod:
+<code>
+rvmsudo passenger-install-nginx-module
+(If the above fails, then you will need to update your rvm.)
+</code>
+Now get the libcurl (or whatever it tells you) library.
+<code>
+apt-get install libcurl4-openssl-dev
+</code></p>
+
+<p>Okay, we're at the halfway point. Next we should edit the nginx config file at <code>/opt/nginx/conf/nginx.conf</code>. Remove the original <code>server</code> block and add the following</p>
+
+<p>```
+server {</p>
+
+<pre><code>listen 80;
+server_name localhost;
+root /yourwebapp/public; # &lt;--- be sure to point to 'public'!
+passenger_enabled on;
+</code></pre>
+
+<p>}</p>
+
+<p>passenger_pre_start http://localhost/;</p>
+
+<p>```</p>
+
+<p>Next, we need to make sure the nginx process can have 777 access to config.ru and make sure all the way up the path we have 777 as well.</p>
+
+<p><code>
+chmod 777 /yourwebapp
+chmod 777 config.ru
+</code></p>
+
+<p>Now create the nginx init script:</p>
+
+<p><code>
+wget -O init-deb.sh http://library.linode.com/assets/1139-init-deb.sh
+mv init-deb.sh /etc/init.d/nginx
+chmod +x /etc/init.d/nginx
+/usr/sbin/update-rc.d -f nginx defaults
+</code></p>
+
+<p>Now start the server:
+<code>
+/etc/init.d/nginx start
+</code></p>
+
+<p>There you have it folks! Navigate to localhost and you should see your site!</p>
+
+<h1>Troubleshooting</h1>
+
+<p>In the event that you don't see anything, you should check your logs in <code>/opt/nginx/logs</code> to ensure everything was done correctly.</p>
+
+<p>For example, you might see this: <code>Error page:
+Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</code></p>
+
+<p>This means your gems have not been installed. Do a bundle install in your rails dir</p>
+
+<p>Or, you might see somethign like this: <code>terminate called after throwing an instance of 'Passenger::FileSystemException'
+  what():  Cannot stat '/yourwebapp/config.ru': Permission denied (errno=13)
+</code></p>
+
+<p>This means you need to set your permissions correctly for the whole path (see above).</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Example: How to set up debugging with Karma (formerly Testacular) and Webstorm]]></title>
@@ -118,21 +206,6 @@ popd
 ```</p>
 
 <p>That was a piece of cake!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails: production environment is missing application.js and application.css]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/"/>
-    <updated>2013-02-23T16:03:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css</id>
-    <content type="html"><![CDATA[<h3>The problem</h3>
-
-<p>So I'm working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, the application resources pointed to application.js and application.css even though my template was not change (ie. <code> &lt;%= stylesheet_link_tag    "application", :media =&gt; "all" %&gt;</code> and <code> &lt;%= javascript_include_tag "application" %&gt;</code>. That led to me believe something was wrong. In addition, when I ran <code>rake assets:precompile</code>, nothing was generated to the <code>public/assets</code> folder.</p>
-
-<h3>What was wrong</h3>
-
-<p>I checked my application.rb, and the <code>config.assets.enabled</code> was set to <code>true</code>. Then I realized that when I first created the app, I turned off that setting in <code>production.rb</code>. Simply turning it back on allowed the compilation of assets and leading rails to resolve to the right path (and not application.js/css).</p>
 ]]></content>
   </entry>
   

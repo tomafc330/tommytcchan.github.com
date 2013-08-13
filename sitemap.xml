@@ -291,12 +291,22 @@
         <lastmod>2013-08-11T12:31:01-07:00</lastmod>
     </url>
     <url>
+        <loc>http://tommytcchan.github.com/blog/2013/08/12/passenger/</loc>
+        <lastmod>2013-08-12T13:21:40-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance/
+        </loc>
+        <lastmod>2013-08-12T13:28:57-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-08-11T12:31:01-07:00</lastmod>
+        <lastmod>2013-08-12T13:28:57-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-08-11T12:31:01-07:00</lastmod>
+        <lastmod>2013-08-12T13:28:57-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>
