@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: factory | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/factory/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-09-16T18:29:45-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS: problem with factory/service methods not returning singletons!]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/07/18/angularjs-problem-with-factory-slash-service-methods-not-returning-singletons/"/>
+    <updated>2013-07-18T18:31:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/07/18/angularjs-problem-with-factory-slash-service-methods-not-returning-singletons</id>
+    <content type="html"><![CDATA[<p>I was looking at an issue today where for the life of me I could not figure out why my controllers are being returned different instances. I even went as far as creating a <a href="http://plnkr.co/edit/QLK8zX827c9SI3lSWXXj">plunkr</a> to proof that I was not insane!</p>
+
+<p>I went back to the drawing board and looked at the code. How could they possibly be different? And then I saw it... I had something like this:</p>
+
+<p>```</p>
+
+<pre><code>                    angular.bootstrap(document.getElementById("content"), ["app.services"]);
+</code></pre>
+
+<p>```
+Upon reading the angular docs a little bit more, I realized that by calling multiple initializations, we actually create new instances of services/factories, so they are actually not singletons anymore.</p>
+]]></content>
+  </entry>
+  
+</feed>

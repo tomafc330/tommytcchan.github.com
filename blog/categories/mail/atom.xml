@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mail | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/mail/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-09-16T18:29:45-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Set up SMTP to send mail on Postfix on Ubuntu 12.10]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/"/>
+    <updated>2013-08-30T13:52:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10</id>
+    <content type="html"><![CDATA[<p>I needed something quick to send emails for internal use. Basically it's just a follow on <a href="https://help.ubuntu.com/community/Postfix">this</a> page. However, I needed to expose the email to the different clients on our internal network. There following two extra steps were needed:</p>
+
+<p>1.) In your mail config, remove this line:</p>
+
+<p><code>smtpd_use_tls = no</code></p>
+
+<p>2.) In the same config, update this line:</p>
+
+<p><code>mynetworks = 127.0.0.0/8 10.0.0.0/8</code></p>
+
+<p>This tells that the smtp should be allowed on the network.</p>
+]]></content>
+  </entry>
+  
+</feed>

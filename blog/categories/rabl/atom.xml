@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rabl | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/rabl/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-09-16T18:29:45-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[wrong number of arguments (1 for 0)]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/09/16/wrong-number-of-arguments-1-for-0/"/>
+    <updated>2013-09-16T18:22:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/09/16/wrong-number-of-arguments-1-for-0</id>
+    <content type="html"><![CDATA[<p>So I've started getting the following error message when I started a json service that reads a model which is fog enabled (with s3):
+<code>
+wrong number of arguments (1 for 0) at messages.json.rabl where line #1 raised:
+</code>
+I wasn't getting this before, so what gives?</p>
+
+<h1>Solution:</h1>
+
+<p>It turned out that I was doing this to get the asset path:</p>
+
+<p><code>
+model.asset
+</code></p>
+
+<p>However, that only returns the AssetUploader instance, so when it tried to render it, it gave me the error. If you want just the path to s3, you will need the <code>to_s</code> appended to the end.</p>
+]]></content>
+  </entry>
+  
+</feed>

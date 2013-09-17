@@ -280,6 +280,12 @@
     </url>
     <url>
         <loc>
+            http://tommytcchan.github.com/blog/2013/07/18/angularjs-problem-with-factory-slash-service-methods-not-returning-singletons/
+        </loc>
+        <lastmod>2013-09-16T18:29:07-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
             http://tommytcchan.github.com/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/
         </loc>
         <lastmod>2013-08-11T11:48:55-07:00</lastmod>
@@ -301,12 +307,24 @@
         <lastmod>2013-08-12T13:28:57-07:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/
+        </loc>
+        <lastmod>2013-09-16T18:29:07-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/09/16/wrong-number-of-arguments-1-for-0/
+        </loc>
+        <lastmod>2013-09-16T18:26:44-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-08-12T13:28:57-07:00</lastmod>
+        <lastmod>2013-09-16T18:29:07-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-08-12T13:28:57-07:00</lastmod>
+        <lastmod>2013-09-16T18:29:07-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>
