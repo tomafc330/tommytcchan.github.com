@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rails3 | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/rails3/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-10-05T14:31:52-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 3: joins and not ins]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/10/05/rails-3-joins-and-not-ins/"/>
+    <updated>2013-10-05T14:26:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/10/05/rails-3-joins-and-not-ins</id>
+    <content type="html"><![CDATA[<p>So I needed to write a complexish query for one of the queries for (VenueSpot.co)|[http://www.venuespot.co]. As we are only running a small instance on aws, I didn't to waste time by traversing through my related models using <code>each</code>. I wanted to write a couple of more optimizing queries using the <code>joins</code> keyword and the NOT IN mechanism. At the end it looked like this:</p>
+
+<p><code>
+@events = Event.joins(:event_durations).where("events.state = ? and is_published = ? and event_durations.start_date &gt; ? and events.id NOT IN (?)", 'active', true, DateTime.now, @previous_venue_bid_ids).group('events.id')
+</code></p>
+
+<p>One thing that tripped me up was that initially my <code>@previous_venue_bid_ids</code> was a string that had all the ids, but the api actually takes in an array of the ids, so just be really sure what you are passing is correct!</p>
+]]></content>
+  </entry>
+  
+</feed>
