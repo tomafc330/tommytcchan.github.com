@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rake | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/rake/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-10-21T19:18:08-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: Add a custom migrate script for running migrations in another location.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/"/>
+    <updated>2013-10-21T19:14:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location</id>
+    <content type="html"><![CDATA[<p>I am currently in the process of refactoring some code in a Rails project for a client, and one of the things that I wanted to do was to separate the database migration scripts that are from the base frameworks (Discourse was used as the base) and the ones I will be adding. This will give a good historical view of all the custom migrations so we don't have to go through each one. But in order to do that I had to write my own custom rake task to rake the rake tasks:</p>
+
+<p>```
+namespace :db do</p>
+
+<pre><code>desc "Migrate the database by going through the standard migrate folder first, then the custom 1017 folder (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
+task :custom_migrate =&gt; [:environment, :load_config] do
+    ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+    ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migrations_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+        ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+    end
+    ActiveRecord::Migrator.migrate('db/migrate/1017', ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+        ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+    end
+
+    Rake::Task['db:_dump'].invoke
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<p>Notice the last line where it delegates out to the <code>db:_dump</code> task. This is important as it writes out the schema as the end step.</p>
+]]></content>
+  </entry>
+  
+</feed>
