@@ -9,7 +9,7 @@ I needed something quick to send emails for internal use. Basically it's just a 
 
 1.) In your mail config, remove this line:
 
-``` smtpd_use_tls = no ```
+smtpd_use_tls=no
 
 2.) In the same config, update this line:
 
