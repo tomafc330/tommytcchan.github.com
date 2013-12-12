@@ -3,7 +3,7 @@ layout: post
 title: "Jasmine Spies on a 2nd level object"
 date: 2013-12-03 16:03
 comments: true
-categories: [[jasmine, angularjs]]
+categories: [jasmine, angularjs]
 ---
 I've been trying to mock a 2 level object that looks like this:
 
