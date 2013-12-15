@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-08-12T21:30:23-07:00</updated>
+  <updated>2013-12-15T01:11:37-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,243 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Secret Ingredient to a co-founder's success - Love]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/"/>
+    <updated>2013-12-15T01:09:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been writing a lot of technical stuff previously and it has come to my attention that sooner or later I will have to write about the high level stuff. So let&#8217;s talk about one of the things that is dear and close to me - my significant other. I&#8217;ll have to admit, I joke with ex-coworkers about how much she needs me, but deep down inside she is my rock and without her I would probably have lost focus by now. I have a letter that is addressed to her that I&#8217;d like to share.</p>
+
+<blockquote><p>To my hunny,</p>
+
+<p>I&#8217;m writing to you on my first day of unemployment. Do you remember the last time I was unemployed? I did&#8230;you had to carry our butts for 2 years until I was done school. Fast forward 7 years and here we are all over again&#8230;only this time the stakes are higher.</p>
+
+<p>I feel like this is such a turning point in our lives and I really want to express how thankful I am to have you by my side through thick and thin. You are my everything and I can&#8217;t imagine not having you with me on this journey.</p>
+
+<p>I know the next few months/years will not be easy so I apologize in advance right now for all the hardships that will be coming up. I apologize for those late working nights where I won&#8217;t be able to spend alone time with you. I apologize for all nights that we&#8217;re apart together because I&#8217;m travelling for business. I apologize for all the stupid things I&#8217;ll say after a long day at work. I apologize for boring you with all my talk about how using Puma is better than Unicorn for our Rails server implementation. And last but not least I apologize in advance for making all the sacrifices that you make in order for me to chase my dreams. Please still cook for me during those times.</p>
+
+<p>Now I know there will be some rainy days up ahead but I&#8217;ll hold you tight under my umbrella and we&#8217;ll laugh it off. There will also be those freezing days but in those times I&#8217;ll hold you tighter and we&#8217;ll laugh even harder. I want you to know that whatever the weather is, the sun is always above. In those stormy days I want you to remember those sunny tunes and let these great memories carry us through. Please try to be patient with me and still laugh at my corny jokes. There will also be times where the business doesn&#8217;t go the way we planned and I promise not to let that jeopardize the special relationship that we have. I love you with all my heart and soul and I am so grateful that you are mine. Life is a journey and although sometimes there are obstacles along the way, we will look back and realize that sometimes it&#8217;s not important where we end up, but how we got there.</p>
+
+<p>Love,</p>
+
+<p>Tommy</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Jasmine Spies on a 2nd level object]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/"/>
+    <updated>2013-12-03T16:03:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been trying to mock a 2 level object that looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    mockSoundService = {
+</span><span class='line'>        getSound: function () {
+</span><span class='line'>            return {
+</span><span class='line'>                volume: function () {
+</span><span class='line'>                }
+</span><span class='line'>            };
+</span><span class='line'>        }
+</span><span class='line'>    };</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Naturally, I thought it would work with something like this in my test:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    spyOn(mockSoundService.getSound(), 'volume');
+</span><span class='line'>    service.closeIntroVideo();
+</span><span class='line'>
+</span><span class='line'>    expect(service.getPlayer()).toBeNull();
+</span><span class='line'>    expect(mockSoundService.getSound().volume).toHaveBeenCalled();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, I kept getting errors like these:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Expected a spy, but got undefined.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It turns out that you need to break apart the 2nd level object that was nested. Therefore the final product should look something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    mockSound = {
+</span><span class='line'>        volume: function () {
+</span><span class='line'>        }
+</span><span class='line'>    };
+</span><span class='line'>
+</span><span class='line'>    mockSoundService = {
+</span><span class='line'>        getSound: function () {
+</span><span class='line'>            return mockSound;
+</span><span class='line'>        }
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and now in your mocks you can do something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    spyOn(mockSound, 'volume');
+</span><span class='line'>    spyOn(mockState, 'go');
+</span><span class='line'>    service.closeIntroVideo();</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails: Add a custom migrate script for running migrations in another location.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/"/>
+    <updated>2013-10-21T19:14:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location</id>
+    <content type="html"><![CDATA[<p>I am currently in the process of refactoring some code in a Rails project for a client, and one of the things that I wanted to do was to separate the database migration scripts that are from the base frameworks (Discourse was used as the base) and the ones I will be adding. This will give a good historical view of all the custom migrations so we don&#8217;t have to go through each one. But in order to do that I had to write my own custom rake task to rake the rake tasks:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>namespace :db do
+</span><span class='line'>    desc "Migrate the database by going through the standard migrate folder first, then the custom 1017 folder (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
+</span><span class='line'>    task :custom_migrate =&gt; [:environment, :load_config] do
+</span><span class='line'>        ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+</span><span class='line'>        ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migrations_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+</span><span class='line'>            ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+</span><span class='line'>        end
+</span><span class='line'>        ActiveRecord::Migrator.migrate('db/migrate/1017', ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+</span><span class='line'>            ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+</span><span class='line'>        end
+</span><span class='line'>
+</span><span class='line'>        Rake::Task['db:_dump'].invoke
+</span><span class='line'>    end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice the last line where it delegates out to the <code>db:_dump</code> task. This is important as it writes out the schema as the end step.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 3: joins and not ins]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/10/05/rails-3-joins-and-not-ins/"/>
+    <updated>2013-10-05T14:26:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/10/05/rails-3-joins-and-not-ins</id>
+    <content type="html"><![CDATA[<p>So I needed to write a complexish query for one of the queries for (VenueSpot.co)|[http://www.venuespot.co]. As we are only running a small instance on aws, I didn&#8217;t to waste time by traversing through my related models using <code>each</code>. I wanted to write a couple of more optimizing queries using the <code>joins</code> keyword and the NOT IN mechanism. At the end it looked like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@events = Event.joins(:event_durations).where("events.state = ? and is_published = ? and event_durations.start_date &gt; ? and events.id NOT IN (?)", 'active', true, DateTime.now, @previous_venue_bid_ids).group('events.id')</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One thing that tripped me up was that initially my <code>@previous_venue_bid_ids</code> was a string that had all the ids, but the api actually takes in an array of the ids, so just be really sure what you are passing is correct!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[wrong number of arguments (1 for 0)]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/09/16/wrong-number-of-arguments-1-for-0/"/>
+    <updated>2013-09-16T18:22:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/09/16/wrong-number-of-arguments-1-for-0</id>
+    <content type="html"><![CDATA[<p>So I&#8217;ve started getting the following error message when I started a json service that reads a model which is fog enabled (with s3):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>wrong number of arguments (1 for 0) at messages.json.rabl where line #1 raised:</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I wasn&#8217;t getting this before, so what gives?</p>
+
+<h1>Solution:</h1>
+
+<p>It turned out that I was doing this to get the asset path:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>model.asset</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, that only returns the AssetUploader instance, so when it tried to render it, it gave me the error. If you want just the path to s3, you will need the <code>to_s</code> appended to the end.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS: using the $event for an a tag can cause problems.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/09/01/angularjs-using-the-%24event-for-an-a-tag-can-cause-problems/"/>
+    <updated>2013-09-01T12:01:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/09/01/angularjs-using-the-$event-for-an-a-tag-can-cause-problems</id>
+    <content type="html"><![CDATA[<p>So I was troubleshooting a bug on one of the projects that uses AngularJS. Consider this markup:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href="http://tommytcchan.github.com/fooPage" data-ng-click="show($event)"&gt;&lt;span&gt;foobar!&lt;/span&gt;&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the js, this was what was declared:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$scope.show = function (event) {
+</span><span class='line'>  var href = event.target.href;
+</span><span class='line'>  ...
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, the interesting thing about this is that it <em>sometimes</em> works. The reason is that if you click on the link outside of the <span>, then the event.target resolves to the <a> tag. However, if you click within the span, then the event.target is the <span> tag, and there is no href there, thus throwing an error.</p>
+
+<p>The fix:</p>
+
+<p>The solution is actually pretty simple. Instead of using <code>event.target</code>, use <code>event.currentTarget</code>. That resolves to the <a> and it will work for all cases.</p>
+
+<p>Hope that helps!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Set up SMTP to send mail on Postfix on Ubuntu 12.10]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/"/>
+    <updated>2013-08-30T13:52:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10</id>
+    <content type="html"><![CDATA[<p>I needed something quick to send emails for internal use. Basically it&#8217;s just a follow on <a href="https://help.ubuntu.com/community/Postfix">this</a> page. However, I needed to expose the email to the different clients on our internal network. There following two extra steps were needed:</p>
+
+<p>1.) In your mail config, remove this line:</p>
+
+<p>smtpd_use_tls=no</p>
+
+<p>2.) In the same config, update this line:</p>
+
+<p><code>mynetworks = 127.0.0.0/8 10.0.0.0/8</code></p>
+
+<p>This tells that the smtp should be allowed on the network.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Passenger Nginx and Rails and Thin - set up reverse proxy on a Thin server instance]]></title>
@@ -248,6 +485,23 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[AngularJS: problem with factory/service methods not returning singletons!]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/07/18/angularjs-problem-with-factory-slash-service-methods-not-returning-singletons/"/>
+    <updated>2013-07-18T18:31:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/07/18/angularjs-problem-with-factory-slash-service-methods-not-returning-singletons</id>
+    <content type="html"><![CDATA[<p>I was looking at an issue today where for the life of me I could not figure out why my controllers are being returned different instances. I even went as far as creating a <a href="http://plnkr.co/edit/QLK8zX827c9SI3lSWXXj">plunkr</a> to proof that I was not insane!</p>
+
+<p>I went back to the drawing board and looked at the code. How could they possibly be different? And then I saw it&#8230; I had something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>                 angular.bootstrap(document.getElementById("content"), ["app.services"]);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Upon reading the angular docs a little bit more, I realized that by calling multiple initializations, we actually create new instances of services/factories, so they are actually not singletons anymore.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Rails: using link_to to include icons.]]></title>
     <link href="http://tommytcchan.github.com/blog/2013/07/01/rails-using-link-to-to-include-icons/"/>
     <updated>2013-07-01T17:04:00-07:00</updated>
@@ -410,901 +664,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "Sign out", destroy_user_session_path, :method =&gt; :delete %&gt;</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Use .blank? in rails instead of just evaluating the variable]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable/"/>
-    <updated>2013-06-08T20:29:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/06/08/use-blank-in-rails-instead-of-just-evaluating-the-variable</id>
-    <content type="html"><![CDATA[<p>I&#8217;ve been working a lot in Rails on my spare time right now, and one of the things that I find myself often doing is testing for either an empty string, or empty array, or null.</p>
-
-<p>Groovy actually does this test if you evaluate the variable, such as <code>if (params)</code> and it will does that check for you. However, by default, ruby does not have that mechanism, but luckily the Rails people created the <code>blank?</code> method for us to use.</p>
-
-<p>As stated from the website:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>An object is blank if it’s false, empty, or a whitespace string. For example, “”, “ ”, nil, [], and {} are all blank.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is exactly what I need most of time. So instead of</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (shortcut.pc_shortcut != '') ... end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>one can do:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if (!shortcut.pc_shortcut.blank?) .... end</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Angular JS - form ng-disabled='form.$invalid' not working]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-%24invalid-not-working/"/>
-    <updated>2013-05-15T12:58:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-$invalid-not-working</id>
-    <content type="html"><![CDATA[<p>I was writing some validation using Angular JS, and I had something like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;button name="update" class="btn btn-primary" data-ng-disabled="form.$invalid"&gt;Edit&lt;/button&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Judging from the code examples I saw, that should just work. However it didn&#8217;t for me, until I realized that the <form>&#8217;s id attribute had to named in order for angular to reference it:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;form action="/save" method="post" name="form" id="form" &gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The problem was solved after I added the id attr to the form.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails: get specific attribute from model]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/05/08/rails-get-specific-attribute-from-model/"/>
-    <updated>2013-05-08T20:49:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/05/08/rails-get-specific-attribute-from-model</id>
-    <content type="html"><![CDATA[<p>I was working getting just the ids from a list of models, and in Rails 3 you can actually use the <code>pluck</code> method for that!</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>shortcuts = Shortcut.where(:software_id =&gt; params[:software_id]).pluck(:id)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This returns:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[58, 59, 60 ...]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>awesome!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Javascript: push a javascript object in an array only if it's not in there already.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/"/>
-    <updated>2013-05-02T20:38:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already</id>
-    <content type="html"><![CDATA[<p>I just learned about the $.grep method today and it seem pretty cool. I had an array that I want to push objects to. However because the <code>Array.push</code> method doesn&#8217;t care if an item is in the Array or not, I had to figure out how not to push the same object in. This is what I came up with:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>            if (jQuery.grep($scope.recents,function (elem) {return elem.id == shortcut.id}).length == 0) {
-</span><span class='line'>                $scope.recents.push(shortcut);
-</span><span class='line'>            }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Using the <code>$.grep</code> method, I was able to iterate through easily. One can argue I could&#8217;ve used the underscore library but I had jQuery only at this point so why not use this one liner instead?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Grails: Upgrading to 2.1.4 gives BeanDefinitionStoreException.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception/"/>
-    <updated>2013-04-24T15:02:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/24/grails-upgrading-to-2-dot-1-4-gives-beandefinitionstoreexception</id>
-    <content type="html"><![CDATA[<p>So I was upgrading my Grails installation to 2.1.4 (from 2.0.0) and one of the issues I came across was this error message when I tried to run the tests:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Caused by: org.springframework.beans.factory.BeanDefinitionStoreException: Invalid bean definition with name 'hibernateDatastore' defined in null: Could not resolve placeholder 'lang' </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Turns out that there is a problem with the evaluation of String in <code>Config.groovy</code></p>
-
-<p>The solution is to cast the values to <code>GStrings</code></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> myConf = "google.ca/${lang}/" as GString</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Atlassian building: unknown packaging]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/23/atlassian-building-unknown-packaging/"/>
-    <updated>2013-04-23T14:28:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/23/atlassian-building-unknown-packaging</id>
-    <content type="html"><![CDATA[<p>So I was running into issues while building the DVCS plugin because I wanted to make some modifications to it, and I check it out of BitBucket and did a <code>mvn clean install</code>. However it started giving me these errors:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Project build error: Unknown packaging: atlassian-plugin</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To fix this, you need to do a few things:</p>
-
-<ul>
-<li><p>Install the atlassian sdk. To do this, visit this page:
-https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Linux+or+Mac</p></li>
-<li><p>Next, you will need to run the Jira server by issuing this command:</p></li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>atlas-run-standalone --product jira</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Now, update your settings.xml in your ~/.m2 folder to have the following contents:</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-<span class='line-number'>87</span>
-<span class='line-number'>88</span>
-<span class='line-number'>89</span>
-<span class='line-number'>90</span>
-<span class='line-number'>91</span>
-<span class='line-number'>92</span>
-<span class='line-number'>93</span>
-<span class='line-number'>94</span>
-<span class='line-number'>95</span>
-<span class='line-number'>96</span>
-<span class='line-number'>97</span>
-<span class='line-number'>98</span>
-<span class='line-number'>99</span>
-<span class='line-number'>100</span>
-<span class='line-number'>101</span>
-<span class='line-number'>102</span>
-<span class='line-number'>103</span>
-<span class='line-number'>104</span>
-<span class='line-number'>105</span>
-<span class='line-number'>106</span>
-<span class='line-number'>107</span>
-<span class='line-number'>108</span>
-<span class='line-number'>109</span>
-<span class='line-number'>110</span>
-<span class='line-number'>111</span>
-<span class='line-number'>112</span>
-<span class='line-number'>113</span>
-<span class='line-number'>114</span>
-<span class='line-number'>115</span>
-<span class='line-number'>116</span>
-<span class='line-number'>117</span>
-<span class='line-number'>118</span>
-<span class='line-number'>119</span>
-<span class='line-number'>120</span>
-<span class='line-number'>121</span>
-<span class='line-number'>122</span>
-<span class='line-number'>123</span>
-<span class='line-number'>124</span>
-<span class='line-number'>125</span>
-<span class='line-number'>126</span>
-<span class='line-number'>127</span>
-<span class='line-number'>128</span>
-<span class='line-number'>129</span>
-<span class='line-number'>130</span>
-<span class='line-number'>131</span>
-<span class='line-number'>132</span>
-<span class='line-number'>133</span>
-<span class='line-number'>134</span>
-<span class='line-number'>135</span>
-<span class='line-number'>136</span>
-<span class='line-number'>137</span>
-<span class='line-number'>138</span>
-<span class='line-number'>139</span>
-<span class='line-number'>140</span>
-<span class='line-number'>141</span>
-<span class='line-number'>142</span>
-<span class='line-number'>143</span>
-<span class='line-number'>144</span>
-<span class='line-number'>145</span>
-<span class='line-number'>146</span>
-<span class='line-number'>147</span>
-<span class='line-number'>148</span>
-<span class='line-number'>149</span>
-<span class='line-number'>150</span>
-<span class='line-number'>151</span>
-<span class='line-number'>152</span>
-<span class='line-number'>153</span>
-<span class='line-number'>154</span>
-<span class='line-number'>155</span>
-<span class='line-number'>156</span>
-<span class='line-number'>157</span>
-<span class='line-number'>158</span>
-<span class='line-number'>159</span>
-<span class='line-number'>160</span>
-<span class='line-number'>161</span>
-<span class='line-number'>162</span>
-<span class='line-number'>163</span>
-<span class='line-number'>164</span>
-<span class='line-number'>165</span>
-<span class='line-number'>166</span>
-<span class='line-number'>167</span>
-<span class='line-number'>168</span>
-<span class='line-number'>169</span>
-<span class='line-number'>170</span>
-<span class='line-number'>171</span>
-<span class='line-number'>172</span>
-<span class='line-number'>173</span>
-<span class='line-number'>174</span>
-<span class='line-number'>175</span>
-<span class='line-number'>176</span>
-<span class='line-number'>177</span>
-<span class='line-number'>178</span>
-<span class='line-number'>179</span>
-<span class='line-number'>180</span>
-<span class='line-number'>181</span>
-<span class='line-number'>182</span>
-<span class='line-number'>183</span>
-<span class='line-number'>184</span>
-<span class='line-number'>185</span>
-<span class='line-number'>186</span>
-<span class='line-number'>187</span>
-<span class='line-number'>188</span>
-<span class='line-number'>189</span>
-<span class='line-number'>190</span>
-<span class='line-number'>191</span>
-<span class='line-number'>192</span>
-<span class='line-number'>193</span>
-<span class='line-number'>194</span>
-<span class='line-number'>195</span>
-<span class='line-number'>196</span>
-<span class='line-number'>197</span>
-<span class='line-number'>198</span>
-<span class='line-number'>199</span>
-<span class='line-number'>200</span>
-<span class='line-number'>201</span>
-<span class='line-number'>202</span>
-<span class='line-number'>203</span>
-<span class='line-number'>204</span>
-<span class='line-number'>205</span>
-<span class='line-number'>206</span>
-<span class='line-number'>207</span>
-<span class='line-number'>208</span>
-<span class='line-number'>209</span>
-<span class='line-number'>210</span>
-<span class='line-number'>211</span>
-<span class='line-number'>212</span>
-<span class='line-number'>213</span>
-<span class='line-number'>214</span>
-<span class='line-number'>215</span>
-<span class='line-number'>216</span>
-<span class='line-number'>217</span>
-<span class='line-number'>218</span>
-<span class='line-number'>219</span>
-<span class='line-number'>220</span>
-<span class='line-number'>221</span>
-<span class='line-number'>222</span>
-<span class='line-number'>223</span>
-<span class='line-number'>224</span>
-<span class='line-number'>225</span>
-<span class='line-number'>226</span>
-<span class='line-number'>227</span>
-<span class='line-number'>228</span>
-<span class='line-number'>229</span>
-<span class='line-number'>230</span>
-<span class='line-number'>231</span>
-<span class='line-number'>232</span>
-<span class='line-number'>233</span>
-<span class='line-number'>234</span>
-<span class='line-number'>235</span>
-<span class='line-number'>236</span>
-<span class='line-number'>237</span>
-<span class='line-number'>238</span>
-<span class='line-number'>239</span>
-<span class='line-number'>240</span>
-<span class='line-number'>241</span>
-<span class='line-number'>242</span>
-<span class='line-number'>243</span>
-<span class='line-number'>244</span>
-<span class='line-number'>245</span>
-<span class='line-number'>246</span>
-<span class='line-number'>247</span>
-<span class='line-number'>248</span>
-<span class='line-number'>249</span>
-<span class='line-number'>250</span>
-<span class='line-number'>251</span>
-<span class='line-number'>252</span>
-<span class='line-number'>253</span>
-<span class='line-number'>254</span>
-<span class='line-number'>255</span>
-<span class='line-number'>256</span>
-<span class='line-number'>257</span>
-<span class='line-number'>258</span>
-<span class='line-number'>259</span>
-<span class='line-number'>260</span>
-<span class='line-number'>261</span>
-<span class='line-number'>262</span>
-<span class='line-number'>263</span>
-<span class='line-number'>264</span>
-<span class='line-number'>265</span>
-<span class='line-number'>266</span>
-<span class='line-number'>267</span>
-<span class='line-number'>268</span>
-<span class='line-number'>269</span>
-<span class='line-number'>270</span>
-<span class='line-number'>271</span>
-<span class='line-number'>272</span>
-<span class='line-number'>273</span>
-<span class='line-number'>274</span>
-<span class='line-number'>275</span>
-<span class='line-number'>276</span>
-<span class='line-number'>277</span>
-<span class='line-number'>278</span>
-<span class='line-number'>279</span>
-<span class='line-number'>280</span>
-<span class='line-number'>281</span>
-<span class='line-number'>282</span>
-<span class='line-number'>283</span>
-<span class='line-number'>284</span>
-<span class='line-number'>285</span>
-<span class='line-number'>286</span>
-<span class='line-number'>287</span>
-<span class='line-number'>288</span>
-<span class='line-number'>289</span>
-<span class='line-number'>290</span>
-<span class='line-number'>291</span>
-<span class='line-number'>292</span>
-<span class='line-number'>293</span>
-<span class='line-number'>294</span>
-<span class='line-number'>295</span>
-<span class='line-number'>296</span>
-<span class='line-number'>297</span>
-<span class='line-number'>298</span>
-<span class='line-number'>299</span>
-<span class='line-number'>300</span>
-<span class='line-number'>301</span>
-<span class='line-number'>302</span>
-<span class='line-number'>303</span>
-<span class='line-number'>304</span>
-<span class='line-number'>305</span>
-<span class='line-number'>306</span>
-<span class='line-number'>307</span>
-<span class='line-number'>308</span>
-<span class='line-number'>309</span>
-<span class='line-number'>310</span>
-<span class='line-number'>311</span>
-<span class='line-number'>312</span>
-<span class='line-number'>313</span>
-<span class='line-number'>314</span>
-<span class='line-number'>315</span>
-<span class='line-number'>316</span>
-<span class='line-number'>317</span>
-<span class='line-number'>318</span>
-<span class='line-number'>319</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;!--
-</span><span class='line'>Licensed to the Apache Software Foundation (ASF) under one
-</span><span class='line'>or more contributor license agreements.  See the NOTICE file
-</span><span class='line'>distributed with this work for additional information
-</span><span class='line'>regarding copyright ownership.  The ASF licenses this file
-</span><span class='line'>to you under the Apache License, Version 2.0 (the
-</span><span class='line'>"License"); you may not use this file except in compliance
-</span><span class='line'>with the License.  You may obtain a copy of the License at
-</span><span class='line'> 
-</span><span class='line'>    http://www.apache.org/licenses/LICENSE-2.0
-</span><span class='line'> 
-</span><span class='line'>Unless required by applicable law or agreed to in writing,
-</span><span class='line'>software distributed under the License is distributed on an
-</span><span class='line'>"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-</span><span class='line'>KIND, either express or implied.  See the License for the
-</span><span class='line'>specific language governing permissions and limitations
-</span><span class='line'>under the License.
-</span><span class='line'>--&gt;
-</span><span class='line'> 
-</span><span class='line'>&lt;!--
-</span><span class='line'> | This is the configuration file for Maven. It can be specified at two levels:
-</span><span class='line'> |
-</span><span class='line'> |  1. User Level. This settings.xml file provides configuration for a single user, 
-</span><span class='line'> |                 and is normally provided in ${user.home}/.m2/settings.xml.
-</span><span class='line'> |
-</span><span class='line'> |                 NOTE: This location can be overridden with the CLI option:
-</span><span class='line'> |
-</span><span class='line'> |                 -s /path/to/user/settings.xml
-</span><span class='line'> |
-</span><span class='line'> |  2. Global Level. This settings.xml file provides configuration for all Maven
-</span><span class='line'> |                 users on a machine (assuming they're all using the same Maven
-</span><span class='line'> |                 installation). It's normally provided in 
-</span><span class='line'> |                 ${maven.home}/conf/settings.xml.
-</span><span class='line'> |
-</span><span class='line'> |                 NOTE: This location can be overridden with the CLI option:
-</span><span class='line'> |
-</span><span class='line'> |                 -gs /path/to/global/settings.xml
-</span><span class='line'> |
-</span><span class='line'> | The sections in this sample file are intended to give you a running start at
-</span><span class='line'> | getting the most out of your Maven installation. Where appropriate, the default
-</span><span class='line'> | values (values used when the setting is not specified) are provided.
-</span><span class='line'> |
-</span><span class='line'> |--&gt;
-</span><span class='line'>&lt;settings xmlns="http://maven.apache.org/settings/1.0.0"
-</span><span class='line'>          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-</span><span class='line'>          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"&gt;
-</span><span class='line'>  &lt;!-- localRepository
-</span><span class='line'>   | The path to the local repository maven will use to store artifacts.
-</span><span class='line'>   |
-</span><span class='line'>   | Default: ~/.m2/repository
-</span><span class='line'>  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
-</span><span class='line'>  --&gt;
-</span><span class='line'> 
-</span><span class='line'>  &lt;!-- interactiveMode
-</span><span class='line'>   | This will determine whether maven prompts you when it needs input. If set to false,
-</span><span class='line'>   | maven will use a sensible default value, perhaps based on some other setting, for
-</span><span class='line'>   | the parameter in question.
-</span><span class='line'>   |
-</span><span class='line'>   | Default: true
-</span><span class='line'>  &lt;interactiveMode&gt;true&lt;/interactiveMode&gt;
-</span><span class='line'>  --&gt;
-</span><span class='line'> 
-</span><span class='line'>  &lt;!-- offline
-</span><span class='line'>   | Determines whether maven should attempt to connect to the network when executing a build.
-</span><span class='line'>   | This will have an effect on artifact downloads, artifact deployment, and others.
-</span><span class='line'>   |
-</span><span class='line'>   | Default: false
-</span><span class='line'>  &lt;offline&gt;false&lt;/offline&gt;
-</span><span class='line'>  --&gt;
-</span><span class='line'> 
-</span><span class='line'>  &lt;!-- pluginGroups
-</span><span class='line'>   | This is a list of additional group identifiers that will be searched when resolving plugins by their prefix, i.e.
-</span><span class='line'>   | when invoking a command line like "mvn prefix:goal". Maven will automatically add the group identifiers
-</span><span class='line'>   | "org.apache.maven.plugins" and "org.codehaus.mojo" if these are not already contained in the list.
-</span><span class='line'>   |--&gt;
-</span><span class='line'>  &lt;pluginGroups&gt;
-</span><span class='line'>     &lt;!-- The Atlassian maven plugins group used for all Atlassian Maven plugins --&gt;
-</span><span class='line'>     &lt;pluginGroup&gt;com.atlassian.maven.plugins&lt;/pluginGroup&gt;
-</span><span class='line'>  &lt;/pluginGroups&gt;
-</span><span class='line'> 
-</span><span class='line'>  &lt;!-- proxies
-</span><span class='line'>   | This is a list of proxies which can be used on this machine to connect to the network.
-</span><span class='line'>   | Unless otherwise specified (by system property or command-line switch), the first proxy
-</span><span class='line'>   | specification in this list marked as active will be used.
-</span><span class='line'>   |--&gt;
-</span><span class='line'>  &lt;proxies&gt;
-</span><span class='line'>    &lt;!-- proxy
-</span><span class='line'>     | Specification for one proxy, to be used in connecting to the network.
-</span><span class='line'>     |
-</span><span class='line'>    &lt;proxy&gt;
-</span><span class='line'>      &lt;id&gt;optional&lt;/id&gt;
-</span><span class='line'>      &lt;active&gt;true&lt;/active&gt;
-</span><span class='line'>      &lt;protocol&gt;http&lt;/protocol&gt;
-</span><span class='line'>      &lt;username&gt;proxyuser&lt;/username&gt;
-</span><span class='line'>      &lt;password&gt;proxypass&lt;/password&gt;
-</span><span class='line'>      &lt;host&gt;proxy.host.net&lt;/host&gt;
-</span><span class='line'>      &lt;port&gt;80&lt;/port&gt;
-</span><span class='line'>      &lt;nonProxyHosts&gt;local.net|some.host.com&lt;/nonProxyHosts&gt;
-</span><span class='line'>    &lt;/proxy&gt;
-</span><span class='line'>    --&gt;
-</span><span class='line'>  &lt;/proxies&gt;
-</span><span class='line'> 
-</span><span class='line'>  &lt;!-- servers
-</span><span class='line'>   | This is a list of authentication profiles, keyed by the server-id used within the system.
-</span><span class='line'>   | Authentication profiles can be used whenever maven must make a connection to a remote server.
-</span><span class='line'>   |--&gt;
-</span><span class='line'>  &lt;servers&gt;
-</span><span class='line'>    &lt;!-- server
-</span><span class='line'>     | Specifies the authentication information to use when connecting to a particular server, identified by
-</span><span class='line'>     | a unique name within the system (referred to by the 'id' attribute below).
-</span><span class='line'>     | 
-</span><span class='line'>     | NOTE: You should either specify username/password OR privateKey/passphrase, since these pairings are 
-</span><span class='line'>     |       used together.
-</span><span class='line'>     |
-</span><span class='line'>    &lt;server&gt;
-</span><span class='line'>      &lt;id&gt;deploymentRepo&lt;/id&gt;
-</span><span class='line'>      &lt;username&gt;repouser&lt;/username&gt;
-</span><span class='line'>      &lt;password&gt;repopwd&lt;/password&gt;
-</span><span class='line'>    &lt;/server&gt;
-</span><span class='line'>    --&gt;
-</span><span class='line'>     
-</span><span class='line'>    &lt;!-- Another sample, using keys to authenticate.
-</span><span class='line'>    &lt;server&gt;
-</span><span class='line'>      &lt;id&gt;siteServer&lt;/id&gt;
-</span><span class='line'>      &lt;privateKey&gt;/path/to/private/key&lt;/privateKey&gt;
-</span><span class='line'>      &lt;passphrase&gt;optional; leave empty if not used.&lt;/passphrase&gt;
-</span><span class='line'>    &lt;/server&gt;
-</span><span class='line'>    --&gt;
-</span><span class='line'>  &lt;/servers&gt;
-</span><span class='line'> 
-</span><span class='line'>  &lt;!-- mirrors
-</span><span class='line'>   | This is a list of mirrors to be used in downloading artifacts from remote repositories.
-</span><span class='line'>   | 
-</span><span class='line'>   | It works like this: a POM may declare a repository to use in resolving certain artifacts.
-</span><span class='line'>   | However, this repository may have problems with heavy traffic at times, so people have mirrored
-</span><span class='line'>   | it to several places.
-</span><span class='line'>   |
-</span><span class='line'>   | That repository definition will have a unique id, so we can create a mirror reference for that
-</span><span class='line'>   | repository, to be used as an alternate download site. The mirror site will be the preferred 
-</span><span class='line'>   | server for that repository.
-</span><span class='line'>   |--&gt;
-</span><span class='line'>  &lt;mirrors&gt;
-</span><span class='line'>    &lt;!-- mirror
-</span><span class='line'>     | Specifies a repository mirror site to use instead of a given repository. The repository that
-</span><span class='line'>     | this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used
-</span><span class='line'>     | for inheritance and direct lookup purposes, and must be unique across the set of mirrors.
-</span><span class='line'>     |
-</span><span class='line'>    &lt;mirror&gt;
-</span><span class='line'>      &lt;id&gt;mirrorId&lt;/id&gt;
-</span><span class='line'>      &lt;mirrorOf&gt;repositoryId&lt;/mirrorOf&gt;
-</span><span class='line'>      &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;
-</span><span class='line'>      &lt;url&gt;http://my.repository.com/repo/path&lt;/url&gt;
-</span><span class='line'>    &lt;/mirror&gt;
-</span><span class='line'>     --&gt;
-</span><span class='line'>  &lt;/mirrors&gt;
-</span><span class='line'>   
-</span><span class='line'>  &lt;!-- profiles
-</span><span class='line'>   | This is a list of profiles which can be activated in a variety of ways, and which can modify
-</span><span class='line'>   | the build process. Profiles provided in the settings.xml are intended to provide local machine-
-</span><span class='line'>   | specific paths and repository locations which allow the build to work in the local environment.
-</span><span class='line'>   |
-</span><span class='line'>   | For example, if you have an integration testing plugin - like cactus - that needs to know where
-</span><span class='line'>   | your Tomcat instance is installed, you can provide a variable here such that the variable is 
-</span><span class='line'>   | dereferenced during the build process to configure the cactus plugin.
-</span><span class='line'>   |
-</span><span class='line'>   | As noted above, profiles can be activated in a variety of ways. One way - the activeProfiles
-</span><span class='line'>   | section of this document (settings.xml) - will be discussed later. Another way essentially
-</span><span class='line'>   | relies on the detection of a system property, either matching a particular value for the property,
-</span><span class='line'>   | or merely testing its existence. Profiles can also be activated by JDK version prefix, where a 
-</span><span class='line'>   | value of '1.4' might activate a profile when the build is executed on a JDK version of '1.4.2_07'.
-</span><span class='line'>   | Finally, the list of active profiles can be specified directly from the command line.
-</span><span class='line'>   |
-</span><span class='line'>   | NOTE: For profiles defined in the settings.xml, you are restricted to specifying only artifact
-</span><span class='line'>   |       repositories, plugin repositories, and free-form properties to be used as configuration
-</span><span class='line'>   |       variables for plugins in the POM.
-</span><span class='line'>   |
-</span><span class='line'>   |--&gt;
-</span><span class='line'>  &lt;profiles&gt;
-</span><span class='line'>    &lt;!-- profile
-</span><span class='line'>     | Specifies a set of introductions to the build process, to be activated using one or more of the
-</span><span class='line'>     | mechanisms described above. For inheritance purposes, and to activate profiles via &lt;activatedProfiles/&gt;
-</span><span class='line'>     | or the command line, profiles have to have an ID that is unique.
-</span><span class='line'>     |
-</span><span class='line'>     | An encouraged best practice for profile identification is to use a consistent naming convention
-</span><span class='line'>     | for profiles, such as 'env-dev', 'env-test', 'env-production', 'user-jdcasey', 'user-brett', etc.
-</span><span class='line'>     | This will make it more intuitive to understand what the set of introduced profiles is attempting
-</span><span class='line'>     | to accomplish, particularly when you only have a list of profile id's for debug.
-</span><span class='line'>     |
-</span><span class='line'>     | This profile example uses the JDK version to trigger activation, and provides a JDK-specific repo.
-</span><span class='line'>     &lt;profile&gt;
-</span><span class='line'>      &lt;id&gt;jdk-1.4&lt;/id&gt;
-</span><span class='line'> 
-</span><span class='line'>      &lt;activation&gt;
-</span><span class='line'>        &lt;jdk&gt;1.4&lt;/jdk&gt;
-</span><span class='line'>      &lt;/activation&gt;
-</span><span class='line'> 
-</span><span class='line'>      &lt;repositories&gt;
-</span><span class='line'>        &lt;repository&gt;
-</span><span class='line'>          &lt;id&gt;jdk14&lt;/id&gt;
-</span><span class='line'>          &lt;name&gt;Repository for JDK 1.4 builds&lt;/name&gt;
-</span><span class='line'>          &lt;url&gt;http://www.myhost.com/maven/jdk14&lt;/url&gt;
-</span><span class='line'>          &lt;layout&gt;default&lt;/layout&gt;
-</span><span class='line'>          &lt;snapshotPolicy&gt;always&lt;/snapshotPolicy&gt;
-</span><span class='line'>        &lt;/repository&gt;
-</span><span class='line'>      &lt;/repositories&gt;
-</span><span class='line'>    &lt;/profile&gt;
-</span><span class='line'>    --&gt;
-</span><span class='line'> 
-</span><span class='line'>    &lt;!--
-</span><span class='line'>     | Here is another profile, activated by the system property 'target-env' with a value of 'dev',
-</span><span class='line'>     | which provides a specific path to the Tomcat instance. To use this, your plugin configuration
-</span><span class='line'>     | might hypothetically look like:
-</span><span class='line'>     |
-</span><span class='line'>     | ...
-</span><span class='line'>     | &lt;plugin&gt;
-</span><span class='line'>     |   &lt;groupId&gt;org.myco.myplugins&lt;/groupId&gt;
-</span><span class='line'>     |   &lt;artifactId&gt;myplugin&lt;/artifactId&gt;
-</span><span class='line'>     |   
-</span><span class='line'>     |   &lt;configuration&gt;
-</span><span class='line'>     |     &lt;tomcatLocation&gt;${tomcatPath}&lt;/tomcatLocation&gt;
-</span><span class='line'>     |   &lt;/configuration&gt;
-</span><span class='line'>     | &lt;/plugin&gt;
-</span><span class='line'>     | ...
-</span><span class='line'>     |
-</span><span class='line'>     | NOTE: If you just wanted to inject this configuration whenever someone set 'target-env' to
-</span><span class='line'>     |       anything, you could just leave off the &lt;value/&gt; inside the activation-property.
-</span><span class='line'>     |
-</span><span class='line'>    &lt;profile&gt;
-</span><span class='line'>      &lt;id&gt;env-dev&lt;/id&gt;
-</span><span class='line'> 
-</span><span class='line'>      &lt;activation&gt;
-</span><span class='line'>        &lt;property&gt;
-</span><span class='line'>          &lt;name&gt;target-env&lt;/name&gt;
-</span><span class='line'>          &lt;value&gt;dev&lt;/value&gt;
-</span><span class='line'>        &lt;/property&gt;
-</span><span class='line'>      &lt;/activation&gt;
-</span><span class='line'> 
-</span><span class='line'>      &lt;properties&gt;
-</span><span class='line'>        &lt;tomcatPath&gt;/path/to/tomcat/instance&lt;/tomcatPath&gt;
-</span><span class='line'>      &lt;/properties&gt;
-</span><span class='line'>    &lt;/profile&gt;
-</span><span class='line'>    --&gt;
-</span><span class='line'>     &lt;!-- Default profile containing Atlassian servers --&gt;
-</span><span class='line'>     &lt;profile&gt;
-</span><span class='line'>       &lt;id&gt;defaultProfile&lt;/id&gt;
-</span><span class='line'>       &lt;activation&gt;
-</span><span class='line'>         &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
-</span><span class='line'>       &lt;/activation&gt;
-</span><span class='line'>  
-</span><span class='line'>       &lt;repositories&gt;
-</span><span class='line'>         &lt;repository&gt;
-</span><span class='line'>           &lt;id&gt;atlassian-public&lt;/id&gt;
-</span><span class='line'>           &lt;url&gt;https://m2proxy.atlassian.com/repository/public&lt;/url&gt;
-</span><span class='line'>           &lt;snapshots&gt;
-</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
-</span><span class='line'>             &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-</span><span class='line'>           &lt;/snapshots&gt;
-</span><span class='line'>           &lt;releases&gt;
-</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
-</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-</span><span class='line'>           &lt;/releases&gt;
-</span><span class='line'>         &lt;/repository&gt;
-</span><span class='line'>          &lt;repository&gt;
-</span><span class='line'>            &lt;id&gt;atlassian-plugin-sdk&lt;/id&gt;
-</span><span class='line'>           &lt;url&gt;file://${env.ATLAS_HOME}/repository&lt;/url&gt;
-</span><span class='line'>           &lt;snapshots&gt;
-</span><span class='line'>             &lt;enabled&gt;false&lt;/enabled&gt;
-</span><span class='line'>           &lt;/snapshots&gt;
-</span><span class='line'>           &lt;releases&gt;
-</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
-</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-</span><span class='line'>           &lt;/releases&gt;
-</span><span class='line'>         &lt;/repository&gt;
-</span><span class='line'>       &lt;/repositories&gt;
-</span><span class='line'>  
-</span><span class='line'>       &lt;pluginRepositories&gt;
-</span><span class='line'>         &lt;pluginRepository&gt;
-</span><span class='line'>           &lt;id&gt;atlassian-public&lt;/id&gt;
-</span><span class='line'>           &lt;url&gt;https://m2proxy.atlassian.com/repository/public&lt;/url&gt;
-</span><span class='line'>           &lt;releases&gt;
-</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
-</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-</span><span class='line'>           &lt;/releases&gt;
-</span><span class='line'>           &lt;snapshots&gt;
-</span><span class='line'>             &lt;updatePolicy&gt;never&lt;/updatePolicy&gt;
-</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-</span><span class='line'>           &lt;/snapshots&gt;
-</span><span class='line'>         &lt;/pluginRepository&gt;
-</span><span class='line'>         &lt;pluginRepository&gt;
-</span><span class='line'>           &lt;id&gt;atlassian-plugin-sdk&lt;/id&gt;
-</span><span class='line'>           &lt;url&gt;file://${env.ATLAS_HOME}/repository&lt;/url&gt;
-</span><span class='line'>           &lt;releases&gt;
-</span><span class='line'>             &lt;enabled&gt;true&lt;/enabled&gt;
-</span><span class='line'>             &lt;checksumPolicy&gt;warn&lt;/checksumPolicy&gt;
-</span><span class='line'>           &lt;/releases&gt;
-</span><span class='line'>           &lt;snapshots&gt;
-</span><span class='line'>             &lt;enabled&gt;false&lt;/enabled&gt;
-</span><span class='line'>           &lt;/snapshots&gt;
-</span><span class='line'>         &lt;/pluginRepository&gt;
-</span><span class='line'>       &lt;/pluginRepositories&gt;
-</span><span class='line'>       &lt;properties&gt;
-</span><span class='line'>         &lt;downloadSources&gt;true&lt;/downloadSources&gt;
-</span><span class='line'>         &lt;downloadJavadocs&gt;true&lt;/downloadJavadocs&gt;
-</span><span class='line'>       &lt;/properties&gt;
-</span><span class='line'>    &lt;/profile&gt;
-</span><span class='line'>  &lt;/profiles&gt;
-</span><span class='line'> 
-</span><span class='line'>  &lt;!-- activeProfiles
-</span><span class='line'>   | List of profiles that are active for all builds.
-</span><span class='line'>   |
-</span><span class='line'>  &lt;activeProfiles&gt;
-</span><span class='line'>    &lt;activeProfile&gt;alwaysActiveProfile&lt;/activeProfile&gt;
-</span><span class='line'>    &lt;activeProfile&gt;anotherAlwaysActiveProfile&lt;/activeProfile&gt;
-</span><span class='line'>  &lt;/activeProfiles&gt;
-</span><span class='line'>  --&gt;
-</span><span class='line'>&lt;/settings&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then try doing <code>mvn clean install</code> and everything should work.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AngularJS: Implementing the starRating example in KnockoutJS.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs/"/>
-    <updated>2013-04-21T11:03:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs</id>
-    <content type="html"><![CDATA[<p>I&#8217;m working on an angular js app that required the same functionality as the starRating example on KnockoutJS on this <a href="http://learn.knockoutjs.com/#/?tutorial=custombindings">page</a> about Creating custom bindings in the tutorial. Bascially it was tutorial to build a star rating system. Now it was pretty neat to see how knockout does the 2 way binding, but I wanted to implemented in AngularJS to see how it looks like.</p>
-
-<p>So let&#8217;s see how that looks like shall we?</p>
-
-<p>In app.js:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//updates the star rating of the element
-</span><span class='line'>directives.directive('starRating', function() {
-</span><span class='line'>    return {
-</span><span class='line'>        link: function(scope, element) {
-</span><span class='line'>            element.addClass("starRating");
-</span><span class='line'>            element.bind('mouseenter', function() {
-</span><span class='line'>                angular.element(element).addClass('chosen');
-</span><span class='line'>            })
-</span><span class='line'>        }
-</span><span class='line'>    }
-</span><span class='line'>
-</span><span class='line'>})</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Some clarification here.</p>
-
-<p>In the link variable, we define a function that should be run when we do the link between the attribute and the element.</p>
-
-<p>In our view:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>          &lt;li class="favorite-item"&gt;
-</span><span class='line'>            &lt;img src="http://tommytcchan.github.com/img/question_mark_icon.png"/&gt;
-</span><span class='line'>            &lt;a href="#"&gt;Move Tool&lt;/a&gt;
-</span><span class='line'>            &lt;span star-rating/&gt;
-</span><span class='line'>          &lt;/li&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And our css:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.starRating {
-</span><span class='line'>    width: 24px;
-</span><span class='line'>    height: 24px;
-</span><span class='line'>    background-image: url(/img/stars.png);
-</span><span class='line'>    display: inline-block;
-</span><span class='line'>    cursor: pointer;
-</span><span class='line'>    background-position: -24px 0;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>.starRating.chosen {
-</span><span class='line'>    background-position: 0 0;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&#8217;s it! You then get something cool like this:</p>
-
-<p>http://screencloud.net/v/3To7</p>
-
-<p>Improvements:
-- We can actually restrict this element to only span (since that was what was used on the KnockoutJS example). You can do that easily with AngularJS&#8230;I&#8217;ll leave that exercise to the reader.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails: add in extension classes to application.rb.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb/"/>
-    <updated>2013-04-20T15:44:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/20/rails-add-in-extension-classes-to-application-dot-rb</id>
-    <content type="html"><![CDATA[<p>So I had extended the String class in Rails so I can reuse a lot of the common methods. However I was adding the <code>require ext/string</code> to my controller, and I needed in a few places. Therefore I moved it to application.rb to say DRY. The declaration looked a little odd though (<code>require 'ext/string'</code> didn&#8217;t work&#8230;neither did trying <code>require '/lib/ext/string</code>)</p>
-
-<p>What I had to do at the end was this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>require File.expand_path('../../lib', __FILE__) + '/ext/string'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Looks kind of odd but it works..</p>
 ]]></content>
   </entry>
   

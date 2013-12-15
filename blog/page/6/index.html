@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Welcome to my new blog site! I&#8217;m excited to annouce my new site, www.tommytcchan.com after coming to the realization that the current system I &hellip;">
+  <meta name="description" content="I was finding myself having to deploy manually everytime I push something to github, so I&#8217;ve decided to write a deploy shell script to help &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +83,547 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/">Rails: Create a Deploy Script With Ease</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T16:51:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/23/rails-create-a-deploy-script-with-ease/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was finding myself having to deploy manually everytime I push something to github, so I&#8217;ve decided to write a deploy shell script to help with this task. Coming from a Java background, I found that creating a deploy script for rails is so much easier. Here is the meat of it:</p>
+
+<p>In deploy.sh</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>#first kill the server if its running
+</span><span class='line'>kill -9 `lsof -i :80 | awk '{if (NR!=1) {print $2}}'`
+</span><span class='line'>pushd ~/codetipdaily
+</span><span class='line'>#then pull from gh
+</span><span class='line'>git pull origin master
+</span><span class='line'>#assets
+</span><span class='line'>rake assets:clean
+</span><span class='line'>rake assets:precompile
+</span><span class='line'>#start server as daemon
+</span><span class='line'>rails server -e production -p 80 --daemon
+</span><span class='line'>popd</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That was a piece of cake!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/">Rails: Production Environment Is Missing application.js and application.css</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-23T16:03:00-08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/23/rails-production-environment-is-missing-application-dot-js-and-application-dot-css/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>The problem</h3>
+
+<p>So I&#8217;m working on deploying my rails app to production, but I was seeing some weirdness when I ran it in production mode. Firstly, the application resources pointed to application.js and application.css even though my template was not change (ie. <code> &lt;%= stylesheet_link_tag    "application", :media =&gt; "all" %&gt;</code> and <code> &lt;%= javascript_include_tag "application" %&gt;</code>. That led to me believe something was wrong. In addition, when I ran <code>rake assets:precompile</code>, nothing was generated to the <code>public/assets</code> folder.</p>
+
+<h3>What was wrong</h3>
+
+<p>I checked my application.rb, and the <code>config.assets.enabled</code> was set to <code>true</code>. Then I realized that when I first created the app, I turned off that setting in <code>production.rb</code>. Simply turning it back on allowed the compilation of assets and leading rails to resolve to the right path (and not application.js/css).</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/22/grails-and-intellij-discard-old-dependencies/">Grails and Intellij: Discard Old Dependencies</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-22T10:36:00-08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/22/grails-and-intellij-discard-old-dependencies/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;m working on a project that relies on a custom plugin, and it was listed as a dependency. However, I wanted it to reference a relative path instead. This was what was listed originally:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>In BuildConfig.groovy
+</span><span class='line'>...
+</span><span class='line'>  plugins {
+</span><span class='line'>      test ":code-coverage:1.2.5"
+</span><span class='line'>      test ":spock:0.7"
+</span><span class='line'>      compile ":hibernate:2.0.0"
+</span><span class='line'>      compile ":quartz:1.0-RC2"
+</span><span class='line'>      compile ":rest:0.7"
+</span><span class='line'>      compile ":springcache:1.3.1"
+</span><span class='line'>          compile ":mycustomplugin:1.0"
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to make it use your project relative project mycustomplugin (instead of fetching it from Archiva using maven), perform the following steps:</p>
+
+<ol>
+<li>Change your BuildConfig.groovy &#8211; remove the above decl in the plugins block.</li>
+<li>Update your BuildConfig.groovy to add the following:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grails.plugin.location.'mycustomplugin' = "../mycustomplugin"</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Run <code>grails refresh-dependencies</code> in Intellij</li>
+</ol>
+
+
+<p>Once it refreshes then you should be able to reference the plugin in your source tree rather than from remote.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/17/php-set-up-xdebug/">PHP - Set Up XDebug</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-17T16:24:00-08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/17/php-set-up-xdebug/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and examine variables. Finally after an hour of fiddling with it I got it to work.</p>
+
+<h3>The setup</h3>
+
+<p>This guide uses the following:</p>
+
+<p>WAMP Server 2.2
+PHP 5.2
+Apache 2.2
+PHPStorm 5.0.1</p>
+
+<h3>Steps</h3>
+
+<ol>
+<li><p>Goto http://xdebug.org/download.php and download the Xdebug version 2.1.2. Note that&#8217;s the last version where they compiled a VC6 version. I got the Thread Safe (TS) version.</p></li>
+<li><p>Now edit your php.ini file. Make sure to put the following in:</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>zend_extension_ts= "C:\wamp\bin\php\php5.2.2\ext\php_xdebug-2.1.2-5.2-vc6.dll"
+</span><span class='line'>xdebug.idekey=PHPSTORM
+</span><span class='line'>xdebug.remote_enable=true
+</span><span class='line'>;extension=php_xdebug-2.1.2-5.2-vc6.dll</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`
+Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</em> want it.</p>
+
+<ol>
+<li><p>Now grab the bookmarklet generator from here: http://www.jetbrains.com/phpstorm/marklets/</p></li>
+<li><p>Restart the server</p></li>
+<li><p>Have PHPStorm start listening to the connections.</p></li>
+<li><p>Put a breakdown somethere you know that the execution will hit it.</p></li>
+<li><p>Enjoy!</p></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/">Groovy: Unit Testing Method Overridding Using metaClass Does Not Work</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-15T16:04:00-08:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass mechanism doesn&#8217;t work. Consider this code:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private void registerSuccessAction(RegistrationFormCommand cmd, userId) {
+</span><span class='line'>      def successUrl = '/register/success'
+</span><span class='line'>      ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This was in my test</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>  controller.metaClass.registerSuccessAction = { command, userId -&gt;
+</span><span class='line'>      println "called"
+</span><span class='line'>                      }
+</span><span class='line'>
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, I was runing into the fact that my overridding method isn&#8217;t being called. What gives?</p>
+
+<p>It turned out that you <em>need</em> to qualify the first command with the type if the method has a typed parameter, otherwise groovy won&#8217;t override the behavior!</p>
+
+<p>This works:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>controller.metaClass.registerSuccessAction = { RegistrationFormCommand command, userId -&gt;
+</span><span class='line'>          throw new AssertionError("This should not be called.")
+</span><span class='line'>                  }
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>`</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/">Fixing Installing Mysql2 Gem in Ubuntu 12.10</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-13T20:59:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have control over the environment, which in the Rails case is very annoying. Apparently you can specify the ruby version but I gave up after I tried all the stops.</p>
+
+<p>Anyways I was setting up my server (using Ubuntu) and when I was doing <code>bundle install</code> it gave me a weird error:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*** extconf.rb failed ***
+</span><span class='line'>Could not create Makefile due to some reason, probably lack of
+</span><span class='line'>necessary libraries and/or headers.  Check the mkmf.log file for more
+</span><span class='line'>details.  You may need configuration options.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After digging into it a little bit, it was found that my server doesn&#8217;t have the dev package <strong>libmysqlclient-dev</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install libmysqlclient-dev mysql-server</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After doing that and then trying to install</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install mysql2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>everything worked.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/">Ruby on Rails: Can&#8217;t Use the Include Keyword in Model</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-05T21:30:00-08:00" pubdate data-updated="true">Feb 5<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/05/ruby-on-rails-cant-use-the-include-keyword-in-model/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m building the backend of my current project using rails, and one of the things I wanted to do was create a module that I can use in both my controller and model to report issues to a messaging queue, but I was stuck with on the following:</p>
+
+<p>In error_mixin:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module ErrorMixin
+</span><span class='line'>
+</span><span class='line'>  def error(msg)
+</span><span class='line'>    Exchange.instance.sendMsg(msg, 'error')
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def info(msg)
+</span><span class='line'>    Exchange.instance.sendMsg(msg, 'info')
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In my domain class:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Tip &lt; ActiveRecord::Base
+</span><span class='line'>
+</span><span class='line'>  module ErrorMixin
+</span><span class='line'>  
+</span><span class='line'>  self.get_random
+</span><span class='line'>
+</span><span class='line'>  ...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When I tried this, it didn&#8217;t work. What was the issue? It turned out that because in my module I call out to the class method get_random and that class methods can&#8217;t reference module methods.</p>
+
+<p>The solution:</p>
+
+<p>Simply replace the keyword include to extend instead.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/">Octopress: Modify the Default New Post POST Action.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-04T20:16:00-08:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/">A New Beginning. Tommy&#8217;s Blog Site Gets a New Backend.</a></h1>
     
     
@@ -131,23 +672,23 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance/">Passenger Nginx and Rails and Thin - set up reverse proxy on a Thin server instance</a>
+        <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/12/passenger/">Passenger</a>
+        <a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/">Jasmine Spies on a 2nd level object</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/">RSpec and Devise: not hitting controller action.</a>
+        <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a custom migrate script for running migrations in another location.</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass</a>
+        <a href="/blog/2013/10/05/rails-3-joins-and-not-ins/">Rails 3: joins and not ins</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: using link_to to include icons.</a>
+        <a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/">wrong number of arguments (1 for 0)</a>
       </li>
     
   </ul>

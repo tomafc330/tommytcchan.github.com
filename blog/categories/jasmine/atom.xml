@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jasmine | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/jasmine/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-12-15T01:11:37-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Jasmine Spies on a 2nd level object]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/"/>
+    <updated>2013-12-03T16:03:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object</id>
+    <content type="html"><![CDATA[<p>I've been trying to mock a 2 level object that looks like this:</p>
+
+<p>```</p>
+
+<pre><code>    mockSoundService = {
+        getSound: function () {
+            return {
+                volume: function () {
+                }
+            };
+        }
+    };
+</code></pre>
+
+<p><code>
+Naturally, I thought it would work with something like this in my test:
+</code></p>
+
+<pre><code>    spyOn(mockSoundService.getSound(), 'volume');
+    service.closeIntroVideo();
+
+    expect(service.getPlayer()).toBeNull();
+    expect(mockSoundService.getSound().volume).toHaveBeenCalled();
+</code></pre>
+
+<p>```</p>
+
+<p>However, I kept getting errors like these:</p>
+
+<p><code>
+Expected a spy, but got undefined.
+</code></p>
+
+<p>It turns out that you need to break apart the 2nd level object that was nested. Therefore the final product should look something like this:</p>
+
+<p>```</p>
+
+<pre><code>    mockSound = {
+        volume: function () {
+        }
+    };
+
+    mockSoundService = {
+        getSound: function () {
+            return mockSound;
+        }
+    }
+</code></pre>
+
+<p>```</p>
+
+<p>and now in your mocks you can do something like this:</p>
+
+<p>```</p>
+
+<pre><code>    spyOn(mockSound, 'volume');
+    spyOn(mockState, 'go');
+    service.closeIntroVideo();
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

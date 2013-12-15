@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="My previous post talked about setting passenger and rails. In this post I will talk about something different - using Nginx as a reverse proxy while &hellip;">
+  <meta name="description" content="I&#8217;ve been writing a lot of technical stuff previously and it has come to my attention that sooner or later I will have to write about the high &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,446 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a Co-founder&#8217;s Success - Love</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-15T01:09:00-08:00" pubdate data-updated="true">Dec 15<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve been writing a lot of technical stuff previously and it has come to my attention that sooner or later I will have to write about the high level stuff. So let&#8217;s talk about one of the things that is dear and close to me - my significant other. I&#8217;ll have to admit, I joke with ex-coworkers about how much she needs me, but deep down inside she is my rock and without her I would probably have lost focus by now. I have a letter that is addressed to her that I&#8217;d like to share.</p>
+
+<blockquote><p>To my hunny,</p>
+
+<p>I&#8217;m writing to you on my first day of unemployment. Do you remember the last time I was unemployed? I did&#8230;you had to carry our butts for 2 years until I was done school. Fast forward 7 years and here we are all over again&#8230;only this time the stakes are higher.</p>
+
+<p>I feel like this is such a turning point in our lives and I really want to express how thankful I am to have you by my side through thick and thin. You are my everything and I can&#8217;t imagine not having you with me on this journey.</p>
+
+<p>I know the next few months/years will not be easy so I apologize in advance right now for all the hardships that will be coming up. I apologize for those late working nights where I won&#8217;t be able to spend alone time with you. I apologize for all nights that we&#8217;re apart together because I&#8217;m travelling for business. I apologize for all the stupid things I&#8217;ll say after a long day at work. I apologize for boring you with all my talk about how using Puma is better than Unicorn for our Rails server implementation. And last but not least I apologize in advance for making all the sacrifices that you make in order for me to chase my dreams. Please still cook for me during those times.</p>
+
+<p>Now I know there will be some rainy days up ahead but I&#8217;ll hold you tight under my umbrella and we&#8217;ll laugh it off. There will also be those freezing days but in those times I&#8217;ll hold you tighter and we&#8217;ll laugh even harder. I want you to know that whatever the weather is, the sun is always above. In those stormy days I want you to remember those sunny tunes and let these great memories carry us through. Please try to be patient with me and still laugh at my corny jokes. There will also be times where the business doesn&#8217;t go the way we planned and I promise not to let that jeopardize the special relationship that we have. I love you with all my heart and soul and I am so grateful that you are mine. Life is a journey and although sometimes there are obstacles along the way, we will look back and realize that sometimes it&#8217;s not important where we end up, but how we got there.</p>
+
+<p>Love,</p>
+
+<p>Tommy</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/">Jasmine Spies on a 2nd Level Object</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-03T16:03:00-08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve been trying to mock a 2 level object that looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    mockSoundService = {
+</span><span class='line'>        getSound: function () {
+</span><span class='line'>            return {
+</span><span class='line'>                volume: function () {
+</span><span class='line'>                }
+</span><span class='line'>            };
+</span><span class='line'>        }
+</span><span class='line'>    };</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Naturally, I thought it would work with something like this in my test:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    spyOn(mockSoundService.getSound(), 'volume');
+</span><span class='line'>    service.closeIntroVideo();
+</span><span class='line'>
+</span><span class='line'>    expect(service.getPlayer()).toBeNull();
+</span><span class='line'>    expect(mockSoundService.getSound().volume).toHaveBeenCalled();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, I kept getting errors like these:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Expected a spy, but got undefined.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It turns out that you need to break apart the 2nd level object that was nested. Therefore the final product should look something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    mockSound = {
+</span><span class='line'>        volume: function () {
+</span><span class='line'>        }
+</span><span class='line'>    };
+</span><span class='line'>
+</span><span class='line'>    mockSoundService = {
+</span><span class='line'>        getSound: function () {
+</span><span class='line'>            return mockSound;
+</span><span class='line'>        }
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and now in your mocks you can do something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>    spyOn(mockSound, 'volume');
+</span><span class='line'>    spyOn(mockState, 'go');
+</span><span class='line'>    service.closeIntroVideo();</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a Custom Migrate Script for Running Migrations in Another Location.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-21T19:14:00-07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I am currently in the process of refactoring some code in a Rails project for a client, and one of the things that I wanted to do was to separate the database migration scripts that are from the base frameworks (Discourse was used as the base) and the ones I will be adding. This will give a good historical view of all the custom migrations so we don&#8217;t have to go through each one. But in order to do that I had to write my own custom rake task to rake the rake tasks:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>namespace :db do
+</span><span class='line'>    desc "Migrate the database by going through the standard migrate folder first, then the custom 1017 folder (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
+</span><span class='line'>    task :custom_migrate =&gt; [:environment, :load_config] do
+</span><span class='line'>        ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+</span><span class='line'>        ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migrations_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+</span><span class='line'>            ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+</span><span class='line'>        end
+</span><span class='line'>        ActiveRecord::Migrator.migrate('db/migrate/1017', ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+</span><span class='line'>            ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+</span><span class='line'>        end
+</span><span class='line'>
+</span><span class='line'>        Rake::Task['db:_dump'].invoke
+</span><span class='line'>    end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice the last line where it delegates out to the <code>db:_dump</code> task. This is important as it writes out the schema as the end step.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/05/rails-3-joins-and-not-ins/">Rails 3: Joins and Not Ins</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-05T14:26:00-07:00" pubdate data-updated="true">Oct 5<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/05/rails-3-joins-and-not-ins/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I needed to write a complexish query for one of the queries for (VenueSpot.co)|[http://www.venuespot.co]. As we are only running a small instance on aws, I didn&#8217;t to waste time by traversing through my related models using <code>each</code>. I wanted to write a couple of more optimizing queries using the <code>joins</code> keyword and the NOT IN mechanism. At the end it looked like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@events = Event.joins(:event_durations).where("events.state = ? and is_published = ? and event_durations.start_date &gt; ? and events.id NOT IN (?)", 'active', true, DateTime.now, @previous_venue_bid_ids).group('events.id')</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One thing that tripped me up was that initially my <code>@previous_venue_bid_ids</code> was a string that had all the ids, but the api actually takes in an array of the ids, so just be really sure what you are passing is correct!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/">Wrong Number of Arguments (1 for 0)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-16T18:22:00-07:00" pubdate data-updated="true">Sep 16<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;ve started getting the following error message when I started a json service that reads a model which is fog enabled (with s3):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>wrong number of arguments (1 for 0) at messages.json.rabl where line #1 raised:</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I wasn&#8217;t getting this before, so what gives?</p>
+
+<h1>Solution:</h1>
+
+<p>It turned out that I was doing this to get the asset path:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>model.asset</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, that only returns the AssetUploader instance, so when it tried to render it, it gave me the error. If you want just the path to s3, you will need the <code>to_s</code> appended to the end.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/01/angularjs-using-the-%24event-for-an-a-tag-can-cause-problems/">AngularJS: Using the $event for an a Tag Can Cause Problems.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-01T12:01:00-07:00" pubdate data-updated="true">Sep 1<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/01/angularjs-using-the-%24event-for-an-a-tag-can-cause-problems/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was troubleshooting a bug on one of the projects that uses AngularJS. Consider this markup:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href="/fooPage" data-ng-click="show($event)"&gt;&lt;span&gt;foobar!&lt;/span&gt;&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the js, this was what was declared:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$scope.show = function (event) {
+</span><span class='line'>  var href = event.target.href;
+</span><span class='line'>  ...
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, the interesting thing about this is that it <em>sometimes</em> works. The reason is that if you click on the link outside of the <span>, then the event.target resolves to the <a> tag. However, if you click within the span, then the event.target is the <span> tag, and there is no href there, thus throwing an error.</p>
+
+<p>The fix:</p>
+
+<p>The solution is actually pretty simple. Instead of using <code>event.target</code>, use <code>event.currentTarget</code>. That resolves to the <a> and it will work for all cases.</p>
+
+<p>Hope that helps!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/">Set Up SMTP to Send Mail on Postfix on Ubuntu 12.10</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-30T13:52:00-07:00" pubdate data-updated="true">Aug 30<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I needed something quick to send emails for internal use. Basically it&#8217;s just a follow on <a href="https://help.ubuntu.com/community/Postfix">this</a> page. However, I needed to expose the email to the different clients on our internal network. There following two extra steps were needed:</p>
+
+<p>1.) In your mail config, remove this line:</p>
+
+<p>smtpd_use_tls=no</p>
+
+<p>2.) In the same config, update this line:</p>
+
+<p><code>mynetworks = 127.0.0.0/8 10.0.0.0/8</code></p>
+
+<p>This tells that the smtp should be allowed on the network.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -384,362 +824,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails Unit Test: NoMethodError: Undefined Method Authenticate for nil:NilClass</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-11T11:45:00-07:00" pubdate data-updated="true">Aug 11<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve started foraying out of the standard MiniTest framework and into rspec, since I&#8217;ve been writing a lot more Jasmine unit tests lately. One of the very first things I got (unfortunately) was this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError: undefined method `authenticate!' for nil:NilClass</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Luckily, the devise docs tells you exactly what&#8217;s wrong on their docs <a href="https://github.com/plataformatec/devise#test-helpers">page</a> regarding test helpers. So if you are seeing the same issue, consult their docs!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: Using Link_to to Include Icons.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-01T17:04:00-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2013</time>
-        
-         | <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was trying to make my links look pretty by adding the <code>icon-*</code> classes to the link. However I was using the <code>link_to</code> method and it was not clear reading the docs how to do that. Luckily I figured it out:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to '&lt;i class="icon-remove"&gt;&lt;/i&gt;'.html_safe, message, {:method =&gt; :delete, :class =&gt; 'btn btn-small'}%&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pretty awesome!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/24/mvn-grails-plugin-run-test-coverage/">Mvn Grails Plugin: Run Test Coverage</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-24T17:58:00-07:00" pubdate data-updated="true">Jun 24<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/24/mvn-grails-plugin-run-test-coverage/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was stuck on how to pass the <code>-coverage</code> variable into a mavenized grails project. After looking from the inter web I got this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn grails:exec -Dcommand=test-app -Dargs=-coverage</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That did the trick. Thanks Google!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat/">AngularJS and X-Editable - Calling .editable After the Last Element With Ng-repeat.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-23T18:39:00-07:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I had a pretty complicated scenario that I&#8217;m working on which entails the use of AngularJS and the X-Editable plugin.</p>
-
-<h1>The scenario.</h1>
-
-<p>I have a page where it loads the Assets using ajax, and that collection gets rendered using an ng-repeat. Complicated to the fact is that the fields of the Assets are inline editable, which meant I need to call the <code>$(.editable).editable()</code> after all the elements are rendered (you can&#8217;t do it on <code>document.ready</code> since it&#8217;s loaded via ajax.</p>
-
-<p>Here&#8217;s the visual: http://screencloud.net/v/qbd0</p>
-
-<h1>The solution.</h1>
-
-<p>Here&#8217;s how I fixed it. Basically add a custom directive <code>makeEditable</code> which has this declaration:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>        .directive('makeEditable', function() {
-</span><span class='line'>            return function(scope, element, attrs) {
-</span><span class='line'>                scope.$watch('$last',function(){
-</span><span class='line'>                    $('.editable').editable();
-</span><span class='line'>                });
-</span><span class='line'>            };
-</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
-
-
-<p>and in your view, just do this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>    &lt;div class="span4" data-toggle="modal-gallery" data-target="#modal-gallery" data-ng-repeat="file in queue" make-editable&gt;
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now the input elements should be editable!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">Use of Select_tag to Map Associated Model in Dropdowns.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-23T15:33:00-07:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Here&#8217;s a way to create a dropdown to save associated model in dropdown.</p>
-
-<p>In _addform.html.erb:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>      &lt;%= select_tag(:organization_id, options_for_select(current_user.organizations.collect { |p| [p.name, p.id] }), {:include_blank =&gt; false}) %&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In _editform.html.erb:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;%= select_tag(:organization_id, options_for_select(current_user.organizations.collect { |p| [p.name, p.id] }, :selected =&gt; @advertisement.organization.id), {:include_blank =&gt; false}) %&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And in the controller:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@advertisement.organization = Organization.find(params[:organization_id])</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I would like to not have two different _form templates so what I would do is probably extract that logic in the helper so we can just have one tag for both create and edit.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant Post: Shit Will Not Work if You Include Angular.js Twice</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-22T17:28:00-07:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Alright I&#8217;m going to rant more than blog for this entry. I spent the last hour trying to find out why a library I&#8217;m planning to use (jquery-upload) didn&#8217;t work. I&#8217;ve learn that the asset pipeline is sort of a double edge sword&#8230;if you define something in the application and you define it again in your controller specific template, it will include the js file twice. Why isn&#8217;t Sprockets smarter?! Also, when I include AngularJS twice, subtle things stop working. Why can&#8217;t the AnglarJS guys not include the library if it detected that it&#8217;s already included??! Anyways end of rant. Back to work..</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/">Rails 3 Redirect_to With Flash :notice Does Not Show Up - Problem.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-20T22:02:00-07:00" pubdate data-updated="true">Jun 20<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was working on my app just now and finally got rid of a stupid annoying thing &#8211; it wouldn&#8217;t update my flash messages for some reason after I do a redirect_to.</p>
-
-<p>This was what I had:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    format.html { redirect_to venues_path, notice: 'Venue space was successfully created.' }
-</span><span class='line'>    format.json { render json: @venue_space, status: :created, location: @venue_space }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pretty standard stuff right? But for some reason I couldn&#8217;t get the flash messages working at all! I was so baffled by it but then I started tracing down the calls.</p>
-
-<p>Turns out that the <code>venues_path</code> redirects to the index method, and in the index method it does a redirect to the edit method, and in Rails 3 you need <code>flash.keep</code> in order to preserve the flash message. Doh!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -755,23 +839,23 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance/">Passenger Nginx and Rails and Thin - set up reverse proxy on a Thin server instance</a>
+        <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/12/passenger/">Passenger</a>
+        <a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/">Jasmine Spies on a 2nd level object</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/">RSpec and Devise: not hitting controller action.</a>
+        <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a custom migrate script for running migrations in another location.</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass</a>
+        <a href="/blog/2013/10/05/rails-3-joins-and-not-ins/">Rails 3: joins and not ins</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: using link_to to include icons.</a>
+        <a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/">wrong number of arguments (1 for 0)</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: problems | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/problems/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-10-21T19:18:08-07:00</updated>
+  <updated>2013-12-15T01:11:37-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS: using the $event for an a tag can cause problems.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/09/01/angularjs-using-the-%24event-for-an-a-tag-can-cause-problems/"/>
+    <updated>2013-09-01T12:01:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/09/01/angularjs-using-the-$event-for-an-a-tag-can-cause-problems</id>
+    <content type="html"><![CDATA[<p>So I was troubleshooting a bug on one of the projects that uses AngularJS. Consider this markup:
+<code>
+&lt;a href="http://tommytcchan.github.com/fooPage" data-ng-click="show($event)"&gt;&lt;span&gt;foobar!&lt;/span&gt;&lt;/a&gt;
+</code></p>
+
+<p>In the js, this was what was declared:
+```</p>
+
+<pre><code>$scope.show = function (event) {
+    var href = event.target.href;
+    ...
+};
+</code></pre>
+
+<p>```</p>
+
+<p>Now, the interesting thing about this is that it <em>sometimes</em> works. The reason is that if you click on the link outside of the <span>, then the event.target resolves to the <a> tag. However, if you click within the span, then the event.target is the <span> tag, and there is no href there, thus throwing an error.</p>
+
+<p>The fix:</p>
+
+<p>The solution is actually pretty simple. Instead of using <code>event.target</code>, use <code>event.currentTarget</code>. That resolves to the <a> and it will work for all cases.</p>
+
+<p>Hope that helps!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Passenger Nginx and Rails and Thin - set up reverse proxy on a Thin server instance]]></title>
@@ -117,26 +148,6 @@ Couldn't find User with id=sign_in
 </code></p>
 
 <p>Turned out I had a <code>resources :users</code> declared as well as <code>devise_for :users</code> and the standard flow overridden the devise sign in flow.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Angular JS - form ng-disabled='form.$invalid' not working]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-%24invalid-not-working/"/>
-    <updated>2013-05-15T12:58:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/05/15/angular-js-form-ng-disabled-equals-form-dot-$invalid-not-working</id>
-    <content type="html"><![CDATA[<p>I was writing some validation using Angular JS, and I had something like this:
-<code>
-&lt;button name="update" class="btn btn-primary" data-ng-disabled="form.$invalid"&gt;Edit&lt;/button&gt;
-</code></p>
-
-<p>Judging from the code examples I saw, that should just work. However it didn't for me, until I realized that the <form>'s id attribute had to named in order for angular to reference it:</p>
-
-<p><code>
-&lt;form action="/save" method="post" name="form" id="form" &gt;
-</code></p>
-
-<p>The problem was solved after I added the id attr to the form.</p>
 ]]></content>
   </entry>
   

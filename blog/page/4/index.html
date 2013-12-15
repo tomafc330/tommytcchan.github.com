@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call &hellip;">
+  <meta name="description" content="Ever run into the issue where you are returning your domain object using to_json but you want an extra field? Well it&#8217;s actually really easy to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,392 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/">Rails: Include Extra Fields on Returning a Model Object as Json</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-13T15:26:00-07:00" pubdate data-updated="true">Apr 13<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/13/rails-include-extra-fields-on-returning-a-model-object-as-json/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ever run into the issue where you are returning your domain object using <code>to_json</code> but you want an extra field? Well it&#8217;s actually really easy to add that in there.</p>
+
+<p>In your model:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  attr_accessor :key_stroke #note its attr_accessor not attr_accessible</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In your rendering:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>render :json =&gt; matches.values.to_json(:methods =&gt; :key_stroke)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, sometimes you don&#8217;t want to return your whole object in which case you which restrict it with <code>:only</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/">Grails: At org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-12T15:10:00-07:00" pubdate data-updated="true">Apr 12<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/12/grails-at-org-dot-apache-dot-tools-dot-ant-dot-unknownelement-dot-execute-unknownelement-dot-java-291/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was having this issue with my Grails upgrade from 2.0.0 to 2.1.4:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NullPointerException
+</span><span class='line'>at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:291)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I was like what&#8217;s going on here? There isn&#8217;t really any indications, so I had to use <code>git bisect</code> to see when I introduced the problem. Turns out (I don&#8217;t have an explaination for this) that one of my tablib closures had an extra <code>-&gt;</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def initFacebokShareBtn = { -&gt; //note this
+</span><span class='line'>  ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By having that extra notation it gave me errors. Once I removed it then it worked. Perhaps the Grails folks introduced something in 2.1.4?</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/07/rails-controller-css-isnt-precompiled/">Rails: Controller Css Isn&#8217;t Precompiled</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-07T22:33:00-07:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/07/rails-controller-css-isnt-precompiled/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around. By default Rails set the <code>application.css</code> to include <code>//= require_tree .</code>. So naturally I removed it and in my <code>application.html.erb</code> I added the following: <code> &lt;%= stylesheet_link_tag params[:controller] %&gt;</code></p>
+
+<p>All good, right? Wrong! When I started the app in prod mode, I got an error like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>shortcuts.css isn't precompiled</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What&#8217;s going on here? Well upon some searching and reading through the asset pipeline guide, I realized that by default Rails does not compile your css under the stylesheets folder. I had to do this in <code>production.rb</code> to make it work:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  config.assets.precompile += %w( *.css *.js )</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/02/rails-escape-string-for-view-to-use/">Rails: Escape String for View to Use.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-02T20:33:00-07:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/02/rails-escape-string-for-view-to-use/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I had this issue with a Rails app where the string content has been html encoded. This was not good because I was feeding the information to view layer that contains some javascript. Therefore this was what I needed to do:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@tags = Tag.all_as_str.html_safe</span></code></pre></td></tr></table></div></figure>
+
+
+<p>so the <code>html_safe</code> does the trick here for me.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue/">Grails: groovy.lang.MissingMethodException: No Signature of Method: &#8230;.getPersistentValue()</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-02T15:42:00-07:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/02/grails-groovy-dot-lang-dot-missingmethodexception-no-signature-of-method-dot-dot-dot-getpersistentvalue/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;m writing a unit test that uses getPersistentValue in one of the controllers, and I ran into the problem where I got this error:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>groovy.lang.MissingMethodException: No signature of method: Domain.getPersistentValue() </span></code></pre></td></tr></table></div></figure>
+
+
+<p>I assumed that when I have the <code>@Mock(domain)</code> annotation, I would get all the available methods to me in the test. However, upon inspecting the methods using <code>instance.metaClass.methods*.name</code>, I realized it was missing some of the methods. Therefore you will need to mock those in your tests.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/29/rails-not-serving-assets-on-production/">Rails: Not Serving Assets on Production.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-29T10:57:00-07:00" pubdate data-updated="true">Mar 29<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/29/rails-not-serving-assets-on-production/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I changed my environment to be production, and I had issues with serving static content. Since my app was a single page app, I needed this to work (didn&#8217;t want to put nginx or apache in front of it).</p>
+
+<p>The error I was getting was this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ActionController::RoutingError (No route matches [GET] "/"):</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I did this in another project and forgot that I need to set the following parameter in <code>production.rb</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  config.serve_static_assets = true</span></code></pre></td></tr></table></div></figure>
+
+
+<p>All was good afterwards!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/">Rails: Undefined Method&#8230; After a Migration Script Change</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-28T21:56:00-07:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I updated my model by changing the migration script and then doing <code>rake db:drop</code> and &#8220;`rake db:create&#8220;&#8220; and thought I would be okay. However, when I started my app after I changed the view layer, I got something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>undefined method `command_name' for #&lt;Shortcut:0x00000003c3b4e8&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What gives? It turned out that I also needed to modify <code>schema.rb</code> to create the initial table. So that is a good place to check out if you find yourself changing the migration data.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/">Android:setting the Default Value of a Setting With a Colon</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-27T20:34:00-07:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference defined in the xml. However, I was getting messages like these:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>java.lang.RuntimeException: Unable to start activity ComponentInfo{com.codetipdaily/com.codetipdaily.Preferences}: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I had no idea why, but I fixed it by setting the <code>android:key</code> to be a different key. I had the same key referenced as a CheckboxPreferences a few hours ago, and that seemed to have done the trick. Weird!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -185,651 +571,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/">Example: How to Set Up Debugging With Karma (Formerly Testacular) and Webstorm</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-18T19:50:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/18/example-how-to-set-up-debugging-with-karma-formerly-testacular-and-webstorm/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>Introduction</h1>
-
-<p>This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service.</p>
-
-<h1>Debugging</h1>
-
-<p>I&#8217;m using Webstorm to perform debugging. But to do this you will need to install <a href="http://karma-runner.github.com/0.8/intro/installation.html">Karma</a>, which is essentially Testacular 2.0.</p>
-
-<h1>Set up</h1>
-
-<p>To set this up, refer to the screenshots provided:</p>
-
-<h6>Step 1:</h6>
-
-<p>Create the Node js runner according to the screen shot.</p>
-
-<p>http://screencloud.net/v/ERqK</p>
-
-<h6>Step 2:</h6>
-
-<p>Create the Debug configuration according to the screen shot. Note that the port will be the port that you Karma server ran on for the Node.js configuration you defined for Step 1.</p>
-
-<p>http://screencloud.net/v/3sH0</p>
-
-<h6>Step 3:</h6>
-
-<p>Start the Node.js run, then start the Debug configuration after you set some breakpoints.</p>
-
-<p>http://screencloud.net/v/2oGA</p>
-
-<p>Read more at:
-https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mocha</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/">Set Cookie With Domain of Localhost Will Not Work for Chrome/chromium Browswer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-18T12:09:00-07:00" pubdate data-updated="true">Mar 18<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/18/set-cookie-with-domain-of-localhost-will-not-work-for-chrome-slash-chromium-browswer/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was working on setting a cookie for one of the sites, and what I had done was something like this initially:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>     Cookie cookie = new Cookie(
-</span><span class='line'>              key,
-</span><span class='line'>              value);
-</span><span class='line'>      cookie.setMaxAge(7);
-</span><span class='line'>      cookie.setPath("/");
-</span><span class='line'>      cookie.setDomain(serverDomain);
-</span><span class='line'>      
-</span><span class='line'>      response.addCookie(cookie);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Everything was working on localhost in Firefox and Opera. However, when I looked at the inspector for Chrome, it wasn&#8217;t working! I then tried to use 127.0.0.1 instead of localhost. That worked. So I read up some more about it and apparently if you tried to set the domain to localhost on a cookie, Chrome will reject it! so the fix was to removed the <code>cookie.setDomain(serverDomain);</code> line and everything was great again.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup/">Caution: Testing Grails Filter While Overriding the Request/response Object in the Setup().</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-15T12:34:00-07:00" pubdate data-updated="true">Mar 15<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;m doing some testing on the filter recently, and I of the things I notice right away was that the previous committer had initializers all over the place:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void test_filters_all_with_no_utmParams_noSession_with__invalid_Cookie() {
-</span><span class='line'>      FilterConfig filter = findConfig('all')
-</span><span class='line'>
-</span><span class='line'>      def request = new MockHttpServletRequest()
-</span><span class='line'>      def response = new MockHttpServletResponse()
-</span><span class='line'>      setUpWebCookieService(request, response)
-</span><span class='line'>
-</span><span class='line'>      request.session = createSession(null, null, 'true')
-</span><span class='line'>      request.cookies = [new Cookie('blah')]
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So I thought, why not just put of the same declarations on the setup method()? Well, it turns out that Grails dynamic closures will clobber the request/response variables. When I ran the tests with the declarations in the setup, no matter what I do I was not able to set my variable.</p>
-
-<p>After some digging around, I realized one thing:</p>
-
-<ol>
-<li>The test already injects the request/response objects in your filter tests, so overriding actually causes problems, leading to my variables not being set on the correct request/response instance.</li>
-</ol>
-
-
-<p>I&#8217;ll let you decide what&#8217;s best for yourself.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/">Groovy: The Way to Populate a Csv/excel File.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-08T13:52:00-08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was working on a refactoring for a method that did csv export, and I found a prime a candidate for using the currying mechanism in Groovy.</p>
-
-<p>Consider this example of the code before:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def export = {
-</span><span class='line'>  final string[] csvcolumnheadings = ['game', 'campaign name', 'campaign medium', 'campaign code', 'campaign term', 'campaign content',
-</span><span class='line'>      'campaign source', 'additional paramter','status', 'created by', 'updated by', 'date created', 'last updated']
-</span><span class='line'>  
-</span><span class='line'>  ...
-</span><span class='line'>
-</span><span class='line'>      campaigns.resultset.each { campaign -&gt;
-</span><span class='line'>          string[] row = new string[13]
-</span><span class='line'>          
-</span><span class='line'>          row[0] = campaign.game ? campaign.game : ''
-</span><span class='line'>          row[1] = campaign.campaignname ? campaign.campaignname : ''
-</span><span class='line'>          row[2] = campaign.type ? campaign.type.tostring() : ''
-</span><span class='line'>          row[3] = campaign.campaigncode ? campaign.campaigncode : ''
-</span><span class='line'>          row[4] = campaign.campaignterm ?: ''
-</span><span class='line'>          row[5] = campaign.campaigncontent?: ''
-</span><span class='line'>          row[6] = campaign.source ? campaign.source : ''
-</span><span class='line'>          row[7] = campaign.parameter ? campaign.parameter : ''
-</span><span class='line'>          row[8] = campaign.status.name ? campaign.status.name : ''
-</span><span class='line'>          row[9] = campaign.createdby ? campaign.createdby : ''
-</span><span class='line'>          row[10] = campaign.updatedby ? campaign.updatedby : ''
-</span><span class='line'>          row[11] = campaign.datecreated ? campaign.datecreated.getdatetimestring() : ''
-</span><span class='line'>          row[12] = campaign.lastupdated ? campaign.lastupdated.getdatetimestring() : ''
-</span><span class='line'>          
-</span><span class='line'>          csvwriter.writenext(row)
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>  ...
-</span><span class='line'>      
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<p>So what&#8217;s the problem here? Well, I was adding a couple of fields to the export, and the problem is that there are 4 things I needed to do:
-* Add it to the <code>csvcolumnheadings</code>
-* Update the number of elements in decl of the array <code>row</code>
-* Add the elements
-* Update all the numberings</p>
-
-<p>Also, it&#8217;s not a very Groovy way of doing it. Come curryin to the rescue!</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def valRetrieveFunc = {fieldName, campaign -&gt;
-</span><span class='line'>      def result
-</span><span class='line'>
-</span><span class='line'>      if (fieldName instanceof Closure) {
-</span><span class='line'>          result = fieldName(campaign)
-</span><span class='line'>      } else {
-</span><span class='line'>          result = campaign."${fieldName}"
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      return result ?: ''
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  final Map map = [
-</span><span class='line'>          'Game': valRetrieveFunc.curry('game'),
-</span><span class='line'>          'Campaign Name': valRetrieveFunc.curry('campaignName'),
-</span><span class='line'>          'Campaign Medium': valRetrieveFunc.curry({campaign -&gt; return campaign.type?.toString()}),
-</span><span class='line'>          'Campaign Code': valRetrieveFunc.curry('campaignCode'),
-</span><span class='line'>          'Campaign Term': valRetrieveFunc.curry('campaignTerm'),
-</span><span class='line'>          'Campaign Content': valRetrieveFunc.curry('campaignContent'),
-</span><span class='line'>          'Campaign Source': valRetrieveFunc.curry('source'),
-</span><span class='line'>          'Additional Paramter': valRetrieveFunc.curry('parameter'),
-</span><span class='line'>          'Status': valRetrieveFunc.curry({campaign -&gt; return campaign.status?.name}),
-</span><span class='line'>          'Created By': valRetrieveFunc.curry('createdBy'),
-</span><span class='line'>          'Updated By': valRetrieveFunc.curry('updatedBy'),
-</span><span class='line'>          'Date Created': valRetrieveFunc.curry({campaign -&gt; return campaign.dateCreated?.getDateTimeString()}),
-</span><span class='line'>          'Last Updated': valRetrieveFunc.curry({campaign -&gt; return campaign.lastUpdated?.getDateTimeString()})]
-</span><span class='line'>
-</span><span class='line'>  final String[] csvColumnHeadings = map.keySet()
-</span><span class='line'>
-</span><span class='line'>  ...
-</span><span class='line'>
-</span><span class='line'>      campaigns.resultSet.each { campaign -&gt;
-</span><span class='line'>          def row = []
-</span><span class='line'>          csvColumnHeadings.each({
-</span><span class='line'>              row &lt;&lt; map[it](campaign)
-</span><span class='line'>          })
-</span><span class='line'>
-</span><span class='line'>          csvWriter.writeNext(row.toArray() as String[])
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>  ...                 </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let me annotate this a little bit. The first thing we define was a func on how to get the parameter from the domain object. Notice for complex retrievals we can pass in a closure to how to fetch the object graph. The more important bit here is the <code>curry</code> method, which defines a new closure with the same content, except that the first parameter has been <code>curried</code> and embedded in the new closure. By using <code>curry</code> in this way, the caller of the curried closure doesn&#8217;t need worry about the first parameter..they can just invoke it with the campaign object in this case (ie. <code>row &lt;&lt; map[it](campaign)</code>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/">Rails: Correct Way of Before_save in Model</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-01T19:09:00-08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was reading a tutorial on the before_save and thought this was a valid syntax:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  def before_save(record)
-</span><span class='line'>
-</span><span class='line'>    if record.publishing
-</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
-</span><span class='line'>        publishing_tip.publishing = false
-</span><span class='line'>        publishing_tip.published = true
-</span><span class='line'>        publishing_tip.save
-</span><span class='line'>      end
-</span><span class='line'>    end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Turned out that this is the valid syntax for Rails 3.1:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  before_save :update_publishing_state
-</span><span class='line'>
-</span><span class='line'>  def update_publishing_state
-</span><span class='line'>    if self.publishing
-</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
-</span><span class='line'>        publishing_tip.publishing = false
-</span><span class='line'>        publishing_tip.published = true
-</span><span class='line'>        publishing_tip.save
-</span><span class='line'>      end
-</span><span class='line'>    end
-</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/">Apache2: Negotiation: Discovered File(s) Matching Request: &#8230;yi (None Could Be Negotiated)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-28T20:32:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/28/apache2-negotiation-discovered-file-s-matching-request-dot-dot-dot-yi-none-could-be-negotiated/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I received this message in my apache logs while accessing a rewrite on PHP 5.4:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[Thu Feb 28 20:29:44 2013] [error] [client 127.0.0.1] Negotiation: discovered file(s) matching request: /home/ad/repo/yii/backend (None could be negotiated).</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It turned out that I needed to add an extra type defn for PHP 5.4:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>AddType application/x-httpd-php .php</span></code></pre></td></tr></table></div></figure>
-
-
-<p>source: http://serverfault.com/questions/372733/apache-file-negotiation-failed</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/">Apache2: Hosting Sever From a User Directory Requires X7x Permission</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-28T20:07:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve been experimenting running a webapp in a a directory where I host my code, and in order for the server to read the dir, the base directory had to be x7x, such as</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chmod 774 repo</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/28/css-image-not-aligning-quite-right/">CSS: Margin-top Selector Not Working.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-28T14:51:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/28/css-image-not-aligning-quite-right/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>The problem:</h3>
-
-<p>So I&#8217;m trying to set margin-top on a div that contains an image:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="affiliate-logo"&gt;&lt;a href="http://www.gamechannel.de"&gt;&lt;img src="/logo.png"&gt;&lt;/a&gt;&lt;/div&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>.affiliate-logo {
-</span><span class='line'>    margin-top: 15px;
-</span><span class='line'>    text-align: center;
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, the margin-top didn&#8217;t work at all for whatever value I put in.</p>
-
-<h3>The solution:</h3>
-
-<p>Turns out that you have to float the div and make that 100% width in order for the margin-top to kick in:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.affiliate-logo {
-</span><span class='line'>    float: left;
-</span><span class='line'>    margin-top: 15px;
-</span><span class='line'>    text-align: center;
-</span><span class='line'>    width: 100%;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -847,23 +588,23 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance/">Passenger Nginx and Rails and Thin - set up reverse proxy on a Thin server instance</a>
+        <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/12/passenger/">Passenger</a>
+        <a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/">Jasmine Spies on a 2nd level object</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/">RSpec and Devise: not hitting controller action.</a>
+        <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a custom migrate script for running migrations in another location.</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/">Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass</a>
+        <a href="/blog/2013/10/05/rails-3-joins-and-not-ins/">Rails 3: joins and not ins</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: using link_to to include icons.</a>
+        <a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/">wrong number of arguments (1 for 0)</a>
       </li>
     
   </ul>

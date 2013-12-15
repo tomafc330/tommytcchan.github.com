@@ -310,7 +310,13 @@
         <loc>
             http://tommytcchan.github.com/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/
         </loc>
-        <lastmod>2013-10-05T14:38:14-07:00</lastmod>
+        <lastmod>2013-12-03T16:02:32-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/09/01/angularjs-using-the-%24event-for-an-a-tag-can-cause-problems/
+        </loc>
+        <lastmod>2013-12-03T16:02:32-08:00</lastmod>
     </url>
     <url>
         <loc>
@@ -329,12 +335,24 @@
         <lastmod>2013-10-21T19:17:37-07:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/
+        </loc>
+        <lastmod>2013-12-15T01:08:32-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/
+        </loc>
+        <lastmod>2013-12-15T01:11:16-08:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-10-21T19:17:37-07:00</lastmod>
+        <lastmod>2013-12-15T01:11:16-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-10-21T19:17:37-07:00</lastmod>
+        <lastmod>2013-12-15T01:11:16-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>
