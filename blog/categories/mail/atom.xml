@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mail | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/mail/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-12-15T01:11:37-08:00</updated>
+  <updated>2013-12-16T19:09:33-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails and adding an environment to headers]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/16/rails-and-adding-an-environment-to-headers/"/>
+    <updated>2013-12-16T19:07:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/16/rails-and-adding-an-environment-to-headers</id>
+    <content type="html"><![CDATA[<p>One of the more annoying things that happens when you have multiple environements is that when a mail comes in, you don't really know what is what. Therefore it's smart to have an environment shown on the email headers so you don't accidentally confuse it with the live system. To do that is relatively trivial:</p>
+
+<p>```</p>
+
+<h1>base_mailer.rb</h1>
+
+<p>class BaseMailer &lt; ActionMailer::Base</p>
+
+<pre><code>default from: "hello@venuespot.co" #TODO move these out
+default to: "tom@venuespot.co"
+
+def mail(headers={}, &amp;block)
+
+    unless Rails.env == 'production'
+        headers[:subject].insert(0, "[#{Rails.env}] - ")
+    end
+
+    super(headers, &amp;block)
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<p>And then just extend that class instead of the the default <code>ActionMailer::Base</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Set up SMTP to send mail on Postfix on Ubuntu 12.10]]></title>

@@ -347,12 +347,24 @@
         <lastmod>2013-12-15T01:11:16-08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/
+        </loc>
+        <lastmod>2013-12-15T21:45:47-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2013/12/16/rails-and-adding-an-environment-to-headers/
+        </loc>
+        <lastmod>2013-12-16T19:09:21-08:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2013-12-15T01:11:16-08:00</lastmod>
+        <lastmod>2013-12-16T19:09:21-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2013-12-15T01:11:16-08:00</lastmod>
+        <lastmod>2013-12-16T19:09:21-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>

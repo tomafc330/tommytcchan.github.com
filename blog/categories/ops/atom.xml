@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ops | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/ops/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-12-15T01:11:37-08:00</updated>
+  <updated>2013-12-16T19:09:33-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Azure and Confluence firewall rule setup problem and solution]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/"/>
+    <updated>2013-12-15T21:37:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/15/azure-and-confluence-firewall-rule-setup</id>
+    <content type="html"><![CDATA[<p>Our company, VenueSpot.co has a Bizspark account from Microsoft which gives us $150/mn server credit for 3 years. Thanks Microsoft!</p>
+
+<p>However I had to spend some time trying to configure the server esp with the ports so they play nicely. First off you have to enable your firewall, either doing it through <code>iptables</code> or <code>ufc</code>. Initially, I did it using the latter:</p>
+
+<p><code>
+sudo ufw enable
+sudo ufw allow 8090
+</code>
+So far, so good. I then proceeded to the Azure admin interface to map the port from 8090 => 8090. Guess what that doesn't work (at least not for me.)</p>
+
+<p>After some experimentation I go it to work by removing the port 80 => 80 mapping, and instead I created a new mapping that points 80 => 8090.</p>
+
+<p>Coming from an AWS background, this made no sense. Surely I should be able to open any port I wanted...however that didn't work for me.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails: create a deploy script with ease]]></title>

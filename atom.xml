@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-12-15T01:11:37-08:00</updated>
+  <updated>2013-12-16T19:09:33-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails and adding an environment to headers]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/16/rails-and-adding-an-environment-to-headers/"/>
+    <updated>2013-12-16T19:07:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/16/rails-and-adding-an-environment-to-headers</id>
+    <content type="html"><![CDATA[<p>One of the more annoying things that happens when you have multiple environements is that when a mail comes in, you don&#8217;t really know what is what. Therefore it&#8217;s smart to have an environment shown on the email headers so you don&#8217;t accidentally confuse it with the live system. To do that is relatively trivial:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># base_mailer.rb
+</span><span class='line'>class BaseMailer &lt; ActionMailer::Base
+</span><span class='line'>
+</span><span class='line'>    default from: "hello@venuespot.co" #TODO move these out
+</span><span class='line'>    default to: "tom@venuespot.co"
+</span><span class='line'>
+</span><span class='line'>    def mail(headers={}, &block)
+</span><span class='line'>
+</span><span class='line'>        unless Rails.env == 'production'
+</span><span class='line'>            headers[:subject].insert(0, "[#{Rails.env}] - ")
+</span><span class='line'>        end
+</span><span class='line'>
+</span><span class='line'>        super(headers, &block)
+</span><span class='line'>    end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And then just extend that class instead of the the default <code>ActionMailer::Base</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Azure and Confluence firewall rule setup problem and solution]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/"/>
+    <updated>2013-12-15T21:37:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/15/azure-and-confluence-firewall-rule-setup</id>
+    <content type="html"><![CDATA[<p>Our company, VenueSpot.co has a Bizspark account from Microsoft which gives us $150/mn server credit for 3 years. Thanks Microsoft!</p>
+
+<p>However I had to spend some time trying to configure the server esp with the ports so they play nicely. First off you have to enable your firewall, either doing it through <code>iptables</code> or <code>ufc</code>. Initially, I did it using the latter:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo ufw enable
+</span><span class='line'>sudo ufw allow 8090</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So far, so good. I then proceeded to the Azure admin interface to map the port from 8090 => 8090. Guess what that doesn&#8217;t work (at least not for me.)</p>
+
+<p>After some experimentation I go it to work by removing the port 80 => 80 mapping, and instead I created a new mapping that points 80 => 8090.</p>
+
+<p>Coming from an AWS background, this made no sense. Surely I should be able to open any port I wanted&#8230;however that didn&#8217;t work for me.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Secret Ingredient to a co-founder's success - Love]]></title>
@@ -636,34 +702,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 <p>Pretty standard stuff right? But for some reason I couldn&#8217;t get the flash messages working at all! I was so baffled by it but then I started tracing down the calls.</p>
 
 <p>Turns out that the <code>venues_path</code> redirects to the index method, and in the index method it does a redirect to the edit method, and in Rails 3 you need <code>flash.keep</code> in order to preserve the flash message. Doh!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Couldn't find User with id=sign_in Devise on Rails 3]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/"/>
-    <updated>2013-06-17T08:47:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3</id>
-    <content type="html"><![CDATA[<p>So I was working on an app that is using devise (who isn&#8217;t?!) and I got this message:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Couldn't find User with id=sign_in</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Turned out I had a <code>resources :users</code> declared as well as <code>devise_for :users</code> and the standard flow overridden the devise sign in flow.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails 3 devise gem: sign out]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/06/10/rails-3-devise-gem-sign-out/"/>
-    <updated>2013-06-10T08:26:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/06/10/rails-3-devise-gem-sign-out</id>
-    <content type="html"><![CDATA[<p>So I&#8217;ve been using this awesome gem for the authentication module&#8230;so far I&#8217;m loving it. Follows the convention over configuration model. I needed to log out my user and this is all I needed in my view (note the method :delete is required):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "Sign out", destroy_user_session_path, :method =&gt; :delete %&gt;</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

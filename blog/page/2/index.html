@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;ve started foraying out of the standard MiniTest framework and into rspec, since I&#8217;ve been writing a lot more Jasmine unit tests lately &hellip;">
+  <meta name="description" content="I&#8217;m setting up our beta site for venuespot, and one of the golden rules is that everything should be as close to the production site as &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,206 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/12/passenger/">Passenger</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-12T12:52:00-07:00" pubdate data-updated="true">Aug 12<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/08/12/passenger/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m setting up our beta site for <a href="http://venuespot.co">venuespot</a>, and one of the golden rules is that everything should be as close to the production site as possible.</p>
+
+<p>Here are the instructions for how to use passenger with nginx and rails (3.2.11) on Ubuntu 12.10. I did read the docs but I found that it was missing a few things, so hopefully this tutorial will address your problems. See the section on Troubleshooting for more solutions to the problems I encountered.</p>
+
+<h1>Introduction</h1>
+
+<p>First, you will want to install passenger:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install passenger</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(Optional). Then, you would want to get the latest rvm:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm get latest
+</span><span class='line'>rvm reload</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now install nginx with the passenger mod:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvmsudo passenger-install-nginx-module
+</span><span class='line'>(If the above fails, then you will need to update your rvm.)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now get the libcurl (or whatever it tells you) library.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get install libcurl4-openssl-dev</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Okay, we&#8217;re at the halfway point. Next we should edit the nginx config file at <code>/opt/nginx/conf/nginx.conf</code>. Remove the original <code>server</code> block and add the following</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>server {
+</span><span class='line'>    listen 80;
+</span><span class='line'>    server_name localhost;
+</span><span class='line'>    root /yourwebapp/public; # &lt;--- be sure to point to 'public'!
+</span><span class='line'>    passenger_enabled on;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>passenger_pre_start http://localhost/;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, we need to make sure the nginx process can have 777 access to config.ru and make sure all the way up the path we have 777 as well.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chmod 777 /yourwebapp
+</span><span class='line'>chmod 777 config.ru </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now create the nginx init script:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>wget -O init-deb.sh http://library.linode.com/assets/1139-init-deb.sh
+</span><span class='line'>mv init-deb.sh /etc/init.d/nginx
+</span><span class='line'>chmod +x /etc/init.d/nginx
+</span><span class='line'>/usr/sbin/update-rc.d -f nginx defaults</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now start the server:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/nginx start</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There you have it folks! Navigate to localhost and you should see your site!</p>
+
+<h1>Troubleshooting</h1>
+
+<p>In the event that you don&#8217;t see anything, you should check your logs in <code>/opt/nginx/logs</code> to ensure everything was done correctly.</p>
+
+<p>For example, you might see this: <code>Error page:
+Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</code></p>
+
+<p>This means your gems have not been installed. Do a bundle install in your rails dir</p>
+
+<p>Or, you might see somethign like this: <code>terminate called after throwing an instance of 'Passenger::FileSystemException'
+  what():  Cannot stat '/yourwebapp/config.ru': Permission denied (errno=13)
+</code></p>
+
+<p>This means you need to set your permissions correctly for the whole path (see above).</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/">RSpec and Devise: Not Hitting Controller Action.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T12:26:00-07:00" pubdate data-updated="true">Aug 11<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Okay so I ran into another problem. Just when I thought I got it figured out with the <code>sign_in</code> helper provided from the page in the previous post, a gaint boulder fell right in front of me. For whatever reason, the test method will not call into my controller method under test.</p>
+
+<p>This is what I had originally:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>before (:each) do
+</span><span class='line'>  sign_in users(:organizer)
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe "GET new with no bid id" do
+</span><span class='line'>  it "returns not found" do
+</span><span class='line'>      get :new, {}, valid_session
+</span><span class='line'>      flash[:error].should equal('error')
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty straight forward one would persume right? Wrong!</p>
+
+<p>Upon more digging around, I realized that Devise&#8217;s helpers are overridding the session variables, and so if we do <code>get :new, {}, valid_session</code>, the valid_session will override what was put into the session, causing issues with &#8216;signing in&#8217;. Therefore the solution is to remove that. If you still need to populate a session, click <a href="http://stackoverflow.com/a/9658682/151899">here</a> for a workaround.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -480,92 +680,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/">Couldn&#8217;t Find User With Id=sign_in Devise on Rails 3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-17T08:47:00-07:00" pubdate data-updated="true">Jun 17<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/17/couldnt-find-user-with-id-equals-sign-in-devise-on-rails-3/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was working on an app that is using devise (who isn&#8217;t?!) and I got this message:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Couldn't find User with id=sign_in</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Turned out I had a <code>resources :users</code> declared as well as <code>devise_for :users</code> and the standard flow overridden the devise sign in flow.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/">Rails 3 Devise Gem: Sign Out</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-10T08:26:00-07:00" pubdate data-updated="true">Jun 10<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;ve been using this awesome gem for the authentication module&#8230;so far I&#8217;m loving it. Follows the convention over configuration model. I needed to log out my user and this is all I needed in my view (note the method :delete is required):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "Sign out", destroy_user_session_path, :method =&gt; :delete %&gt;</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -583,6 +697,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/16/rails-and-adding-an-environment-to-headers/">Rails and adding an environment to headers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/">Azure and Confluence firewall rule setup problem and solution</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
       </li>
     
@@ -592,14 +714,6 @@
     
       <li class="post">
         <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a custom migrate script for running migrations in another location.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/05/rails-3-joins-and-not-ins/">Rails 3: joins and not ins</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/">wrong number of arguments (1 for 0)</a>
       </li>
     
   </ul>

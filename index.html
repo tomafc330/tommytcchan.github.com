@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;ve been writing a lot of technical stuff previously and it has come to my attention that sooner or later I will have to write about the high &hellip;">
+  <meta name="description" content="One of the more annoying things that happens when you have multiple environements is that when a mail comes in, you don&#8217;t really know what is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,130 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/16/rails-and-adding-an-environment-to-headers/">Rails and Adding an Environment to Headers</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-16T19:07:00-08:00" pubdate data-updated="true">Dec 16<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/16/rails-and-adding-an-environment-to-headers/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>One of the more annoying things that happens when you have multiple environements is that when a mail comes in, you don&#8217;t really know what is what. Therefore it&#8217;s smart to have an environment shown on the email headers so you don&#8217;t accidentally confuse it with the live system. To do that is relatively trivial:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># base_mailer.rb
+</span><span class='line'>class BaseMailer &lt; ActionMailer::Base
+</span><span class='line'>
+</span><span class='line'>    default from: "hello@venuespot.co" #TODO move these out
+</span><span class='line'>    default to: "tom@venuespot.co"
+</span><span class='line'>
+</span><span class='line'>    def mail(headers={}, &block)
+</span><span class='line'>
+</span><span class='line'>        unless Rails.env == 'production'
+</span><span class='line'>            headers[:subject].insert(0, "[#{Rails.env}] - ")
+</span><span class='line'>        end
+</span><span class='line'>
+</span><span class='line'>        super(headers, &block)
+</span><span class='line'>    end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And then just extend that class instead of the the default <code>ActionMailer::Base</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/">Azure and Confluence Firewall Rule Setup Problem and Solution</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-15T21:37:00-08:00" pubdate data-updated="true">Dec 15<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Our company, VenueSpot.co has a Bizspark account from Microsoft which gives us $150/mn server credit for 3 years. Thanks Microsoft!</p>
+
+<p>However I had to spend some time trying to configure the server esp with the ports so they play nicely. First off you have to enable your firewall, either doing it through <code>iptables</code> or <code>ufc</code>. Initially, I did it using the latter:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo ufw enable
+</span><span class='line'>sudo ufw allow 8090</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So far, so good. I then proceeded to the Azure admin interface to map the port from 8090 => 8090. Guess what that doesn&#8217;t work (at least not for me.)</p>
+
+<p>After some experimentation I go it to work by removing the port 80 => 80 mapping, and instead I created a new mapping that points 80 => 8090.</p>
+
+<p>Coming from an AWS background, this made no sense. Surely I should be able to open any port I wanted&#8230;however that didn&#8217;t work for me.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -624,206 +748,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/12/passenger/">Passenger</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-12T12:52:00-07:00" pubdate data-updated="true">Aug 12<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/08/12/passenger/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;m setting up our beta site for <a href="http://venuespot.co">venuespot</a>, and one of the golden rules is that everything should be as close to the production site as possible.</p>
-
-<p>Here are the instructions for how to use passenger with nginx and rails (3.2.11) on Ubuntu 12.10. I did read the docs but I found that it was missing a few things, so hopefully this tutorial will address your problems. See the section on Troubleshooting for more solutions to the problems I encountered.</p>
-
-<h1>Introduction</h1>
-
-<p>First, you will want to install passenger:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install passenger</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(Optional). Then, you would want to get the latest rvm:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm get latest
-</span><span class='line'>rvm reload</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now install nginx with the passenger mod:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvmsudo passenger-install-nginx-module
-</span><span class='line'>(If the above fails, then you will need to update your rvm.)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now get the libcurl (or whatever it tells you) library.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get install libcurl4-openssl-dev</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Okay, we&#8217;re at the halfway point. Next we should edit the nginx config file at <code>/opt/nginx/conf/nginx.conf</code>. Remove the original <code>server</code> block and add the following</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 80;
-</span><span class='line'>    server_name localhost;
-</span><span class='line'>    root /yourwebapp/public; # &lt;--- be sure to point to 'public'!
-</span><span class='line'>    passenger_enabled on;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>passenger_pre_start http://localhost/;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next, we need to make sure the nginx process can have 777 access to config.ru and make sure all the way up the path we have 777 as well.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>chmod 777 /yourwebapp
-</span><span class='line'>chmod 777 config.ru </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now create the nginx init script:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>wget -O init-deb.sh http://library.linode.com/assets/1139-init-deb.sh
-</span><span class='line'>mv init-deb.sh /etc/init.d/nginx
-</span><span class='line'>chmod +x /etc/init.d/nginx
-</span><span class='line'>/usr/sbin/update-rc.d -f nginx defaults</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now start the server:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/nginx start</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There you have it folks! Navigate to localhost and you should see your site!</p>
-
-<h1>Troubleshooting</h1>
-
-<p>In the event that you don&#8217;t see anything, you should check your logs in <code>/opt/nginx/logs</code> to ensure everything was done correctly.</p>
-
-<p>For example, you might see this: <code>Error page:
-Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</code></p>
-
-<p>This means your gems have not been installed. Do a bundle install in your rails dir</p>
-
-<p>Or, you might see somethign like this: <code>terminate called after throwing an instance of 'Passenger::FileSystemException'
-  what():  Cannot stat '/yourwebapp/config.ru': Permission denied (errno=13)
-</code></p>
-
-<p>This means you need to set your permissions correctly for the whole path (see above).</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/">RSpec and Devise: Not Hitting Controller Action.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-11T12:26:00-07:00" pubdate data-updated="true">Aug 11<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Okay so I ran into another problem. Just when I thought I got it figured out with the <code>sign_in</code> helper provided from the page in the previous post, a gaint boulder fell right in front of me. For whatever reason, the test method will not call into my controller method under test.</p>
-
-<p>This is what I had originally:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>before (:each) do
-</span><span class='line'>  sign_in users(:organizer)
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>describe "GET new with no bid id" do
-</span><span class='line'>  it "returns not found" do
-</span><span class='line'>      get :new, {}, valid_session
-</span><span class='line'>      flash[:error].should equal('error')
-</span><span class='line'>  end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pretty straight forward one would persume right? Wrong!</p>
-
-<p>Upon more digging around, I realized that Devise&#8217;s helpers are overridding the session variables, and so if we do <code>get :new, {}, valid_session</code>, the valid_session will override what was put into the session, causing issues with &#8216;signing in&#8217;. Therefore the solution is to remove that. If you still need to populate a session, click <a href="http://stackoverflow.com/a/9658682/151899">here</a> for a workaround.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -839,6 +763,14 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/16/rails-and-adding-an-environment-to-headers/">Rails and adding an environment to headers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/">Azure and Confluence firewall rule setup problem and solution</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
       </li>
     
@@ -848,14 +780,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
     
       <li class="post">
         <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a custom migrate script for running migrations in another location.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/05/rails-3-joins-and-not-ins/">Rails 3: joins and not ins</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/">wrong number of arguments (1 for 0)</a>
       </li>
     
   </ul>

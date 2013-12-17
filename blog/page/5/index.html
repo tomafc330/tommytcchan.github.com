@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Introduction This is a test application (uses the default PhoneCat app) but it uses mocha to test the the http service. Debugging I&#8217;m using &hellip;">
+  <meta name="description" content="So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,113 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/">Android: IntentService.onHandleIntent() Not Called</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-25T21:27:00-07:00" pubdate data-updated="true">Mar 25<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call out to the server once a day. Naturally I gravitated towards the <code>IntentSevice</code>, which seems to be the simplest to use. I had also overridden in my service.onStartCommand() to return <code>START_STICKY</code>, which would restart the service should it be stopped. Once I did that though, the system stopped calling my <code>onHandleIntent()</code> method. What&#8217;s going on?</p>
+
+<p>It turned out that I had forgotten to call <code>super.onStartCommand()</code> before I returned the static int. So the following fixed it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public int onStartCommand(android.content.Intent intent, int flags, int startId) {
+</span><span class='line'>  super.onStartCommand(intent, flags, startId);
+</span><span class='line'>  return START_STICKY;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/">Mocking Grails Injected Methods Such as encodeAsURL in Unit Tests.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-19T17:26:00-07:00" pubdate data-updated="true">Mar 19<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/19/mocking-grails-injected-methods-such-as-encodeasurl-in-unit-tests/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I was writing a test on a Grails service that used the encodeAsURL method. When I ran the test, I got something like the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>groovy.lang.MissingMethodException: No signature of method: java.lang.String.encodeAsURL() is applicable for argument types: () values: []</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Upon researching some more, I realized that Grails adds a whole bunch of utilit methods to the String class at runtime, such as <code>"encodeAsBase64", "encodeAsHTML",
+"encodeAsJSON", "encodeAsJavaScript", "encodeAsURL", "encodeAsXML"</code>.</p>
+
+<p>So what do you do when you run into this situation in your tests? Well, do what the Grails framework does&#8230;add it to the metaClass of String! Here&#8217;s the example that you need to add to the test (preferably the setup() method):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> String.metaClass.encodeAsURL = {
+</span><span class='line'>      delegate.toString()
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -723,205 +830,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL Error: (98)Address Already in Use: Make_sock: Could Not Bind to Address 0.0.0.0:443</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-26T17:49:00-08:00" pubdate data-updated="true">Feb 26<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;m now configuring SSL with my new httpd server, and for some reason it kept giving me this error when I first started the server:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But I did an <code>lsof -i :443</code> and I didn&#8217;t see anything.</p>
-
-<h3>The solution</h3>
-
-<p>Turns out that I forgotten that Ubuntu&#8217;s setup for httpd is a little non standard, in that they included a ports.conf file that includes a conditional which will start listening on port 443 if the ssl mod is enabled. I had also included a <code>listen 443</code> in my configuration, which led to the problem.</p>
-
-<p>Removing the <code>listen 443</code> in my declaration solved the problem.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/">Apache: Setting Up Rewrite Rules for a Server in Ubuntu 12.10</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-26T15:26:00-08:00" pubdate data-updated="true">Feb 26<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/26/apache-setting-up-rewrite-rules-for-a-server-in-ubuntu-12-dot-10/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Introduction</h3>
-
-<p>So I was configuring a Java app today, trying to get it deployed on httpd using ajp on Ubuntu. However, there was twist to it, and it is that the /static resources would have to point to a local file system folder (checked out with SCM).</p>
-
-<p>I&#8217;m going to document how this is done on Ubuntu since it was somewhat of a painful process.</p>
-
-<h3>Setup</h3>
-
-<p>I had apache2 install via <code>apt-get</code>. The next step was to configure the apache2 server. The first thing needed was to specify the directory where the /static path resources will look in:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Directory "~/web-assets"&gt;
-</span><span class='line'>    Options Indexes FollowSymLinks
-</span><span class='line'>    AllowOverride None
-</span><span class='line'>    Order allow,deny
-</span><span class='line'>    Allow from all
-</span><span class='line'>&lt;/Directory&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The next thing to do is to set up the ajp port.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;VirtualHost *:80&gt;
-</span><span class='line'>  ...
-</span><span class='line'>  
-</span><span class='line'>  ProxyPass           /           ajp://localhost:8010/
-</span><span class='line'>  ProxyPassReverse    /           ajp://localhost:8010/
-</span><span class='line'>
-</span><span class='line'>  ProxyPreserveHost On
-</span><span class='line'>
-</span><span class='line'>  ...
-</span><span class='line'>      
-</span><span class='line'>&lt;/VirtualHost&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We then need to set up the rewrite rule:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(...same VirtualHost declaration...)
-</span><span class='line'>RewriteRule       ^/static/\d+/(.*)                               %{DOCUMENT_ROOT}/world/$1       [L,E=STATIC_ASSET:1]
-</span><span class='line'>RewriteRule       ^/static/(.*)                                   %{DOCUMENT_ROOT}/world/$1       [L,E=STATIC_ASSET:1]
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It&#8217;s also good to have logging:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(...same VirtualHost declaration...)
-</span><span class='line'># logging
-</span><span class='line'>RewriteLog "/home/tchan/logs/rewrite.log"
-</span><span class='line'>RewriteLogLevel 3
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now enable the mods (using a2enmod):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>a2enmod proxy
-</span><span class='line'>a2enmod rewrite
-</span><span class='line'>a2enmod ssl</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You might not need proxy or ssl but I did.</p>
-
-<p>The next thing you need to do is to set up the permissions on your folder:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd ~/web-assets
-</span><span class='line'>chmod a=rwx -R *</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note that if your location is somewhere else you might need to give the same permission to the parent of the folder that apache is looking it.
-Also note that you can add the www-data user to the group that has the permission in your file system if you are hesitate to make that directory global.</p>
-
-<p>Once you have it configured, all you need then is to configure you Java app to use the port 8010 defined above:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Connector port="8010" protocol="AJP/1.3" redirectPort="8443"/&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>One last thing: I had to change the deploy context of the Java app from /app to / (root):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  &lt;Context docBase="my-app" path="/" reloadable="true" source="org.eclipse.jst.j2ee.server:my-app"/&gt;&lt;/Host&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -939,6 +847,14 @@ Also note that you can add the www-data user to the group that has the permissio
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/16/rails-and-adding-an-environment-to-headers/">Rails and adding an environment to headers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/">Azure and Confluence firewall rule setup problem and solution</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
       </li>
     
@@ -948,14 +864,6 @@ Also note that you can add the www-data user to the group that has the permissio
     
       <li class="post">
         <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a custom migrate script for running migrations in another location.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/05/rails-3-joins-and-not-ins/">Rails 3: joins and not ins</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/">wrong number of arguments (1 for 0)</a>
       </li>
     
   </ul>
