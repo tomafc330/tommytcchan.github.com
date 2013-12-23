@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-12-16T19:09:33-08:00</updated>
+  <updated>2013-12-22T19:50:07-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Foundation 5 and Reveal plugin not working issues]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/"/>
+    <updated>2013-12-22T19:46:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues</id>
+    <content type="html"><![CDATA[<p>I&#8217;m working on a client project today using the new Foundation 5 version and I had a hard time with trying to get reveal to work.</p>
+
+<p>I followed the docs on how one might be able to run an example. Downloaded the 5.0.2 library and extracted foundation.min.js. Now in the docs it mentions you also need to extract the individual plugins as well. Well guess what I did that and it still didn&#8217;t work.</p>
+
+<p>After digging around the code I realized that the authors already has it in the minifieid version &#8211; by including the library again it somehow screws up and doesn&#8217;t work.</p>
+
+<p>Removed the full <code>foundation.reveal.js</code> to make it work.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails and adding an environment to headers]]></title>
@@ -681,27 +696,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
     <updated>2013-06-22T17:28:00-07:00</updated>
     <id>http://tommytcchan.github.com/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice</id>
     <content type="html"><![CDATA[<p>Alright I&#8217;m going to rant more than blog for this entry. I spent the last hour trying to find out why a library I&#8217;m planning to use (jquery-upload) didn&#8217;t work. I&#8217;ve learn that the asset pipeline is sort of a double edge sword&#8230;if you define something in the application and you define it again in your controller specific template, it will include the js file twice. Why isn&#8217;t Sprockets smarter?! Also, when I include AngularJS twice, subtle things stop working. Why can&#8217;t the AnglarJS guys not include the library if it detected that it&#8217;s already included??! Anyways end of rant. Back to work..</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails 3 redirect_to with flash :notice does not show up - problem.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/"/>
-    <updated>2013-06-20T22:02:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem</id>
-    <content type="html"><![CDATA[<p>I was working on my app just now and finally got rid of a stupid annoying thing &#8211; it wouldn&#8217;t update my flash messages for some reason after I do a redirect_to.</p>
-
-<p>This was what I had:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    format.html { redirect_to venues_path, notice: 'Venue space was successfully created.' }
-</span><span class='line'>    format.json { render json: @venue_space, status: :created, location: @venue_space }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pretty standard stuff right? But for some reason I couldn&#8217;t get the flash messages working at all! I was so baffled by it but then I started tracing down the calls.</p>
-
-<p>Turns out that the <code>venues_path</code> redirects to the index method, and in the index method it does a redirect to the edit method, and in Rails 3 you need <code>flash.keep</code> in order to preserve the flash message. Doh!</p>
 ]]></content>
   </entry>
   

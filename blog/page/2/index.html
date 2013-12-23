@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;m setting up our beta site for venuespot, and one of the golden rules is that everything should be as close to the production site as &hellip;">
+  <meta name="description" content="My previous post talked about setting passenger and rails. In this post I will talk about something different - using Nginx as a reverse proxy while &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,112 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance/">Passenger Nginx and Rails and Thin - Set Up Reverse Proxy on a Thin Server Instance</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-12T13:22:00-07:00" pubdate data-updated="true">Aug 12<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>My previous post talked about setting passenger and rails. In this post I will talk about something different - using Nginx as a reverse proxy while having one (or many) Thin server instances.</p>
+
+<p>Basically the setup is the same as the previous post, except that you want to set up the server block a little differently:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>upstream domain1 {
+</span><span class='line'>  server 127.0.0.1:3000;
+</span><span class='line'>  #server 127.0.0.1:3001;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>server {
+</span><span class='line'>  listen 80;
+</span><span class='line'>  server_name localhost;
+</span><span class='line'>  root /home/tchan/repo/venuespot/public;   # &lt;--- be sure to point to 'public'!
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  location / {
+</span><span class='line'>      proxy_set_header  X-Real-IP  $remote_addr;
+</span><span class='line'>      proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+</span><span class='line'>      proxy_set_header Host $http_host;
+</span><span class='line'>      proxy_redirect off;
+</span><span class='line'>
+</span><span class='line'>      if (-f $request_filename/index.html) {
+</span><span class='line'>          rewrite (.*) $1/index.html break;
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      if (-f $request_filename.html) {
+</span><span class='line'>          rewrite (.*) $1.html break;
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      if (!-f $request_filename) {
+</span><span class='line'>          proxy_pass http://domain1;
+</span><span class='line'>      break;
+</span><span class='line'>      }
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Why might this be a better setup than using Passenger? Well Thin uses an evented model, so for long running blocking I/O operations, it might be good to set this up if you want more fine grain control. Just be sure to check that the Thin instances are still running periodically (or make sure you catch all exceptions in your app).</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -630,56 +736,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/">Rails 3 Redirect_to With Flash :notice Does Not Show Up - Problem.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-20T22:02:00-07:00" pubdate data-updated="true">Jun 20<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was working on my app just now and finally got rid of a stupid annoying thing &#8211; it wouldn&#8217;t update my flash messages for some reason after I do a redirect_to.</p>
-
-<p>This was what I had:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    format.html { redirect_to venues_path, notice: 'Venue space was successfully created.' }
-</span><span class='line'>    format.json { render json: @venue_space, status: :created, location: @venue_space }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pretty standard stuff right? But for some reason I couldn&#8217;t get the flash messages working at all! I was so baffled by it but then I started tracing down the calls.</p>
-
-<p>Turns out that the <code>venues_path</code> redirects to the index method, and in the index method it does a redirect to the edit method, and in Rails 3 you need <code>flash.keep</code> in order to preserve the flash message. Doh!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -697,6 +753,10 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal plugin not working issues</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/16/rails-and-adding-an-environment-to-headers/">Rails and adding an environment to headers</a>
       </li>
     
@@ -710,10 +770,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
     
       <li class="post">
         <a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/">Jasmine Spies on a 2nd level object</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a custom migrate script for running migrations in another location.</a>
       </li>
     
   </ul>

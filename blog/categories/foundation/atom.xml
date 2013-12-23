@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: foundation | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/foundation/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-12-22T19:50:07-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Foundation 5 and Reveal plugin not working issues]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/"/>
+    <updated>2013-12-22T19:46:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues</id>
+    <content type="html"><![CDATA[<p>I'm working on a client project today using the new Foundation 5 version and I had a hard time with trying to get reveal to work.</p>
+
+<p>I followed the docs on how one might be able to run an example. Downloaded the 5.0.2 library and extracted foundation.min.js. Now in the docs it mentions you also need to extract the individual plugins as well. Well guess what I did that and it still didn't work.</p>
+
+<p>After digging around the code I realized that the authors already has it in the minifieid version -- by including the library again it somehow screws up and doesn't work.</p>
+
+<p>Removed the full <code>foundation.reveal.js</code> to make it work.</p>
+]]></content>
+  </entry>
+  
+</feed>
