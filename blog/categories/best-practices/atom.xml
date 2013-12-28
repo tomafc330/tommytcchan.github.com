@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: best practices | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/best-practices/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2013-12-28T09:21:56-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Best practices with nginx and rails]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/12/28/best-practices-with-nginx-and-rails/"/>
+    <updated>2013-12-28T09:08:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/12/28/best-practices-with-nginx-and-rails</id>
+    <content type="html"><![CDATA[<p>While searching on the internet for a related question, I came across a <a href="https://gist.github.com/mikhailov/3052776">gist</a> that had the best practices for deploying a rails app with unicorn. Please refer to it but I thought I would comment on a few of the best practices that I observed.</p>
+
+<ol>
+<li><p>Using the <code>include</code> directive.
+This proved to be a great solution for when you want some of your configs checked into source control. You can control the settings without having to muck around in <code>/opt/nginx/conf</code> so you know what you are deploying when you restart nginx.</p></li>
+<li><p>Adding the gzip headers to the static resources
+The author compiled nginx with <code>--with-http_gzip_static_module</code> which he used later:
+```
+location ~ ^/(assets|images|javascripts|stylesheets|swfs|system)/ {
+ gzip_static       on;
+ expires           max;
+ add_header        Cache-Control public;
+ add_header        Last-Modified "";
+ add_header        ETag "";</p>
+
+<p> open_file_cache          max=1000 inactive=500s;
+ open_file_cache_valid    600s;
+ open_file_cache_errors   on;
+ break;
+}
+```</p></li>
+</ol>
+
+
+<p>For myself I didn't want to add those headers to the <code>assets</code> folder, but for everything it was really sensible to do so.</p>
+
+<ol>
+<li>Adding a <code>open_file_cache</code> for static assets. From the above, we can see that there is the <code>open_file_cache</code> decl. This directive sets the cache activity on. This is good when you have a busy server and so you don't have to open the file descriptor every time.</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="My previous post talked about setting passenger and rails. In this post I will talk about something different - using Nginx as a reverse proxy while &hellip;">
+  <meta name="description" content="I needed something quick to send emails for internal use. Basically it&#8217;s just a follow on this page. However, I needed to expose the email to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/">Set Up SMTP to Send Mail on Postfix on Ubuntu 12.10</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-30T13:52:00-07:00" pubdate data-updated="true">Aug 30<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I needed something quick to send emails for internal use. Basically it&#8217;s just a follow on <a href="https://help.ubuntu.com/community/Postfix">this</a> page. However, I needed to expose the email to the different clients on our internal network. There following two extra steps were needed:</p>
+
+<p>1.) In your mail config, remove this line:</p>
+
+<p>smtpd_use_tls=no</p>
+
+<p>2.) In the same config, update this line:</p>
+
+<p><code>mynetworks = 127.0.0.0/8 10.0.0.0/8</code></p>
+
+<p>This tells that the smtp should be allowed on the network.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -698,44 +746,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/">Rant Post: Shit Will Not Work if You Include Angular.js Twice</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-22T17:28:00-07:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/22/rant-post-shit-will-not-work-if-you-include-angular-dot-js-twice/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Alright I&#8217;m going to rant more than blog for this entry. I spent the last hour trying to find out why a library I&#8217;m planning to use (jquery-upload) didn&#8217;t work. I&#8217;ve learn that the asset pipeline is sort of a double edge sword&#8230;if you define something in the application and you define it again in your controller specific template, it will include the js file twice. Why isn&#8217;t Sprockets smarter?! Also, when I include AngularJS twice, subtle things stop working. Why can&#8217;t the AnglarJS guys not include the library if it detected that it&#8217;s already included??! Anyways end of rant. Back to work..</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -753,6 +763,10 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal plugin not working issues</a>
       </li>
     
@@ -766,10 +780,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
     
       <li class="post">
         <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/">Jasmine Spies on a 2nd level object</a>
       </li>
     
   </ul>

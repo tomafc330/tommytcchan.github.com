@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference &hellip;">
+  <meta name="description" content="So I updated my model by changing the migration script and then doing rake db:drop and &#8220;`rake db:create&#8220;&#8220; and thought I would be &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/">Rails: Undefined Method&#8230; After a Migration Script Change</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-28T21:56:00-07:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/28/rails-undefined-method-dot-dot-dot-after-a-migration-script-change/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I updated my model by changing the migration script and then doing <code>rake db:drop</code> and &#8220;`rake db:create&#8220;&#8220; and thought I would be okay. However, when I started my app after I changed the view layer, I got something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>undefined method `command_name' for #&lt;Shortcut:0x00000003c3b4e8&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What gives? It turned out that I also needed to modify <code>schema.rb</code> to create the initial table. So that is a good place to check out if you find yourself changing the migration data.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -755,48 +799,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/">Apache2: Hosting Sever From a User Directory Requires X7x Permission</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-28T20:07:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/28/apache2-hosting-sever-from-a-user-directory-requires-x7x-permission/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve been experimenting running a webapp in a a directory where I host my code, and in order for the server to read the dir, the base directory had to be x7x, such as</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo chmod 774 repo</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -814,6 +816,10 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal plugin not working issues</a>
       </li>
     
@@ -827,10 +833,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
     
       <li class="post">
         <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/">Jasmine Spies on a 2nd level object</a>
       </li>
     
   </ul>

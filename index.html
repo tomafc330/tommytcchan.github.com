@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;m working on a client project today using the new Foundation 5 version and I had a hard time with trying to get reveal to work. I followed &hellip;">
+  <meta name="description" content="While searching on the internet for a related question, I came across a gist that had the best practices for deploying a rails app with unicorn. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,85 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best Practices With Nginx and Rails</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-28T09:08:00-08:00" pubdate data-updated="true">Dec 28<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>While searching on the internet for a related question, I came across a <a href="https://gist.github.com/mikhailov/3052776">gist</a> that had the best practices for deploying a rails app with unicorn. Please refer to it but I thought I would comment on a few of the best practices that I observed.</p>
+
+<ol>
+<li><p>Using the <code>include</code> directive.
+This proved to be a great solution for when you want some of your configs checked into source control. You can control the settings without having to muck around in <code>/opt/nginx/conf</code> so you know what you are deploying when you restart nginx.</p></li>
+<li><p>Adding the gzip headers to the static resources
+The author compiled nginx with <code>--with-http_gzip_static_module</code> which he used later:</p></li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  location ~ ^/(assets|images|javascripts|stylesheets|swfs|system)/ {
+</span><span class='line'>    gzip_static       on;
+</span><span class='line'>    expires           max;
+</span><span class='line'>    add_header        Cache-Control public;
+</span><span class='line'>    add_header        Last-Modified "";
+</span><span class='line'>    add_header        ETag "";
+</span><span class='line'> 
+</span><span class='line'>    open_file_cache          max=1000 inactive=500s;
+</span><span class='line'>    open_file_cache_valid    600s;
+</span><span class='line'>    open_file_cache_errors   on;
+</span><span class='line'>    break;
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For myself I didn&#8217;t want to add those headers to the <code>assets</code> folder, but for everything it was really sensible to do so.</p>
+
+<ol>
+<li>Adding a <code>open_file_cache</code> for static assets. From the above, we can see that there is the <code>open_file_cache</code> decl. This directive sets the cache activity on. This is good when you have a busy server and so you don&#8217;t have to open the file descriptor every time.</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -638,54 +717,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/">Set Up SMTP to Send Mail on Postfix on Ubuntu 12.10</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-30T13:52:00-07:00" pubdate data-updated="true">Aug 30<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/08/30/set-up-smtp-to-send-mail-on-postfix-on-ubuntu-12-dot-10/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I needed something quick to send emails for internal use. Basically it&#8217;s just a follow on <a href="https://help.ubuntu.com/community/Postfix">this</a> page. However, I needed to expose the email to the different clients on our internal network. There following two extra steps were needed:</p>
-
-<p>1.) In your mail config, remove this line:</p>
-
-<p>smtpd_use_tls=no</p>
-
-<p>2.) In the same config, update this line:</p>
-
-<p><code>mynetworks = 127.0.0.0/8 10.0.0.0/8</code></p>
-
-<p>This tells that the smtp should be allowed on the network.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -701,6 +732,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal plugin not working issues</a>
       </li>
     
@@ -714,10 +749,6 @@
     
       <li class="post">
         <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/">Jasmine Spies on a 2nd level object</a>
       </li>
     
   </ul>
