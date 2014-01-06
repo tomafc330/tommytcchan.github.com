@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mixpanel | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/mixpanel/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-01-05T18:03:42-08:00</updated>
+  <updated>2014-01-06T09:26:52-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -23,21 +23,21 @@
 <h1>The Requirements</h1>
 
 <p>We need a few things we wanted to use with our app:
-1. We want to track the different events that a user takes throughout our site, whether they are logged in or not.
-2. We wanted to blanket track <strong>all</strong> events, such as going to a controller#action.
-3. We don't want it to affect the performance of our system too much, which meant hooking into Sidekiq for asynchronous processing.</p>
+1.  We want to track the different events that a user takes throughout our site, whether they are logged in or not.
+2.  We wanted to blanket track <strong>all</strong> events, such as going to a controller#action.
+3.  We don't want it to affect the performance of our system too much, which meant hooking into Sidekiq for asynchronous processing.</p>
 
 <h1>The approach</h1>
 
 <p>If you followed the Mixpanel recommendations, they advise you to use the JavaScript library. This was a little limiting for us as we want to track when we send out emails and notifications to the users. So we took a 2 pronged approach:
-1. If the user isn't signed in and is just browsing our site, we track those events with the JS client library.
-2. Once they have signed up/in though, we will use server side calls to track the events in an async manner.</p>
+1.  If the user isn't signed in and is just browsing our site, we track those events with the JS client library.
+2.  Once they have signed up/in though, we will use server side calls to track the events in an async manner.</p>
 
 <h1>The Setup</h1>
 
 <p>You will need a few things:
-1. Sign up with Mixpanel, and install the javascript.
-2. Place the javascript in your asset pipeline folder and reference it:
+1.  Sign up with Mixpanel, and install the javascript.
+2.  Place the javascript in your asset pipeline folder and reference it:
 ```</p>
 
 <h1>application.js</h1>
@@ -109,15 +109,15 @@ gem 'mixpanel-ruby'
 <li><p>Now on the sign up flow, you have to add in a hidden field to the back end registration:
 ```
 $(document).ready(function() {
- $('<input>').attr({</p>
+$('<input>').attr({</p>
 
-<pre><code> type: 'hidden',
- id: 'mix_panel_temp_id',
- name: 'mix_panel_temp_id',
- value: venuespotTracker.createOrGetUser()
+<pre><code>type: 'hidden',
+id: 'mix_panel_temp_id',
+name: 'mix_panel_temp_id',
+value: venuespotTracker.createOrGetUser()
 </code></pre>
 
-<p> }).appendTo('form');
+<p>}).appendTo('form');
 });
 ```</p></li>
 </ol>
@@ -175,20 +175,20 @@ end
 <ol>
 <li>Now that we have the user correctly linked, the next step is to track all of the events. For that we will go into the <code>ApplicationController</code> and add this method:
 ```
- def track_with_mixpanel
+def track_with_mixpanel
 
-<pre><code> if (current_user)
+<pre><code>if (current_user)
 
-     if params[:id]
-         instance = controller_name.classify.constantize.find(params[:id])
-         id = instance.name ? instance.name : params[:id]
-     end
+    if params[:id]
+        instance = controller_name.classify.constantize.find(params[:id])
+        id = instance.respond_to?(:name) ? instance.name : params[:id]
+    end
 
-     MixpanelTrackWorker.perform_async(current_user.email, "Page View - #{self.class.to_s}##{self.instance_variable_get('@_action_name')} #{id}", { :controller =&gt; 'test', :action =&gt; 'test'})
- end
+    MixpanelTrackWorker.perform_async(current_user.email, "Page View - #{self.class.to_s}##{self.instance_variable_get('@_action_name')} #{id}", { :controller =&gt; 'test', :action =&gt; 'test'})
+end
 </code></pre>
 
-<p> end
+<p>end
 ```</p></li>
 </ol>
 
