@@ -9,20 +9,20 @@ At [venuespot](http://www.venuespot.co), we use Mixpanel. We've had an account f
 
 # The Requirements
 We need a few things we wanted to use with our app:
-1. We want to track the different events that a user takes throughout our site, whether they are logged in or not.
-2. We wanted to blanket track **all** events, such as going to a controller#action.
-3. We don't want it to affect the performance of our system too much, which meant hooking into Sidekiq for asynchronous processing.
+1.  We want to track the different events that a user takes throughout our site, whether they are logged in or not.
+2.  We wanted to blanket track **all** events, such as going to a controller#action.
+3.  We don't want it to affect the performance of our system too much, which meant hooking into Sidekiq for asynchronous processing.
 
 
 # The approach
 If you followed the Mixpanel recommendations, they advise you to use the JavaScript library. This was a little limiting for us as we want to track when we send out emails and notifications to the users. So we took a 2 pronged approach: 
-1. If the user isn't signed in and is just browsing our site, we track those events with the JS client library.
-2. Once they have signed up/in though, we will use server side calls to track the events in an async manner.
+1.  If the user isn't signed in and is just browsing our site, we track those events with the JS client library.
+2.  Once they have signed up/in though, we will use server side calls to track the events in an async manner.
 
 # The Setup
 You will need a few things:
-1. Sign up with Mixpanel, and install the javascript.
-2. Place the javascript in your asset pipeline folder and reference it:
+1.  Sign up with Mixpanel, and install the javascript.
+2.  Place the javascript in your asset pipeline folder and reference it:
 ```
 # application.js
 //= require mixpanel/mixpanel
@@ -79,12 +79,12 @@ Now you might be asking, why don't we just continue to use the JS library? Well 
 
 Hopefully I've convinced you of why we want to use the backend library.
 
-1. First thing is to include the gem in your gemfile.
+1.  First thing is to include the gem in your gemfile.
 ```
 gem 'mixpanel-ruby'
 ```
 
-2. Now on the sign up flow, you have to add in a hidden field to the back end registration:
+2.  Now on the sign up flow, you have to add in a hidden field to the back end registration:
 ```
 $(document).ready(function() {
     $('<input>').attr({
@@ -136,14 +136,14 @@ What happens here is that when a user is registered, we alias the old temp id we
 
 Once we do that then Mixpanel will now associate all new events with that email with the previous 'anonymous' user.
 
-3. Now that we have the user correctly linked, the next step is to track all of the events. For that we will go into the ```ApplicationController``` and add this method:
+3.  Now that we have the user correctly linked, the next step is to track all of the events. For that we will go into the ```ApplicationController``` and add this method:
 ```
     def track_with_mixpanel
         if (current_user)
 
             if params[:id]
                 instance = controller_name.classify.constantize.find(params[:id])
-                id = instance.name ? instance.name : params[:id]
+                id = instance.respond_to?(:name) ? instance.name : params[:id]
             end
 
             MixpanelTrackWorker.perform_async(current_user.email, "Page View - #{self.class.to_s}##{self.instance_variable_get('@_action_name')} #{id}", { :controller => 'test', :action => 'test'})
