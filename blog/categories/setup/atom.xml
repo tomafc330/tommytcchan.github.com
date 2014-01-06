@@ -4,7 +4,7 @@
   <title><![CDATA[Category: setup | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/setup/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2013-12-28T09:21:56-08:00</updated>
+  <updated>2014-01-05T18:03:42-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,198 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Setting up Rails with Mixpanel on both the front end and back end]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/01/05/setting-up-rails-with-mixpanel-on-both-the-front-end-and-back-end/"/>
+    <updated>2014-01-05T17:12:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/01/05/setting-up-rails-with-mixpanel-on-both-the-front-end-and-back-end</id>
+    <content type="html"><![CDATA[<p>At <a href="http://www.venuespot.co">venuespot</a>, we use Mixpanel. We've had an account for awhile actually, but didn't really do anything with it. I upgraded our GA to use the new GA script, and needless to say the events management isn't that great. That prompted me to look at Mixpanel again. In this article I will explain how one is able to set up events to track individual users going through the system without too much intrusive work.</p>
+
+<h1>The Requirements</h1>
+
+<p>We need a few things we wanted to use with our app:
+1. We want to track the different events that a user takes throughout our site, whether they are logged in or not.
+2. We wanted to blanket track <strong>all</strong> events, such as going to a controller#action.
+3. We don't want it to affect the performance of our system too much, which meant hooking into Sidekiq for asynchronous processing.</p>
+
+<h1>The approach</h1>
+
+<p>If you followed the Mixpanel recommendations, they advise you to use the JavaScript library. This was a little limiting for us as we want to track when we send out emails and notifications to the users. So we took a 2 pronged approach:
+1. If the user isn't signed in and is just browsing our site, we track those events with the JS client library.
+2. Once they have signed up/in though, we will use server side calls to track the events in an async manner.</p>
+
+<h1>The Setup</h1>
+
+<p>You will need a few things:
+1. Sign up with Mixpanel, and install the javascript.
+2. Place the javascript in your asset pipeline folder and reference it:
+```</p>
+
+<h1>application.js</h1>
+
+<p>//= require mixpanel/mixpanel
+```</p>
+
+<h1>The implementation</h1>
+
+<p>So let's start with the part where the user is not logged in but we want to track their actions. We need to tell mixpanel that a new user on our site. Now we will be using <code>localStorage</code> to store our anonymous user.
+```</p>
+
+<h1>venuespot_tracker.js</h1>
+
+<p>function VenueSpot() {</p>
+
+<pre><code>this.createOrGetUser = function () {
+    //check to see if localStorage is defined, omitted for brevity's sake
+    ...
+
+    if (!localStorage.vs_user) {
+        localStorage.vs_user = rand(12);
+        mixpanel.identify(localStorage.vs_user);
+        mixpanel.people.set({
+            "$created": new Date(),
+            "$last_login": new Date()
+        });
+    }
+    return localStorage.vs_user;
+};
+
+this.homePageViewed = function() {
+    this.createOrGetUser();
+    this.track(document.location.pathname + ' page viewed'); //method omitted for brevity
+
+    mixpanel.track_links("a", "Clicked Link", {
+        referrer: document.referrer
+    });
+};
+</code></pre>
+
+<p>}</p>
+
+<p>var vsTracker = new VenueSpotTracker();
+...
+vsTracker.homePageViewed();
+```
+A couple of interesting things...I omitted some of the code, I'm sure you can fill in the missing pieces.</p>
+
+<p>Another interesting thing: if there is no user defined, we have to call <code>identify</code> and then set some attributes to let Mixpanel we want to track this anonymous user.</p>
+
+<p>We also want to track all of the links the user clicks, so we use provided <code>track_links</code> method.</p>
+
+<p>Once that's done, we just sit back and see the results: http://screencloud.net/v/jLLi</p>
+
+<h3>Sending the info to the backend</h3>
+
+<p>Okay, so far we've got stats on users who have not signed up. What happens when they sign up? We don't want to lose the previous history that they had, so we have to call the <code>alias</code> api method after they've logged in so that we can register them. For this we use the <code>mixpanel-ruby</code> gem.</p>
+
+<p>Now you might be asking, why don't we just continue to use the JS library? Well I thought about this for a few minutes. If you did that, you would have to make sure that we send over the email down to the client. Also, any time you want to do any tracking you would have to do the same. Finally we also wanted to track the history when we send out emails. That's a backend job so that makes it really difficult.</p>
+
+<p>Hopefully I've convinced you of why we want to use the backend library.</p>
+
+<ol>
+<li><p>First thing is to include the gem in your gemfile.
+<code>
+gem 'mixpanel-ruby'
+</code></p></li>
+<li><p>Now on the sign up flow, you have to add in a hidden field to the back end registration:
+```
+$(document).ready(function() {
+ $('<input>').attr({</p>
+
+<pre><code> type: 'hidden',
+ id: 'mix_panel_temp_id',
+ name: 'mix_panel_temp_id',
+ value: venuespotTracker.createOrGetUser()
+</code></pre>
+
+<p> }).appendTo('form');
+});
+```</p></li>
+</ol>
+
+
+<p>We need this because we want to do the alias in the controller:</p>
+
+<p>```</p>
+
+<h1>create</h1>
+
+<p>def create
+...</p>
+
+<pre><code>    MixpanelAliasWorker.perform_async(@user.email, params[:mix_panel_temp_id], @user.first_name, @user.last_name, @user.phone, @user.type)
+</code></pre>
+
+<p>end</p>
+
+<p>Notice here we are using Sidekiq to perform our linking in an async manner. The Mixpanel api has a few methods to do with async, but I feel that this is an easier approach.</p>
+
+<p>In MixpanelAliasWorker, this is what happens:
+```
+require 'mixpanel-ruby'</p>
+
+<h1>Does alias and link up the email address</h1>
+
+<p>class MixpanelAliasWorker</p>
+
+<pre><code>include Sidekiq::Worker
+
+def mixpanel()
+    Mixpanel::Tracker.new(ENV['mix_panel'])
+end
+
+def perform(email, old_id, first_name, last_name, phone, user_type)
+    tracker = mixpanel()
+    tracker.alias email, old_id #synchrious call
+    tracker.people.set(email, {
+        '$first_name' =&gt; first_name,
+        '$last_name' =&gt; last_name,
+        '$email' =&gt; email,
+        '$phone' =&gt; phone,
+        'User Type' =&gt; user_type
+    });
+end
+</code></pre>
+
+<p>end</p>
+
+<p>What happens here is that when a user is registered, we alias the old temp id we created in the front end with the actual email.</p>
+
+<p>Once we do that then Mixpanel will now associate all new events with that email with the previous 'anonymous' user.</p>
+
+<ol>
+<li>Now that we have the user correctly linked, the next step is to track all of the events. For that we will go into the <code>ApplicationController</code> and add this method:
+```
+ def track_with_mixpanel
+
+<pre><code> if (current_user)
+
+     if params[:id]
+         instance = controller_name.classify.constantize.find(params[:id])
+         id = instance.name ? instance.name : params[:id]
+     end
+
+     MixpanelTrackWorker.perform_async(current_user.email, "Page View - #{self.class.to_s}##{self.instance_variable_get('@_action_name')} #{id}", { :controller =&gt; 'test', :action =&gt; 'test'})
+ end
+</code></pre>
+
+<p> end
+```</p></li>
+</ol>
+
+
+<p>Let me explain what this does. We check that the current user exists, and also check if there is a params[:id]. If there is, we want to know which model that belongs to.</p>
+
+<p>Rails is pretty awesome because you can actually find that out by using <code>controller_name.classify</code>, and then make that into a constant, and finally invoke it to find the model.</p>
+
+<p>I know this isn't scalable if we have tens of thousands of users, but our stage we value metrics so in the future this will have to be modified, but it gives us a good tracking for a user and all the actions they do once they are signed in.</p>
+
+<p>Here's an example: http://screencloud.net/v/kLnw</p>
+
+<p>So there you have it folks. Ping me if you have any issues with setting this up!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Passenger]]></title>
@@ -169,43 +361,6 @@ AddType application/x-httpd-php .php
 <code>
 sudo chmod 774 repo
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails: create a deploy script with ease]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/02/23/rails-create-a-deploy-script-with-ease/"/>
-    <updated>2013-02-23T16:51:00-08:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/02/23/rails-create-a-deploy-script-with-ease</id>
-    <content type="html"><![CDATA[<p>I was finding myself having to deploy manually everytime I push something to github, so I've decided to write a deploy shell script to help with this task. Coming from a Java background, I found that creating a deploy script for rails is so much easier. Here is the meat of it:</p>
-
-<p>In deploy.sh</p>
-
-<p>```</p>
-
-<h1>!/bin/bash</h1>
-
-<h1>first kill the server if its running</h1>
-
-<p>kill -9 <code>lsof -i :80 | awk '{if (NR!=1) {print $2}}'</code>
-pushd ~/codetipdaily</p>
-
-<h1>then pull from gh</h1>
-
-<p>git pull origin master</p>
-
-<h1>assets</h1>
-
-<p>rake assets:clean
-rake assets:precompile</p>
-
-<h1>start server as daemon</h1>
-
-<p>rails server -e production -p 80 --daemon
-popd
-```</p>
-
-<p>That was a piece of cake!</p>
 ]]></content>
   </entry>
   

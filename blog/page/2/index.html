@@ -9,7 +9,8 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I needed something quick to send emails for internal use. Basically it&#8217;s just a follow on this page. However, I needed to expose the email to &hellip;">
+  <meta name="description" content="So I was troubleshooting a bug on one of the projects that uses AngularJS. Consider this markup: 1
+&lt;a href="/fooPage" data-ng-click="show($event &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +78,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/01/angularjs-using-the-%24event-for-an-a-tag-can-cause-problems/">AngularJS: Using the $event for an a Tag Can Cause Problems.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-01T12:01:00-07:00" pubdate data-updated="true">Sep 1<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/01/angularjs-using-the-%24event-for-an-a-tag-can-cause-problems/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was troubleshooting a bug on one of the projects that uses AngularJS. Consider this markup:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href="/fooPage" data-ng-click="show($event)"&gt;&lt;span&gt;foobar!&lt;/span&gt;&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the js, this was what was declared:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$scope.show = function (event) {
+</span><span class='line'>  var href = event.target.href;
+</span><span class='line'>  ...
+</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, the interesting thing about this is that it <em>sometimes</em> works. The reason is that if you click on the link outside of the <span>, then the event.target resolves to the <a> tag. However, if you click within the span, then the event.target is the <span> tag, and there is no href there, thus throwing an error.</p>
+
+<p>The fix:</p>
+
+<p>The solution is actually pretty simple. Instead of using <code>event.target</code>, use <code>event.currentTarget</code>. That resolves to the <a> and it will work for all cases.</p>
+
+<p>Hope that helps!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -688,64 +751,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/">Use of Select_tag to Map Associated Model in Dropdowns.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-23T15:33:00-07:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/23/use-of-select-tag-to-map-associated-model-in-dropdowns/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Here&#8217;s a way to create a dropdown to save associated model in dropdown.</p>
-
-<p>In _addform.html.erb:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>      &lt;%= select_tag(:organization_id, options_for_select(current_user.organizations.collect { |p| [p.name, p.id] }), {:include_blank =&gt; false}) %&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In _editform.html.erb:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    &lt;%= select_tag(:organization_id, options_for_select(current_user.organizations.collect { |p| [p.name, p.id] }, :selected =&gt; @advertisement.organization.id), {:include_blank =&gt; false}) %&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And in the controller:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@advertisement.organization = Organization.find(params[:organization_id])</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I would like to not have two different _form templates so what I would do is probably extract that logic in the helper so we can just have one tag for both create and edit.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -763,6 +768,10 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/05/setting-up-rails-with-mixpanel-on-both-the-front-end-and-back-end/">Setting up Rails with Mixpanel on both the front end and back end</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
       </li>
     
@@ -776,10 +785,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
     
       <li class="post">
         <a href="/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/">Azure and Confluence firewall rule setup problem and solution</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
       </li>
     
   </ul>
@@ -850,7 +855,7 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Tommy Chan (informotion software) -
+  Copyright &copy; 2014 - Tommy Chan (informotion software) -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

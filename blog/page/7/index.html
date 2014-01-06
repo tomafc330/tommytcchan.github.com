@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;m building the backend of my current project using rails, and one of the things I wanted to do was create a module that I can use in both my &hellip;">
+  <meta name="description" content="So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,70 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/">Fixing Installing Mysql2 Gem in Ubuntu 12.10</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-13T20:59:00-08:00" pubdate data-updated="true">Feb 13<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/13/fixing-installing-mysql2-gem-in-ubuntu-12-dot-10/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;ve decided to host my new creation on a VPS instead of using a PAAS like Heroku or Appfog. The main drawback &#8211; I don&#8217;t have control over the environment, which in the Rails case is very annoying. Apparently you can specify the ruby version but I gave up after I tried all the stops.</p>
+
+<p>Anyways I was setting up my server (using Ubuntu) and when I was doing <code>bundle install</code> it gave me a weird error:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>*** extconf.rb failed ***
+</span><span class='line'>Could not create Makefile due to some reason, probably lack of
+</span><span class='line'>necessary libraries and/or headers.  Check the mkmf.log file for more
+</span><span class='line'>details.  You may need configuration options.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After digging into it a little bit, it was found that my server doesn&#8217;t have the dev package <strong>libmysqlclient-dev</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apt-get install libmysqlclient-dev mysql-server</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After doing that and then trying to install</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install mysql2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>everything worked.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -255,6 +319,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/05/setting-up-rails-with-mixpanel-on-both-the-front-end-and-back-end/">Setting up Rails with Mixpanel on both the front end and back end</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
       </li>
     
@@ -268,10 +336,6 @@
     
       <li class="post">
         <a href="/blog/2013/12/15/azure-and-confluence-firewall-rule-setup/">Azure and Confluence firewall rule setup problem and solution</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/15/secret-ingredient-to-a-co-founders-success-love/">Secret Ingredient to a co-founder&#8217;s success - Love</a>
       </li>
     
   </ul>
@@ -342,7 +406,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Tommy Chan (informotion software) -
+  Copyright &copy; 2014 - Tommy Chan (informotion software) -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
