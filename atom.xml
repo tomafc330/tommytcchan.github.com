@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-01-06T09:26:52-08:00</updated>
+  <updated>2014-01-06T17:05:55-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Capistrano 3 and rbenv sshkit upgrade to 1.3]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/01/06/capistrano-3-and-rbenv-sshkit-upgrade-to-1-dot-3/"/>
+    <updated>2014-01-06T17:02:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/01/06/capistrano-3-and-rbenv-sshkit-upgrade-to-1-dot-3</id>
+    <content type="html"><![CDATA[<p>I spend a bit of time today figuring out why the capistrano rbenv gem doesn&#8217;t work. First it was complaining that I had an older version of the sshkit library (it was being used by an older version of the fog library). Upgraded the fob library, but it was complaining of this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cap aborted!
+</span><span class='line'>Unable to activate capistrano-rbenv-2.0.0, because sshkit-1.3.0 conflicts with sshkit (~&gt; 1.
+</span><span class='line'>2.0)
+</span><span class='line'>/home/tchan/repo/venuespot/Capfile:19:in `&lt;top (required)&gt;'
+</span><span class='line'>/home/tchan/.rvm/gems/ruby-2.0.0-p247@venuespot/gems/capistrano-3.0.1/lib/capistrano/applica
+</span><span class='line'>tion.rb:22:in `load_rakefile'
+</span><span class='line'>/home/tchan/.rvm/gems/ruby-2.0.0-p247@venuespot/gems/capistrano-3.0.1/lib/capistrano/applica
+</span><span class='line'>tion.rb:12:in `run'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After digging through the commit history of the <a href="gem">https://github.com/capistrano/rbenv/pull/21/files</a> I realized it&#8217;s a library version issue.</p>
+
+<p>Uninstall the capistrano gem, then add this in your Gemfile (until the author bumps the version):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'capistrano-rbenv', :git =&gt; 'git@github.com:capistrano/rbenv.git', :ref =&gt; '67222bbce120323e422b051dcd167d8e2d3adbf0'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hope that helps someone!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Setting up Rails with Mixpanel on both the front end and back end]]></title>
@@ -903,55 +940,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 
 
 <p>That did the trick. Thanks Google!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AngularJS and X-Editable - Calling .editable after the last element with ng-repeat.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat/"/>
-    <updated>2013-06-23T18:39:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat</id>
-    <content type="html"><![CDATA[<p>I had a pretty complicated scenario that I&#8217;m working on which entails the use of AngularJS and the X-Editable plugin.</p>
-
-<h1>The scenario.</h1>
-
-<p>I have a page where it loads the Assets using ajax, and that collection gets rendered using an ng-repeat. Complicated to the fact is that the fields of the Assets are inline editable, which meant I need to call the <code>$(.editable).editable()</code> after all the elements are rendered (you can&#8217;t do it on <code>document.ready</code> since it&#8217;s loaded via ajax.</p>
-
-<p>Here&#8217;s the visual: http://screencloud.net/v/qbd0</p>
-
-<h1>The solution.</h1>
-
-<p>Here&#8217;s how I fixed it. Basically add a custom directive <code>makeEditable</code> which has this declaration:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>        .directive('makeEditable', function() {
-</span><span class='line'>            return function(scope, element, attrs) {
-</span><span class='line'>                scope.$watch('$last',function(){
-</span><span class='line'>                    $('.editable').editable();
-</span><span class='line'>                });
-</span><span class='line'>            };
-</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
-
-
-<p>and in your view, just do this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>    &lt;div class="span4" data-toggle="modal-gallery" data-target="#modal-gallery" data-ng-repeat="file in queue" make-editable&gt;
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now the input elements should be editable!</p>
 ]]></content>
   </entry>
   

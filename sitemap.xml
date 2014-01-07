@@ -377,12 +377,18 @@
         <lastmod>2014-01-06T09:26:43-08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2014/01/06/capistrano-3-and-rbenv-sshkit-upgrade-to-1-dot-3/
+        </loc>
+        <lastmod>2014-01-06T17:05:50-08:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2014-01-06T09:26:43-08:00</lastmod>
+        <lastmod>2014-01-06T17:05:50-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2014-01-06T09:26:43-08:00</lastmod>
+        <lastmod>2014-01-06T17:05:50-08:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>
