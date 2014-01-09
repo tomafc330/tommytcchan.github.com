@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-01-08T17:21:04-08:00</updated>
+  <updated>2014-01-08T18:21:17-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -59,7 +59,7 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT `locations`.*, 
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT `venues`.*, 
 </span><span class='line'> (ACOS(least(1,COS(0.8595746566072073)*COS(-2.1485003092050197)*COS(RADIANS(locations.lat))*COS(RADIANS(locations.lng))+
 </span><span class='line'> COS(0.8595746566072073)*SIN(-2.1485003092050197)*COS(RADIANS(locations.lat))*SIN(RADIANS(locations.lng))+
 </span><span class='line'> SIN(0.8595746566072073)*SIN(RADIANS(locations.lat))))*3963.19)

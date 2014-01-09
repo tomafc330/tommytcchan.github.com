@@ -4,7 +4,7 @@
   <title><![CDATA[Category: problems | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/problems/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-01-08T17:21:04-08:00</updated>
+  <updated>2014-01-08T18:21:17-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -43,7 +43,7 @@ Company.within(distance, :origin =&gt; @somewhere)
 <p>However, this proved to be a problem because the db didn't like it:</p>
 
 <p><code>
-SELECT `locations`.*,
+SELECT `venues`.*,
  (ACOS(least(1,COS(0.8595746566072073)*COS(-2.1485003092050197)*COS(RADIANS(locations.lat))*COS(RADIANS(locations.lng))+
  COS(0.8595746566072073)*SIN(-2.1485003092050197)*COS(RADIANS(locations.lat))*SIN(RADIANS(locations.lng))+
  SIN(0.8595746566072073)*SIN(RADIANS(locations.lat))))*3963.19)

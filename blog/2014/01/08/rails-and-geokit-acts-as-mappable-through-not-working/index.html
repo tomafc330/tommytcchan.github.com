@@ -146,7 +146,7 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT `locations`.*, 
+</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT `venues`.*, 
 </span><span class='line'> (ACOS(least(1,COS(0.8595746566072073)*COS(-2.1485003092050197)*COS(RADIANS(locations.lat))*COS(RADIANS(locations.lng))+
 </span><span class='line'> COS(0.8595746566072073)*SIN(-2.1485003092050197)*COS(RADIANS(locations.lat))*SIN(RADIANS(locations.lng))+
 </span><span class='line'> SIN(0.8595746566072073)*SIN(RADIANS(locations.lat))))*3963.19)
