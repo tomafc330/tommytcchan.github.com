@@ -9,15 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was reading a tutorial on the before_save and thought this was a valid syntax: 1
-2
-3
-4
-5
-6
-7
-8
-9 def before_save(record) if record.publishing &hellip;">
+  <meta name="description" content="I was working on a refactoring for a method that did csv export, and I found a prime a candidate for using the currying mechanism in Groovy. Consider &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +77,200 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/">Groovy: The Way to Populate a Csv/excel File.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-08T13:52:00-08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was working on a refactoring for a method that did csv export, and I found a prime a candidate for using the currying mechanism in Groovy.</p>
+
+<p>Consider this example of the code before:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def export = {
+</span><span class='line'>  final string[] csvcolumnheadings = ['game', 'campaign name', 'campaign medium', 'campaign code', 'campaign term', 'campaign content',
+</span><span class='line'>      'campaign source', 'additional paramter','status', 'created by', 'updated by', 'date created', 'last updated']
+</span><span class='line'>  
+</span><span class='line'>  ...
+</span><span class='line'>
+</span><span class='line'>      campaigns.resultset.each { campaign -&gt;
+</span><span class='line'>          string[] row = new string[13]
+</span><span class='line'>          
+</span><span class='line'>          row[0] = campaign.game ? campaign.game : ''
+</span><span class='line'>          row[1] = campaign.campaignname ? campaign.campaignname : ''
+</span><span class='line'>          row[2] = campaign.type ? campaign.type.tostring() : ''
+</span><span class='line'>          row[3] = campaign.campaigncode ? campaign.campaigncode : ''
+</span><span class='line'>          row[4] = campaign.campaignterm ?: ''
+</span><span class='line'>          row[5] = campaign.campaigncontent?: ''
+</span><span class='line'>          row[6] = campaign.source ? campaign.source : ''
+</span><span class='line'>          row[7] = campaign.parameter ? campaign.parameter : ''
+</span><span class='line'>          row[8] = campaign.status.name ? campaign.status.name : ''
+</span><span class='line'>          row[9] = campaign.createdby ? campaign.createdby : ''
+</span><span class='line'>          row[10] = campaign.updatedby ? campaign.updatedby : ''
+</span><span class='line'>          row[11] = campaign.datecreated ? campaign.datecreated.getdatetimestring() : ''
+</span><span class='line'>          row[12] = campaign.lastupdated ? campaign.lastupdated.getdatetimestring() : ''
+</span><span class='line'>          
+</span><span class='line'>          csvwriter.writenext(row)
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>  ...
+</span><span class='line'>      
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+
+
+<p>So what&#8217;s the problem here? Well, I was adding a couple of fields to the export, and the problem is that there are 4 things I needed to do:
+* Add it to the <code>csvcolumnheadings</code>
+* Update the number of elements in decl of the array <code>row</code>
+* Add the elements
+* Update all the numberings</p>
+
+<p>Also, it&#8217;s not a very Groovy way of doing it. Come curryin to the rescue!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def valRetrieveFunc = {fieldName, campaign -&gt;
+</span><span class='line'>      def result
+</span><span class='line'>
+</span><span class='line'>      if (fieldName instanceof Closure) {
+</span><span class='line'>          result = fieldName(campaign)
+</span><span class='line'>      } else {
+</span><span class='line'>          result = campaign."${fieldName}"
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>      return result ?: ''
+</span><span class='line'>  }
+</span><span class='line'>
+</span><span class='line'>  final Map map = [
+</span><span class='line'>          'Game': valRetrieveFunc.curry('game'),
+</span><span class='line'>          'Campaign Name': valRetrieveFunc.curry('campaignName'),
+</span><span class='line'>          'Campaign Medium': valRetrieveFunc.curry({campaign -&gt; return campaign.type?.toString()}),
+</span><span class='line'>          'Campaign Code': valRetrieveFunc.curry('campaignCode'),
+</span><span class='line'>          'Campaign Term': valRetrieveFunc.curry('campaignTerm'),
+</span><span class='line'>          'Campaign Content': valRetrieveFunc.curry('campaignContent'),
+</span><span class='line'>          'Campaign Source': valRetrieveFunc.curry('source'),
+</span><span class='line'>          'Additional Paramter': valRetrieveFunc.curry('parameter'),
+</span><span class='line'>          'Status': valRetrieveFunc.curry({campaign -&gt; return campaign.status?.name}),
+</span><span class='line'>          'Created By': valRetrieveFunc.curry('createdBy'),
+</span><span class='line'>          'Updated By': valRetrieveFunc.curry('updatedBy'),
+</span><span class='line'>          'Date Created': valRetrieveFunc.curry({campaign -&gt; return campaign.dateCreated?.getDateTimeString()}),
+</span><span class='line'>          'Last Updated': valRetrieveFunc.curry({campaign -&gt; return campaign.lastUpdated?.getDateTimeString()})]
+</span><span class='line'>
+</span><span class='line'>  final String[] csvColumnHeadings = map.keySet()
+</span><span class='line'>
+</span><span class='line'>  ...
+</span><span class='line'>
+</span><span class='line'>      campaigns.resultSet.each { campaign -&gt;
+</span><span class='line'>          def row = []
+</span><span class='line'>          csvColumnHeadings.each({
+</span><span class='line'>              row &lt;&lt; map[it](campaign)
+</span><span class='line'>          })
+</span><span class='line'>
+</span><span class='line'>          csvWriter.writeNext(row.toArray() as String[])
+</span><span class='line'>      }
+</span><span class='line'>
+</span><span class='line'>  ...                 </span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let me annotate this a little bit. The first thing we define was a func on how to get the parameter from the domain object. Notice for complex retrievals we can pass in a closure to how to fetch the object graph. The more important bit here is the <code>curry</code> method, which defines a new closure with the same content, except that the first parameter has been <code>curried</code> and embedded in the new closure. By using <code>curry</code> in this way, the caller of the curried closure doesn&#8217;t need worry about the first parameter..they can just invoke it with the campaign object in this case (ie. <code>row &lt;&lt; map[it](campaign)</code>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -733,83 +919,6 @@ Also note that you can add the www-data user to the group that has the permissio
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/17/php-set-up-xdebug/">PHP - Set Up XDebug</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-17T16:24:00-08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/17/php-set-up-xdebug/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So my client is using an older version of PHP (5.2 to be exact), and I wanted to install a debugger to ensure that I can test out the flows and examine variables. Finally after an hour of fiddling with it I got it to work.</p>
-
-<h3>The setup</h3>
-
-<p>This guide uses the following:</p>
-
-<p>WAMP Server 2.2
-PHP 5.2
-Apache 2.2
-PHPStorm 5.0.1</p>
-
-<h3>Steps</h3>
-
-<ol>
-<li><p>Goto http://xdebug.org/download.php and download the Xdebug version 2.1.2. Note that&#8217;s the last version where they compiled a VC6 version. I got the Thread Safe (TS) version.</p></li>
-<li><p>Now edit your php.ini file. Make sure to put the following in:</p></li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>zend_extension_ts= "C:\wamp\bin\php\php5.2.2\ext\php_xdebug-2.1.2-5.2-vc6.dll"
-</span><span class='line'>xdebug.idekey=PHPSTORM
-</span><span class='line'>xdebug.remote_enable=true
-</span><span class='line'>;extension=php_xdebug-2.1.2-5.2-vc6.dll</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`
-Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</em> want it.</p>
-
-<ol>
-<li><p>Now grab the bookmarklet generator from here: http://www.jetbrains.com/phpstorm/marklets/</p></li>
-<li><p>Restart the server</p></li>
-<li><p>Have PHPStorm start listening to the connections.</p></li>
-<li><p>Put a breakdown somethere you know that the execution will hit it.</p></li>
-<li><p>Enjoy!</p></li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -827,6 +936,10 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">rails and geokit acts_as_mappable through not working</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/06/capistrano-3-and-rbenv-sshkit-upgrade-to-1-dot-3/">Capistrano 3 and rbenv sshkit upgrade to 1.3</a>
       </li>
     
@@ -840,10 +953,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
     
       <li class="post">
         <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal plugin not working issues</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/16/rails-and-adding-an-environment-to-headers/">Rails and adding an environment to headers</a>
       </li>
     
   </ul>
