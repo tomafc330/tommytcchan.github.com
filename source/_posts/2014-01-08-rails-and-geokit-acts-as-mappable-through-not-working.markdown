@@ -30,7 +30,7 @@ Company.within(distance, :origin => @somewhere)
 However, this proved to be a problem because the db didn't like it:
 
 ```
-SELECT `locations`.*, 
+SELECT `venues`.*, 
  (ACOS(least(1,COS(0.8595746566072073)*COS(-2.1485003092050197)*COS(RADIANS(locations.lat))*COS(RADIANS(locations.lng))+
  COS(0.8595746566072073)*SIN(-2.1485003092050197)*COS(RADIANS(locations.lat))*SIN(RADIANS(locations.lng))+
  SIN(0.8595746566072073)*SIN(RADIANS(locations.lat))))*3963.19)
