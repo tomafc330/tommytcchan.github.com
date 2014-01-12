@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I had this issue with a Rails app where the string content has been html encoded. This was not good because I was feeding the information to view &hellip;">
+  <meta name="description" content="I&#8217;m in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/07/rails-controller-css-isnt-precompiled/">Rails: Controller Css Isn&#8217;t Precompiled</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-07T22:33:00-07:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/07/rails-controller-css-isnt-precompiled/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around. By default Rails set the <code>application.css</code> to include <code>//= require_tree .</code>. So naturally I removed it and in my <code>application.html.erb</code> I added the following: <code> &lt;%= stylesheet_link_tag params[:controller] %&gt;</code></p>
+
+<p>All good, right? Wrong! When I started the app in prod mode, I got an error like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>shortcuts.css isn't precompiled</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What&#8217;s going on here? Well upon some searching and reading through the asset pipeline guide, I realized that by default Rails does not compile your css under the stylesheets folder. I had to do this in <code>production.rb</code> to make it work:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  config.assets.precompile += %w( *.css *.js )</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -540,77 +590,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup/">Caution: Testing Grails Filter While Overriding the Request/response Object in the Setup().</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-15T12:34:00-07:00" pubdate data-updated="true">Mar 15<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/15/caution-testing-grails-filter-while-overriding-the-request-slash-response-object-in-the-setup/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;m doing some testing on the filter recently, and I of the things I notice right away was that the previous committer had initializers all over the place:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void test_filters_all_with_no_utmParams_noSession_with__invalid_Cookie() {
-</span><span class='line'>      FilterConfig filter = findConfig('all')
-</span><span class='line'>
-</span><span class='line'>      def request = new MockHttpServletRequest()
-</span><span class='line'>      def response = new MockHttpServletResponse()
-</span><span class='line'>      setUpWebCookieService(request, response)
-</span><span class='line'>
-</span><span class='line'>      request.session = createSession(null, null, 'true')
-</span><span class='line'>      request.cookies = [new Cookie('blah')]
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So I thought, why not just put of the same declarations on the setup method()? Well, it turns out that Grails dynamic closures will clobber the request/response variables. When I ran the tests with the declarations in the setup, no matter what I do I was not able to set my variable.</p>
-
-<p>After some digging around, I realized one thing:</p>
-
-<ol>
-<li>The test already injects the request/response objects in your filter tests, so overriding actually causes problems, leading to my variables not being set on the correct request/response instance.</li>
-</ol>
-
-
-<p>I&#8217;ll let you decide what&#8217;s best for yourself.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -628,6 +607,10 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and lost session</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">rails and geokit acts_as_mappable through not working</a>
       </li>
     
@@ -641,10 +624,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
     
       <li class="post">
         <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal plugin not working issues</a>
       </li>
     
   </ul>

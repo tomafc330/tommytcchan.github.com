@@ -9,7 +9,8 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I just learned about the $.grep method today and it seem pretty cool. I had an array that I want to push objects to. However because the Array.push &hellip;">
+  <meta name="description" content="I was working getting just the ids from a list of models, and in Rails 3 you can actually use the pluck method for that! 1
+shortcuts = Shortcut.where &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +78,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/08/rails-get-specific-attribute-from-model/">Rails: Get Specific Attribute From Model</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-08T20:49:00-07:00" pubdate data-updated="true">May 8<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/08/rails-get-specific-attribute-from-model/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was working getting just the ids from a list of models, and in Rails 3 you can actually use the <code>pluck</code> method for that!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>shortcuts = Shortcut.where(:software_id =&gt; params[:software_id]).pluck(:id)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This returns:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[58, 59, 60 ...]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>awesome!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1281,56 +1332,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/07/rails-controller-css-isnt-precompiled/">Rails: Controller Css Isn&#8217;t Precompiled</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-07T22:33:00-07:00" pubdate data-updated="true">Apr 7<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/07/rails-controller-css-isnt-precompiled/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;m in the process of converting a single page app into using rendering it from a controller, and so I was moving around some of the css around. By default Rails set the <code>application.css</code> to include <code>//= require_tree .</code>. So naturally I removed it and in my <code>application.html.erb</code> I added the following: <code> &lt;%= stylesheet_link_tag params[:controller] %&gt;</code></p>
-
-<p>All good, right? Wrong! When I started the app in prod mode, I got an error like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>shortcuts.css isn't precompiled</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What&#8217;s going on here? Well upon some searching and reading through the asset pipeline guide, I realized that by default Rails does not compile your css under the stylesheets folder. I had to do this in <code>production.rb</code> to make it work:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  config.assets.precompile += %w( *.css *.js )</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -1348,6 +1349,10 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and lost session</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">rails and geokit acts_as_mappable through not working</a>
       </li>
     
@@ -1361,10 +1366,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
     
       <li class="post">
         <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal plugin not working issues</a>
       </li>
     
   </ul>

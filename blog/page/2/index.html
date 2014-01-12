@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I needed to write a complexish query for one of the queries for (VenueSpot.co)|[http://www.venuespot.co]. As we are only running a small instance &hellip;">
+  <meta name="description" content="I am currently in the process of refactoring some code in a Rails project for a client, and one of the things that I wanted to do was to separate the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,76 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a Custom Migrate Script for Running Migrations in Another Location.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-21T19:14:00-07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I am currently in the process of refactoring some code in a Rails project for a client, and one of the things that I wanted to do was to separate the database migration scripts that are from the base frameworks (Discourse was used as the base) and the ones I will be adding. This will give a good historical view of all the custom migrations so we don&#8217;t have to go through each one. But in order to do that I had to write my own custom rake task to rake the rake tasks:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>namespace :db do
+</span><span class='line'>    desc "Migrate the database by going through the standard migrate folder first, then the custom 1017 folder (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
+</span><span class='line'>    task :custom_migrate =&gt; [:environment, :load_config] do
+</span><span class='line'>        ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
+</span><span class='line'>        ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migrations_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+</span><span class='line'>            ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+</span><span class='line'>        end
+</span><span class='line'>        ActiveRecord::Migrator.migrate('db/migrate/1017', ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
+</span><span class='line'>            ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
+</span><span class='line'>        end
+</span><span class='line'>
+</span><span class='line'>        Rake::Task['db:_dump'].invoke
+</span><span class='line'>    end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice the last line where it delegates out to the <code>db:_dump</code> task. This is important as it writes out the schema as the end step.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -682,50 +752,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/">Rails: Using Link_to to Include Icons.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-01T17:04:00-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2013</time>
-        
-         | <a href="/blog/2013/07/01/rails-using-link-to-to-include-icons/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I was trying to make my links look pretty by adding the <code>icon-*</code> classes to the link. However I was using the <code>link_to</code> method and it was not clear reading the docs how to do that. Luckily I figured it out:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to '&lt;i class="icon-remove"&gt;&lt;/i&gt;'.html_safe, message, {:method =&gt; :delete, :class =&gt; 'btn btn-small'}%&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Pretty awesome!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -743,6 +769,10 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and lost session</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">rails and geokit acts_as_mappable through not working</a>
       </li>
     
@@ -756,10 +786,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
     
       <li class="post">
         <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal plugin not working issues</a>
       </li>
     
   </ul>

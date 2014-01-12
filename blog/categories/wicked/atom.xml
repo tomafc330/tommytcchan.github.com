@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: wicked | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/wicked/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2014-01-11T18:07:15-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails Wicked Wizards and lost session]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/01/11/rails-wicked-wizards-and-lost-session/"/>
+    <updated>2014-01-11T18:03:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/01/11/rails-wicked-wizards-and-lost-session</id>
+    <content type="html"><![CDATA[<h1>The problem</h1>
+
+<p>We've started using the Wicked gem for our wizard creations with events. Everything actually worked surprising well (using Wicked state machine). However I got stuck at an issue where if a user is logged in and starts the wizard flow, he/she would be logged out upon hitting the wizard controller.</p>
+
+<h1>The solution</h1>
+
+<p>I took a look at the source code and couldn't find anything. After some digging around I realized it was my own fault. You see, on my home page I have a form that POSTed to the new wizard controller. However I was using the <code>&lt;form ...</code> notation, which meant that the security token was not generate, which meant rails will create a new session.</p>
+
+<p>Therefore the solution was to do something like this:</p>
+
+<p>```</p>
+
+<pre><code>&lt;%= form_tag('/events/building/build', method: 'post'...
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

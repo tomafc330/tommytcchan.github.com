@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="At venuespot, we are using a matching algorithm to ensure that we match relevant information with the venues. One of the things is using a distance &hellip;">
+  <meta name="description" content="The problem We&#8217;ve started using the Wicked gem for our wizard creations with events. Everything actually worked surprising well (using Wicked &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and Lost Session</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-11T18:03:00-08:00" pubdate data-updated="true">Jan 11<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>The problem</h1>
+
+<p>We&#8217;ve started using the Wicked gem for our wizard creations with events. Everything actually worked surprising well (using Wicked state machine). However I got stuck at an issue where if a user is logged in and starts the wizard flow, he/she would be logged out upon hitting the wizard controller.</p>
+
+<h1>The solution</h1>
+
+<p>I took a look at the source code and couldn&#8217;t find anything. After some digging around I realized it was my own fault. You see, on my home page I have a form that POSTed to the new wizard controller. However I was using the <code>&lt;form ...</code> notation, which meant that the security token was not generate, which meant rails will create a new session.</p>
+
+<p>Therefore the solution was to do something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= form_tag('/events/building/build', method: 'post'...</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -928,76 +978,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/">Rails: Add a Custom Migrate Script for Running Migrations in Another Location.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-21T19:14:00-07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2013</time>
-        
-         | <a href="/blog/2013/10/21/rails-add-a-custom-migrate-script-for-running-migrations-in-another-location/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I am currently in the process of refactoring some code in a Rails project for a client, and one of the things that I wanted to do was to separate the database migration scripts that are from the base frameworks (Discourse was used as the base) and the ones I will be adding. This will give a good historical view of all the custom migrations so we don&#8217;t have to go through each one. But in order to do that I had to write my own custom rake task to rake the rake tasks:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>namespace :db do
-</span><span class='line'>    desc "Migrate the database by going through the standard migrate folder first, then the custom 1017 folder (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
-</span><span class='line'>    task :custom_migrate =&gt; [:environment, :load_config] do
-</span><span class='line'>        ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
-</span><span class='line'>        ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migrations_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
-</span><span class='line'>            ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
-</span><span class='line'>        end
-</span><span class='line'>        ActiveRecord::Migrator.migrate('db/migrate/1017', ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do |migration|
-</span><span class='line'>            ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
-</span><span class='line'>        end
-</span><span class='line'>
-</span><span class='line'>        Rake::Task['db:_dump'].invoke
-</span><span class='line'>    end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Notice the last line where it delegates out to the <code>db:_dump</code> task. This is important as it writes out the schema as the end step.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1013,6 +993,10 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and lost session</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">rails and geokit acts_as_mappable through not working</a>
       </li>
     
@@ -1026,10 +1010,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
     
       <li class="post">
         <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal plugin not working issues</a>
       </li>
     
   </ul>
