@@ -32,7 +32,7 @@ You will need a few things:
 So let's start with the part where the user is not logged in but we want to track their actions. We need to tell mixpanel that a new user on our site. Now we will be using ```localStorage``` to store our anonymous user.
 ```
 # venuespot_tracker.js
-function VenueSpot() {
+function VenueSpotTracker() {
 
     this.createOrGetUser = function () {
         //check to see if localStorage is defined, omitted for brevity's sake
@@ -104,10 +104,12 @@ def create
 ...
         MixpanelAliasWorker.perform_async(@user.email, params[:mix_panel_temp_id], @user.first_name, @user.last_name, @user.phone, @user.type)
 end
+```
 
 Notice here we are using Sidekiq to perform our linking in an async manner. The Mixpanel api has a few methods to do with async, but I feel that this is an easier approach.
 
 In MixpanelAliasWorker, this is what happens:
+
 ```
 require 'mixpanel-ruby'
 
@@ -131,6 +133,7 @@ class MixpanelAliasWorker
         });
     end
 end
+```
 
 What happens here is that when a user is registered, we alias the old temp id we created in the front end with the actual email.
 
