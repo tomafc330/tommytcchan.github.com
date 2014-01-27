@@ -4,7 +4,7 @@
   <title><![CDATA[Category: howto | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-01-11T18:07:15-08:00</updated>
+  <updated>2014-01-27T00:31:30-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -52,7 +52,7 @@
 
 <h1>venuespot_tracker.js</h1>
 
-<p>function VenueSpot() {</p>
+<p>function VenueSpotTracker() {</p>
 
 <pre><code>this.createOrGetUser = function () {
     //check to see if localStorage is defined, omitted for brevity's sake
@@ -135,12 +135,14 @@ value: venuespotTracker.createOrGetUser()
 <pre><code>    MixpanelAliasWorker.perform_async(@user.email, params[:mix_panel_temp_id], @user.first_name, @user.last_name, @user.phone, @user.type)
 </code></pre>
 
-<p>end</p>
+<p>end
+```</p>
 
 <p>Notice here we are using Sidekiq to perform our linking in an async manner. The Mixpanel api has a few methods to do with async, but I feel that this is an easier approach.</p>
 
-<p>In MixpanelAliasWorker, this is what happens:
-```
+<p>In MixpanelAliasWorker, this is what happens:</p>
+
+<p>```
 require 'mixpanel-ruby'</p>
 
 <h1>Does alias and link up the email address</h1>
@@ -166,7 +168,8 @@ def perform(email, old_id, first_name, last_name, phone, user_type)
 end
 </code></pre>
 
-<p>end</p>
+<p>end
+```</p>
 
 <p>What happens here is that when a user is registered, we alias the old temp id we created in the front end with the actual email.</p>
 

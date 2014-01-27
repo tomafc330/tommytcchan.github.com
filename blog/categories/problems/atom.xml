@@ -4,7 +4,7 @@
   <title><![CDATA[Category: problems | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/problems/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-01-11T18:07:15-08:00</updated>
+  <updated>2014-01-27T00:31:30-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ruby uninitialized constant Geokit::LatLng]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng/"/>
+    <updated>2014-01-26T22:41:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng</id>
+    <content type="html"><![CDATA[<h1>The Problem</h1>
+
+<p>While developing a map specific feature for <a href="http://venuespot.co">venuespot</a>, I came across an error similar to the following:</p>
+
+<p><code>
+uninitialized constant MyController::Geokit
+</code></p>
+
+<p>At first thought I thoght that I had <code>require</code>d the wrong names, but no that was not the case. Okay what else could it be. I checked the gems and it was in there. It was driving me nuts but I finally figured it out.</p>
+
+<h1>The solution</h1>
+
+<p>I tested the library out by going on irb and tried to instantiate some of the classes. That worked. Then I took a look at the Gemfile.lock file and everything checked out. But little did I realize that I didn't include it in my Gemfile, which was what was needed. So including the <code>geokit</code> gem in there made it work. So I guess the story of the day is that explicit <code>require</code> of libraries requires you also to add it to the Gemfile. Either that or from what I've read, install the gem manually (gem install geokit), then adding a require 'geokit' to the top of vendor/plugins/geokit-rails/init.rb.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[rails and geokit acts_as_mappable through not working]]></title>
@@ -166,29 +187,6 @@ server {
 
 <p>```
 Upon reading the angular docs a little bit more, I realized that by calling multiple initializations, we actually create new instances of services/factories, so they are actually not singletons anymore.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails 3 redirect_to with flash :notice does not show up - problem.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem/"/>
-    <updated>2013-06-20T22:02:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/06/20/rails-3-redirect-to-with-flash-notice-does-not-show-up-problem</id>
-    <content type="html"><![CDATA[<p>I was working on my app just now and finally got rid of a stupid annoying thing -- it wouldn't update my flash messages for some reason after I do a redirect_to.</p>
-
-<p>This was what I had:</p>
-
-<p>```</p>
-
-<pre><code>    format.html { redirect_to venues_path, notice: 'Venue space was successfully created.' }
-    format.json { render json: @venue_space, status: :created, location: @venue_space }
-</code></pre>
-
-<p>```</p>
-
-<p>Pretty standard stuff right? But for some reason I couldn't get the flash messages working at all! I was so baffled by it but then I started tracing down the calls.</p>
-
-<p>Turns out that the <code>venues_path</code> redirects to the index method, and in the index method it does a redirect to the edit method, and in Rails 3 you need <code>flash.keep</code> in order to preserve the flash message. Doh!</p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,8 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="The problem We&#8217;ve started using the Wicked gem for our wizard creations with events. Everything actually worked surprising well (using Wicked &hellip;">
+  <meta name="description" content="The Problem While developing a map specific feature for venuespot, I came across an error similar to the following: 1
+uninitialized constant &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +78,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng/">Ruby Uninitialized Constant Geokit::LatLng</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-26T22:41:00-08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>The Problem</h1>
+
+<p>While developing a map specific feature for <a href="http://venuespot.co">venuespot</a>, I came across an error similar to the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>uninitialized constant MyController::Geokit</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At first thought I thoght that I had <code>require</code>d the wrong names, but no that was not the case. Okay what else could it be. I checked the gems and it was in there. It was driving me nuts but I finally figured it out.</p>
+
+<h1>The solution</h1>
+
+<p>I tested the library out by going on irb and tried to instantiate some of the classes. That worked. Then I took a look at the Gemfile.lock file and everything checked out. But little did I realize that I didn&#8217;t include it in my Gemfile, which was what was needed. So including the <code>geokit</code> gem in there made it work. So I guess the story of the day is that explicit <code>require</code> of libraries requires you also to add it to the Gemfile. Either that or from what I&#8217;ve read, install the gem manually (gem install geokit), then adding a require &#8216;geokit&#8217; to the top of vendor/plugins/geokit-rails/init.rb.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -390,7 +441,7 @@
 <span class='line-number'>31</span>
 <span class='line-number'>32</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># venuespot_tracker.js
-</span><span class='line'>function VenueSpot() {
+</span><span class='line'>function VenueSpotTracker() {
 </span><span class='line'>
 </span><span class='line'>    this.createOrGetUser = function () {
 </span><span class='line'>        //check to see if localStorage is defined, omitted for brevity's sake
@@ -478,47 +529,62 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># create
 </span><span class='line'>def create
 </span><span class='line'>...
 </span><span class='line'>        MixpanelAliasWorker.perform_async(@user.email, params[:mix_panel_temp_id], @user.first_name, @user.last_name, @user.phone, @user.type)
-</span><span class='line'>end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice here we are using Sidekiq to perform our linking in an async manner. The Mixpanel api has a few methods to do with async, but I feel that this is an easier approach.</p>
+
+<p>In MixpanelAliasWorker, this is what happens:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'mixpanel-ruby'
 </span><span class='line'>
-</span><span class='line'>Notice here we are using Sidekiq to perform our linking in an async manner. The Mixpanel api has a few methods to do with async, but I feel that this is an easier approach.
+</span><span class='line'># Does alias and link up the email address
+</span><span class='line'>class MixpanelAliasWorker
+</span><span class='line'>    include Sidekiq::Worker
 </span><span class='line'>
-</span><span class='line'>In MixpanelAliasWorker, this is what happens:</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>    def mixpanel()
+</span><span class='line'>        Mixpanel::Tracker.new(ENV['mix_panel'])
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def perform(email, old_id, first_name, last_name, phone, user_type)
+</span><span class='line'>        tracker = mixpanel()
+</span><span class='line'>        tracker.alias email, old_id #synchrious call
+</span><span class='line'>        tracker.people.set(email, {
+</span><span class='line'>            '$first_name' =&gt; first_name,
+</span><span class='line'>            '$last_name' =&gt; last_name,
+</span><span class='line'>            '$email' =&gt; email,
+</span><span class='line'>            '$phone' =&gt; phone,
+</span><span class='line'>            'User Type' =&gt; user_type
+</span><span class='line'>        });
+</span><span class='line'>    end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-
-<p>require &#8216;mixpanel-ruby&#8217;</p>
-
-<h1>Does alias and link up the email address</h1>
-
-<p>class MixpanelAliasWorker</p>
-
-<pre><code>include Sidekiq::Worker
-
-def mixpanel()
-    Mixpanel::Tracker.new(ENV['mix_panel'])
-end
-
-def perform(email, old_id, first_name, last_name, phone, user_type)
-    tracker = mixpanel()
-    tracker.alias email, old_id #synchrious call
-    tracker.people.set(email, {
-        '$first_name' =&gt; first_name,
-        '$last_name' =&gt; last_name,
-        '$email' =&gt; email,
-        '$phone' =&gt; phone,
-        'User Type' =&gt; user_type
-    });
-end
-</code></pre>
-
-<p>end</p>
 
 <p>What happens here is that when a user is registered, we alias the old temp id we created in the front end with the actual email.</p>
 
@@ -868,116 +934,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/">Jasmine Spies on a 2nd Level Object</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-03T16:03:00-08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/12/03/jasmine-spies-on-a-2nd-level-object/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve been trying to mock a 2 level object that looks like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    mockSoundService = {
-</span><span class='line'>        getSound: function () {
-</span><span class='line'>            return {
-</span><span class='line'>                volume: function () {
-</span><span class='line'>                }
-</span><span class='line'>            };
-</span><span class='line'>        }
-</span><span class='line'>    };</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Naturally, I thought it would work with something like this in my test:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    spyOn(mockSoundService.getSound(), 'volume');
-</span><span class='line'>    service.closeIntroVideo();
-</span><span class='line'>
-</span><span class='line'>    expect(service.getPlayer()).toBeNull();
-</span><span class='line'>    expect(mockSoundService.getSound().volume).toHaveBeenCalled();</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, I kept getting errors like these:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Expected a spy, but got undefined.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It turns out that you need to break apart the 2nd level object that was nested. Therefore the final product should look something like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    mockSound = {
-</span><span class='line'>        volume: function () {
-</span><span class='line'>        }
-</span><span class='line'>    };
-</span><span class='line'>
-</span><span class='line'>    mockSoundService = {
-</span><span class='line'>        getSound: function () {
-</span><span class='line'>            return mockSound;
-</span><span class='line'>        }
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>and now in your mocks you can do something like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>    spyOn(mockSound, 'volume');
-</span><span class='line'>    spyOn(mockState, 'go');
-</span><span class='line'>    service.closeIntroVideo();</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -993,6 +949,10 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng/">ruby uninitialized constant Geokit::LatLng</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and lost session</a>
       </li>
     
@@ -1006,10 +966,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
     
       <li class="post">
         <a href="/blog/2014/01/05/setting-up-rails-with-mixpanel-on-both-the-front-end-and-back-end/">Setting up Rails with Mixpanel on both the front end and back end</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
       </li>
     
   </ul>

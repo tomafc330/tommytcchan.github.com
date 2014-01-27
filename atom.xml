@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-01-11T18:07:15-08:00</updated>
+  <updated>2014-01-27T00:31:30-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,27 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[ruby uninitialized constant Geokit::LatLng]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng/"/>
+    <updated>2014-01-26T22:41:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng</id>
+    <content type="html"><![CDATA[<h1>The Problem</h1>
+
+<p>While developing a map specific feature for <a href="http://venuespot.co">venuespot</a>, I came across an error similar to the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>uninitialized constant MyController::Geokit</span></code></pre></td></tr></table></div></figure>
+
+
+<p>At first thought I thoght that I had <code>require</code>d the wrong names, but no that was not the case. Okay what else could it be. I checked the gems and it was in there. It was driving me nuts but I finally figured it out.</p>
+
+<h1>The solution</h1>
+
+<p>I tested the library out by going on irb and tried to instantiate some of the classes. That worked. Then I took a look at the Gemfile.lock file and everything checked out. But little did I realize that I didn&#8217;t include it in my Gemfile, which was what was needed. So including the <code>geokit</code> gem in there made it work. So I guess the story of the day is that explicit <code>require</code> of libraries requires you also to add it to the Gemfile. Either that or from what I&#8217;ve read, install the gem manually (gem install geokit), then adding a require &#8216;geokit&#8217; to the top of vendor/plugins/geokit-rails/init.rb.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Rails Wicked Wizards and lost session]]></title>
@@ -213,7 +234,7 @@
 <span class='line-number'>31</span>
 <span class='line-number'>32</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># venuespot_tracker.js
-</span><span class='line'>function VenueSpot() {
+</span><span class='line'>function VenueSpotTracker() {
 </span><span class='line'>
 </span><span class='line'>    this.createOrGetUser = function () {
 </span><span class='line'>        //check to see if localStorage is defined, omitted for brevity's sake
@@ -301,47 +322,62 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># create
 </span><span class='line'>def create
 </span><span class='line'>...
 </span><span class='line'>        MixpanelAliasWorker.perform_async(@user.email, params[:mix_panel_temp_id], @user.first_name, @user.last_name, @user.phone, @user.type)
-</span><span class='line'>end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice here we are using Sidekiq to perform our linking in an async manner. The Mixpanel api has a few methods to do with async, but I feel that this is an easier approach.</p>
+
+<p>In MixpanelAliasWorker, this is what happens:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'mixpanel-ruby'
 </span><span class='line'>
-</span><span class='line'>Notice here we are using Sidekiq to perform our linking in an async manner. The Mixpanel api has a few methods to do with async, but I feel that this is an easier approach.
+</span><span class='line'># Does alias and link up the email address
+</span><span class='line'>class MixpanelAliasWorker
+</span><span class='line'>    include Sidekiq::Worker
 </span><span class='line'>
-</span><span class='line'>In MixpanelAliasWorker, this is what happens:</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>    def mixpanel()
+</span><span class='line'>        Mixpanel::Tracker.new(ENV['mix_panel'])
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def perform(email, old_id, first_name, last_name, phone, user_type)
+</span><span class='line'>        tracker = mixpanel()
+</span><span class='line'>        tracker.alias email, old_id #synchrious call
+</span><span class='line'>        tracker.people.set(email, {
+</span><span class='line'>            '$first_name' =&gt; first_name,
+</span><span class='line'>            '$last_name' =&gt; last_name,
+</span><span class='line'>            '$email' =&gt; email,
+</span><span class='line'>            '$phone' =&gt; phone,
+</span><span class='line'>            'User Type' =&gt; user_type
+</span><span class='line'>        });
+</span><span class='line'>    end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-
-<p>require &#8216;mixpanel-ruby&#8217;</p>
-
-<h1>Does alias and link up the email address</h1>
-
-<p>class MixpanelAliasWorker</p>
-
-<pre><code>include Sidekiq::Worker
-
-def mixpanel()
-    Mixpanel::Tracker.new(ENV['mix_panel'])
-end
-
-def perform(email, old_id, first_name, last_name, phone, user_type)
-    tracker = mixpanel()
-    tracker.alias email, old_id #synchrious call
-    tracker.people.set(email, {
-        '$first_name' =&gt; first_name,
-        '$last_name' =&gt; last_name,
-        '$email' =&gt; email,
-        '$phone' =&gt; phone,
-        'User Type' =&gt; user_type
-    });
-end
-</code></pre>
-
-<p>end</p>
 
 <p>What happens here is that when a user is registered, we alias the old temp id we created in the front end with the actual email.</p>
 
@@ -987,23 +1023,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 
 
 <p>Luckily, the devise docs tells you exactly what&#8217;s wrong on their docs <a href="https://github.com/plataformatec/devise#test-helpers">page</a> regarding test helpers. So if you are seeing the same issue, consult their docs!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AngularJS: problem with factory/service methods not returning singletons!]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/07/18/angularjs-problem-with-factory-slash-service-methods-not-returning-singletons/"/>
-    <updated>2013-07-18T18:31:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/07/18/angularjs-problem-with-factory-slash-service-methods-not-returning-singletons</id>
-    <content type="html"><![CDATA[<p>I was looking at an issue today where for the life of me I could not figure out why my controllers are being returned different instances. I even went as far as creating a <a href="http://plnkr.co/edit/QLK8zX827c9SI3lSWXXj">plunkr</a> to proof that I was not insane!</p>
-
-<p>I went back to the drawing board and looked at the code. How could they possibly be different? And then I saw it&#8230; I had something like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>                 angular.bootstrap(document.getElementById("content"), ["app.services"]);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Upon reading the angular docs a little bit more, I realized that by calling multiple initializations, we actually create new instances of services/factories, so they are actually not singletons anymore.</p>
 ]]></content>
   </entry>
   

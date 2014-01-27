@@ -169,7 +169,7 @@
 <span class='line-number'>31</span>
 <span class='line-number'>32</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># venuespot_tracker.js
-</span><span class='line'>function VenueSpot() {
+</span><span class='line'>function VenueSpotTracker() {
 </span><span class='line'>
 </span><span class='line'>    this.createOrGetUser = function () {
 </span><span class='line'>        //check to see if localStorage is defined, omitted for brevity's sake
@@ -257,47 +257,62 @@
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'># create
 </span><span class='line'>def create
 </span><span class='line'>...
 </span><span class='line'>        MixpanelAliasWorker.perform_async(@user.email, params[:mix_panel_temp_id], @user.first_name, @user.last_name, @user.phone, @user.type)
-</span><span class='line'>end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice here we are using Sidekiq to perform our linking in an async manner. The Mixpanel api has a few methods to do with async, but I feel that this is an easier approach.</p>
+
+<p>In MixpanelAliasWorker, this is what happens:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>require 'mixpanel-ruby'
 </span><span class='line'>
-</span><span class='line'>Notice here we are using Sidekiq to perform our linking in an async manner. The Mixpanel api has a few methods to do with async, but I feel that this is an easier approach.
+</span><span class='line'># Does alias and link up the email address
+</span><span class='line'>class MixpanelAliasWorker
+</span><span class='line'>    include Sidekiq::Worker
 </span><span class='line'>
-</span><span class='line'>In MixpanelAliasWorker, this is what happens:</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>    def mixpanel()
+</span><span class='line'>        Mixpanel::Tracker.new(ENV['mix_panel'])
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def perform(email, old_id, first_name, last_name, phone, user_type)
+</span><span class='line'>        tracker = mixpanel()
+</span><span class='line'>        tracker.alias email, old_id #synchrious call
+</span><span class='line'>        tracker.people.set(email, {
+</span><span class='line'>            '$first_name' =&gt; first_name,
+</span><span class='line'>            '$last_name' =&gt; last_name,
+</span><span class='line'>            '$email' =&gt; email,
+</span><span class='line'>            '$phone' =&gt; phone,
+</span><span class='line'>            'User Type' =&gt; user_type
+</span><span class='line'>        });
+</span><span class='line'>    end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
-
-<p>require &#8216;mixpanel-ruby&#8217;</p>
-
-<h1>Does alias and link up the email address</h1>
-
-<p>class MixpanelAliasWorker</p>
-
-<pre><code>include Sidekiq::Worker
-
-def mixpanel()
-    Mixpanel::Tracker.new(ENV['mix_panel'])
-end
-
-def perform(email, old_id, first_name, last_name, phone, user_type)
-    tracker = mixpanel()
-    tracker.alias email, old_id #synchrious call
-    tracker.people.set(email, {
-        '$first_name' =&gt; first_name,
-        '$last_name' =&gt; last_name,
-        '$email' =&gt; email,
-        '$phone' =&gt; phone,
-        'User Type' =&gt; user_type
-    });
-end
-</code></pre>
-
-<p>end</p>
 
 <p>What happens here is that when a user is registered, we alias the old temp id we created in the front end with the actual email.</p>
 
@@ -414,6 +429,10 @@ end
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng/">ruby uninitialized constant Geokit::LatLng</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and lost session</a>
       </li>
     
@@ -427,10 +446,6 @@ end
     
       <li class="post">
         <a href="/blog/2014/01/05/setting-up-rails-with-mixpanel-on-both-the-front-end-and-back-end/">Setting up Rails with Mixpanel on both the front end and back end</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/28/best-practices-with-nginx-and-rails/">Best practices with nginx and rails</a>
       </li>
     
   </ul>
