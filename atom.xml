@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-01-27T00:31:30-08:00</updated>
+  <updated>2014-02-01T22:56:50-08:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS and Chrome crashing and hanging]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/02/01/ios-and-chrome-crashing-and-hanging/"/>
+    <updated>2014-02-01T22:49:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/02/01/ios-and-chrome-crashing-and-hanging</id>
+    <content type="html"><![CDATA[<p>So I spent a few hours of my Saturday trying to fix an issue that was occuring for on <a href="www.venuespot.co">venuespot</a>. I thought it had something to do with my code as it started to hang/freeze recently. The behavior was odd because it wasn&#8217;t actually a crash (I couldn&#8217;t find any crash logs under General > About Diagnostics &amp; Usage > Diagnostic &amp; Usage Data, which made it more difficult for me to troubleshoot.</p>
+
+<p>When I turned to Google, I was told that it could be because of malformed HTML5 syntax, so I ran it through the <a href="http://validator.w3.org/">validator</a>. Seemed fine. At this point it was really scratching my head, and I proceeded to remove the vendor JavaScripts one by one. Still no luck.</p>
+
+<p>I then proceeded to removing my own code. Still no luck.</p>
+
+<h1>The Solution</h1>
+
+<p>I went even as far as trying to hunt down the iOS header string and rendering a message to tell the user to use Safari. Still doesn&#8217;t work. So I thought, hmm, it as to be something that is added by a gem. Lo and behold, it was the <code>rack-mini-profiler</code> gem that was adding a bunch of js to the page. After I removed the gem, everything was fine. Yay time for a beer.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ruby uninitialized constant Geokit::LatLng]]></title>
@@ -1008,21 +1025,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 <p>Pretty straight forward one would persume right? Wrong!</p>
 
 <p>Upon more digging around, I realized that Devise&#8217;s helpers are overridding the session variables, and so if we do <code>get :new, {}, valid_session</code>, the valid_session will override what was put into the session, causing issues with &#8216;signing in&#8217;. Therefore the solution is to remove that. If you still need to populate a session, click <a href="http://stackoverflow.com/a/9658682/151899">here</a> for a workaround.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails unit test: NoMethodError: undefined method authenticate for nil:NilClass]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass/"/>
-    <updated>2013-08-11T11:45:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/08/11/rails-unit-test-nomethoderror-undefined-method-authenticate-for-nil-nilclass</id>
-    <content type="html"><![CDATA[<p>I&#8217;ve started foraying out of the standard MiniTest framework and into rspec, since I&#8217;ve been writing a lot more Jasmine unit tests lately. One of the very first things I got (unfortunately) was this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError: undefined method `authenticate!' for nil:NilClass</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Luckily, the devise docs tells you exactly what&#8217;s wrong on their docs <a href="https://github.com/plataformatec/devise#test-helpers">page</a> regarding test helpers. So if you are seeing the same issue, consult their docs!</p>
 ]]></content>
   </entry>
   

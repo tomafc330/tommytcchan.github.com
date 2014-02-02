@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: freeze | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/freeze/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2014-02-01T22:56:50-08:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS and Chrome crashing and hanging]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/02/01/ios-and-chrome-crashing-and-hanging/"/>
+    <updated>2014-02-01T22:49:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/02/01/ios-and-chrome-crashing-and-hanging</id>
+    <content type="html"><![CDATA[<p>So I spent a few hours of my Saturday trying to fix an issue that was occuring for on <a href="www.venuespot.co">venuespot</a>. I thought it had something to do with my code as it started to hang/freeze recently. The behavior was odd because it wasn't actually a crash (I couldn't find any crash logs under General > About Diagnostics &amp; Usage > Diagnostic &amp; Usage Data, which made it more difficult for me to troubleshoot.</p>
+
+<p>When I turned to Google, I was told that it could be because of malformed HTML5 syntax, so I ran it through the <a href="http://validator.w3.org/">validator</a>. Seemed fine. At this point it was really scratching my head, and I proceeded to remove the vendor JavaScripts one by one. Still no luck.</p>
+
+<p>I then proceeded to removing my own code. Still no luck.</p>
+
+<h1>The Solution</h1>
+
+<p>I went even as far as trying to hunt down the iOS header string and rendering a message to tell the user to use Safari. Still doesn't work. So I thought, hmm, it as to be something that is added by a gem. Lo and behold, it was the <code>rack-mini-profiler</code> gem that was adding a bunch of js to the page. After I removed the gem, everything was fine. Yay time for a beer.</p>
+]]></content>
+  </entry>
+  
+</feed>
