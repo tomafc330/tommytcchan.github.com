@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I&#8217;ve started foraying out of the standard MiniTest framework and into rspec, since I&#8217;ve been writing a lot more Jasmine unit tests lately &hellip;">
+  <meta name="description" content="Okay so I ran into another problem. Just when I thought I got it figured out with the sign_in helper provided from the page in the previous post, a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,72 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/">RSpec and Devise: Not Hitting Controller Action.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-11T12:26:00-07:00" pubdate data-updated="true">Aug 11<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/08/11/rspec-and-devise-not-hitting-controller-action/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Okay so I ran into another problem. Just when I thought I got it figured out with the <code>sign_in</code> helper provided from the page in the previous post, a gaint boulder fell right in front of me. For whatever reason, the test method will not call into my controller method under test.</p>
+
+<p>This is what I had originally:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>before (:each) do
+</span><span class='line'>  sign_in users(:organizer)
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>describe "GET new with no bid id" do
+</span><span class='line'>  it "returns not found" do
+</span><span class='line'>      get :new, {}, valid_session
+</span><span class='line'>      flash[:error].should equal('error')
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty straight forward one would persume right? Wrong!</p>
+
+<p>Upon more digging around, I realized that Devise&#8217;s helpers are overridding the session variables, and so if we do <code>get :new, {}, valid_session</code>, the valid_session will override what was put into the session, causing issues with &#8216;signing in&#8217;. Therefore the solution is to remove that. If you still need to populate a session, click <a href="http://stackoverflow.com/a/9658682/151899">here</a> for a workaround.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -524,48 +590,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/">Rails 3 Devise Gem: Sign Out</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-10T08:26:00-07:00" pubdate data-updated="true">Jun 10<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/10/rails-3-devise-gem-sign-out/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;ve been using this awesome gem for the authentication module&#8230;so far I&#8217;m loving it. Follows the convention over configuration model. I needed to log out my user and this is all I needed in my view (note the method :delete is required):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;%= link_to "Sign out", destroy_user_session_path, :method =&gt; :delete %&gt;</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -583,6 +607,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/06/how-to-get-into-a-tech-acclerator-a-co-founders-story/">How to get into a tech accelerator: A co-founder&#8217;s story</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/01/ios-and-chrome-crashing-and-hanging/">iOS and Chrome crashing and hanging</a>
       </li>
     
@@ -596,10 +624,6 @@
     
       <li class="post">
         <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">rails and geokit acts_as_mappable through not working</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/06/capistrano-3-and-rbenv-sshkit-upgrade-to-1-dot-3/">Capistrano 3 and rbenv sshkit upgrade to 1.3</a>
       </li>
     
   </ul>
