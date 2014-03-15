@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-02-06T23:53:32-08:00</updated>
+  <updated>2014-03-14T20:13:39-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,82 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails issue with module in lib folder]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/03/14/rails-issue-with-module-in-lib-folder/"/>
+    <updated>2014-03-14T20:04:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/03/14/rails-issue-with-module-in-lib-folder</id>
+    <content type="html"><![CDATA[<p>I&#8217;m doing some refactoring work for <a href="www.venuespot.co">VenueSpot</a> and I was getting this error when I started my app after I moved some of the common code into a module:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NameError - uninitialized constant MyController::DataSource:</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here was MyController:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyController
+</span><span class='line'>  include DataSource
+</span><span class='line'>  ...
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So far so good, what about the DataSource file?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># lib/datasource.rb
+</span><span class='line'>module DataSource
+</span><span class='line'>  def get_mongo_db
+</span><span class='line'>      db = MONGODB.db('info')
+</span><span class='line'>      # init
+</span><span class='line'>      ...
+</span><span class='line'>      return db
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In my application.rb:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>config.autoload_paths += Dir["#{config.root}/lib/**/"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Okay review the code, and I want you to know what the problem is. Okay got it? Well I didn&#8217;t for about 10 mins. Guess what the issue was?</p>
+
+<p>.
+..
+&#8230;
+&#8230;.
+&#8230;..</p>
+
+<p>Alright I&#8217;ll keep you from the suspense.</p>
+
+<p>It has to do with the file name. Since the module is <code>DataSource</code>, the file name should be data_source.rb!!</p>
+
+<p>I blame it on Friday night coding and drinking while there is beer pong going on in the background. >.&lt;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails 3 - editing a user object that has a Single Table Inheritance STI]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/"/>
+    <updated>2014-02-14T09:57:00-08:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to get into a tech accelerator: A co-founder's story]]></title>
@@ -839,188 +915,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
 <p><code>mynetworks = 127.0.0.0/8 10.0.0.0/8</code></p>
 
 <p>This tells that the smtp should be allowed on the network.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Passenger Nginx and Rails and Thin - set up reverse proxy on a Thin server instance]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance/"/>
-    <updated>2013-08-12T13:22:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance</id>
-    <content type="html"><![CDATA[<p>My previous post talked about setting passenger and rails. In this post I will talk about something different - using Nginx as a reverse proxy while having one (or many) Thin server instances.</p>
-
-<p>Basically the setup is the same as the previous post, except that you want to set up the server block a little differently:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>upstream domain1 {
-</span><span class='line'>  server 127.0.0.1:3000;
-</span><span class='line'>  #server 127.0.0.1:3001;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>server {
-</span><span class='line'>  listen 80;
-</span><span class='line'>  server_name localhost;
-</span><span class='line'>  root /home/tchan/repo/venuespot/public;   # &lt;--- be sure to point to 'public'!
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  location / {
-</span><span class='line'>      proxy_set_header  X-Real-IP  $remote_addr;
-</span><span class='line'>      proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-</span><span class='line'>      proxy_set_header Host $http_host;
-</span><span class='line'>      proxy_redirect off;
-</span><span class='line'>
-</span><span class='line'>      if (-f $request_filename/index.html) {
-</span><span class='line'>          rewrite (.*) $1/index.html break;
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      if (-f $request_filename.html) {
-</span><span class='line'>          rewrite (.*) $1.html break;
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      if (!-f $request_filename) {
-</span><span class='line'>          proxy_pass http://domain1;
-</span><span class='line'>      break;
-</span><span class='line'>      }
-</span><span class='line'>  }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Why might this be a better setup than using Passenger? Well Thin uses an evented model, so for long running blocking I/O operations, it might be good to set this up if you want more fine grain control. Just be sure to check that the Thin instances are still running periodically (or make sure you catch all exceptions in your app).</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Passenger]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/08/12/passenger/"/>
-    <updated>2013-08-12T12:52:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/08/12/passenger</id>
-    <content type="html"><![CDATA[<p>I&#8217;m setting up our beta site for <a href="http://venuespot.co">venuespot</a>, and one of the golden rules is that everything should be as close to the production site as possible.</p>
-
-<p>Here are the instructions for how to use passenger with nginx and rails (3.2.11) on Ubuntu 12.10. I did read the docs but I found that it was missing a few things, so hopefully this tutorial will address your problems. See the section on Troubleshooting for more solutions to the problems I encountered.</p>
-
-<h1>Introduction</h1>
-
-<p>First, you will want to install passenger:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install passenger</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(Optional). Then, you would want to get the latest rvm:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm get latest
-</span><span class='line'>rvm reload</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now install nginx with the passenger mod:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvmsudo passenger-install-nginx-module
-</span><span class='line'>(If the above fails, then you will need to update your rvm.)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now get the libcurl (or whatever it tells you) library.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>apt-get install libcurl4-openssl-dev</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Okay, we&#8217;re at the halfway point. Next we should edit the nginx config file at <code>/opt/nginx/conf/nginx.conf</code>. Remove the original <code>server</code> block and add the following</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>server {
-</span><span class='line'>    listen 80;
-</span><span class='line'>    server_name localhost;
-</span><span class='line'>    root /yourwebapp/public; # &lt;--- be sure to point to 'public'!
-</span><span class='line'>    passenger_enabled on;
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>passenger_pre_start http://localhost/;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next, we need to make sure the nginx process can have 777 access to config.ru and make sure all the way up the path we have 777 as well.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>chmod 777 /yourwebapp
-</span><span class='line'>chmod 777 config.ru </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now create the nginx init script:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>wget -O init-deb.sh http://library.linode.com/assets/1139-init-deb.sh
-</span><span class='line'>mv init-deb.sh /etc/init.d/nginx
-</span><span class='line'>chmod +x /etc/init.d/nginx
-</span><span class='line'>/usr/sbin/update-rc.d -f nginx defaults</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now start the server:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/etc/init.d/nginx start</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There you have it folks! Navigate to localhost and you should see your site!</p>
-
-<h1>Troubleshooting</h1>
-
-<p>In the event that you don&#8217;t see anything, you should check your logs in <code>/opt/nginx/logs</code> to ensure everything was done correctly.</p>
-
-<p>For example, you might see this: <code>Error page:
-Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</code></p>
-
-<p>This means your gems have not been installed. Do a bundle install in your rails dir</p>
-
-<p>Or, you might see somethign like this: <code>terminate called after throwing an instance of 'Passenger::FileSystemException'
-  what():  Cannot stat '/yourwebapp/config.ru': Permission denied (errno=13)
-</code></p>
-
-<p>This means you need to set your permissions correctly for the whole path (see above).</p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,14 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Introduction So I was configuring a Java app today, trying to get it deployed on httpd using ajp on Ubuntu. However, there was twist to it, and it is &hellip;">
+  <meta name="description" content="The problem: So I&#8217;m trying to set margin-top on a div that contains an image: 1
+2
+3
+4
+5
+6
+7
+&lt;div class="affiliate-logo"&gt;&lt;a href="http &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +84,133 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/28/css-image-not-aligning-quite-right/">CSS: Margin-top Selector Not Working.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-28T14:51:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/28/css-image-not-aligning-quite-right/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>The problem:</h3>
+
+<p>So I&#8217;m trying to set margin-top on a div that contains an image:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="affiliate-logo"&gt;&lt;a href="http://www.gamechannel.de"&gt;&lt;img src="/logo.png"&gt;&lt;/a&gt;&lt;/div&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>.affiliate-logo {
+</span><span class='line'>    margin-top: 15px;
+</span><span class='line'>    text-align: center;
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, the margin-top didn&#8217;t work at all for whatever value I put in.</p>
+
+<h3>The solution:</h3>
+
+<p>Turns out that you have to float the div and make that 100% width in order for the margin-top to kick in:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.affiliate-logo {
+</span><span class='line'>    float: left;
+</span><span class='line'>    margin-top: 15px;
+</span><span class='line'>    text-align: center;
+</span><span class='line'>    width: 100%;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL Error: (98)Address Already in Use: Make_sock: Could Not Bind to Address 0.0.0.0:443</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-26T17:49:00-08:00" pubdate data-updated="true">Feb 26<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;m now configuring SSL with my new httpd server, and for some reason it kept giving me this error when I first started the server:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But I did an <code>lsof -i :443</code> and I didn&#8217;t see anything.</p>
+
+<h3>The solution</h3>
+
+<p>Turns out that I forgotten that Ubuntu&#8217;s setup for httpd is a little non standard, in that they included a ports.conf file that includes a conditional which will start listening on port 443 if the ssl mod is enabled. I had also included a <code>listen 443</code> in my configuration, which led to the problem.</p>
+
+<p>Removing the <code>listen 443</code> in my declaration solved the problem.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -730,83 +864,9 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/">Octopress: Modify the Default New Post POST Action.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-04T20:16:00-08:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/04/octopress-modify-the-default-new-post-post-action/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/">A New Beginning. Tommy&#8217;s Blog Site Gets a New Backend.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-02T13:29:00-08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/02/a-new-beginning-tommys-blog-site-gets-a-new-backend/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Welcome to my new blog site! I&#8217;m excited to annouce my new site, www.tommytcchan.com after coming to the realization that the current system I have in place (Blogger on the web) doesn&#8217;t cater to my needs as a blogging developer. To check out my old posts (all 100+ of them), please visit tommytcchan.blogspot.com</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/8/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -821,6 +881,14 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/03/14/rails-issue-with-module-in-lib-folder/">Rails issue with module in lib folder</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - editing a user object that has a Single Table Inheritance STI</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/06/how-to-get-into-a-tech-acclerator-a-co-founders-story/">How to get into a tech accelerator: A co-founder&#8217;s story</a>
       </li>
     
@@ -830,14 +898,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
     
       <li class="post">
         <a href="/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng/">ruby uninitialized constant Geokit::LatLng</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and lost session</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">rails and geokit acts_as_mappable through not working</a>
       </li>
     
   </ul>

@@ -9,8 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Today I was writing a test on a Grails service that used the encodeAsURL method. When I ran the test, I got something like the following: 1
-groovy. &hellip;">
+  <meta name="description" content="So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +77,102 @@ groovy. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/">Android:setting the Default Value of a Setting With a Colon</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-27T20:34:00-07:00" pubdate data-updated="true">Mar 27<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference defined in the xml. However, I was getting messages like these:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>java.lang.RuntimeException: Unable to start activity ComponentInfo{com.codetipdaily/com.codetipdaily.Preferences}: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I had no idea why, but I fixed it by setting the <code>android:key</code> to be a different key. I had the same key referenced as a CheckboxPreferences a few hours ago, and that seemed to have done the trick. Weird!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/">Android: IntentService.onHandleIntent() Not Called</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-25T21:27:00-07:00" pubdate data-updated="true">Mar 25<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;m starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call out to the server once a day. Naturally I gravitated towards the <code>IntentSevice</code>, which seems to be the simplest to use. I had also overridden in my service.onStartCommand() to return <code>START_STICKY</code>, which would restart the service should it be stopped. Once I did that though, the system stopped calling my <code>onHandleIntent()</code> method. What&#8217;s going on?</p>
+
+<p>It turned out that I had forgotten to call <code>super.onStartCommand()</code> before I returned the static int. So the following fixed it:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Override
+</span><span class='line'>public int onStartCommand(android.content.Intent intent, int flags, int startId) {
+</span><span class='line'>  super.onStartCommand(intent, flags, startId);
+</span><span class='line'>  return START_STICKY;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -702,133 +797,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/28/css-image-not-aligning-quite-right/">CSS: Margin-top Selector Not Working.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-28T14:51:00-08:00" pubdate data-updated="true">Feb 28<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/28/css-image-not-aligning-quite-right/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>The problem:</h3>
-
-<p>So I&#8217;m trying to set margin-top on a div that contains an image:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="affiliate-logo"&gt;&lt;a href="http://www.gamechannel.de"&gt;&lt;img src="/logo.png"&gt;&lt;/a&gt;&lt;/div&gt;
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>.affiliate-logo {
-</span><span class='line'>    margin-top: 15px;
-</span><span class='line'>    text-align: center;
-</span><span class='line'>}
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, the margin-top didn&#8217;t work at all for whatever value I put in.</p>
-
-<h3>The solution:</h3>
-
-<p>Turns out that you have to float the div and make that 100% width in order for the margin-top to kick in:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.affiliate-logo {
-</span><span class='line'>    float: left;
-</span><span class='line'>    margin-top: 15px;
-</span><span class='line'>    text-align: center;
-</span><span class='line'>    width: 100%;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/">Apache: SSL Error: (98)Address Already in Use: Make_sock: Could Not Bind to Address 0.0.0.0:443</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-26T17:49:00-08:00" pubdate data-updated="true">Feb 26<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/26/apache-ssl-error-98-address-already-in-use-make-sock-could-not-bind-to-address-0-dot-0-0-dot-0-443/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I&#8217;m now configuring SSL with my new httpd server, and for some reason it kept giving me this error when I first started the server:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(98)Address already in use: make_sock: could not bind to address 0.0.0.0:443</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But I did an <code>lsof -i :443</code> and I didn&#8217;t see anything.</p>
-
-<h3>The solution</h3>
-
-<p>Turns out that I forgotten that Ubuntu&#8217;s setup for httpd is a little non standard, in that they included a ports.conf file that includes a conditional which will start listening on port 443 if the ssl mod is enabled. I had also included a <code>listen 443</code> in my configuration, which led to the problem.</p>
-
-<p>Removing the <code>listen 443</code> in my declaration solved the problem.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -846,6 +814,14 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/03/14/rails-issue-with-module-in-lib-folder/">Rails issue with module in lib folder</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - editing a user object that has a Single Table Inheritance STI</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/06/how-to-get-into-a-tech-acclerator-a-co-founders-story/">How to get into a tech accelerator: A co-founder&#8217;s story</a>
       </li>
     
@@ -855,14 +831,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
     
       <li class="post">
         <a href="/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng/">ruby uninitialized constant Geokit::LatLng</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and lost session</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">rails and geokit acts_as_mappable through not working</a>
       </li>
     
   </ul>

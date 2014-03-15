@@ -4,7 +4,7 @@
   <title><![CDATA[Category: problems | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/problems/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-02-06T23:53:32-08:00</updated>
+  <updated>2014-03-14T20:13:39-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Rails issue with module in lib folder]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/03/14/rails-issue-with-module-in-lib-folder/"/>
+    <updated>2014-03-14T20:04:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/03/14/rails-issue-with-module-in-lib-folder</id>
+    <content type="html"><![CDATA[<p>I'm doing some refactoring work for <a href="www.venuespot.co">VenueSpot</a> and I was getting this error when I started my app after I moved some of the common code into a module:</p>
+
+<p><code>
+NameError - uninitialized constant MyController::DataSource:
+</code></p>
+
+<p>Here was MyController:</p>
+
+<p>```
+class MyController</p>
+
+<pre><code>include DataSource
+...
+</code></pre>
+
+<p>end
+```</p>
+
+<p>So far so good, what about the DataSource file?</p>
+
+<p>```</p>
+
+<h1>lib/datasource.rb</h1>
+
+<p>module DataSource</p>
+
+<pre><code>def get_mongo_db
+    db = MONGODB.db('info')
+    # init
+    ...
+    return db
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<p>In my application.rb:
+```</p>
+
+<pre><code>config.autoload_paths += Dir["#{config.root}/lib/**/"]
+</code></pre>
+
+<p>```</p>
+
+<p>Okay review the code, and I want you to know what the problem is. Okay got it? Well I didn't for about 10 mins. Guess what the issue was?</p>
+
+<p>.
+..
+...
+....
+.....</p>
+
+<p>Alright I'll keep you from the suspense.</p>
+
+<p>It has to do with the file name. Since the module is <code>DataSource</code>, the file name should be data_source.rb!!</p>
+
+<p>I blame it on Friday night coding and drinking while there is beer pong going on in the background. >.&lt;</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS and Chrome crashing and hanging]]></title>
@@ -135,56 +201,6 @@ end
 <p>The solution is actually pretty simple. Instead of using <code>event.target</code>, use <code>event.currentTarget</code>. That resolves to the <a> and it will work for all cases.</p>
 
 <p>Hope that helps!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Passenger Nginx and Rails and Thin - set up reverse proxy on a Thin server instance]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance/"/>
-    <updated>2013-08-12T13:22:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/08/12/passenger-nginx-and-rails-and-thin-set-up-reverse-proxy-on-a-thin-server-instance</id>
-    <content type="html"><![CDATA[<p>My previous post talked about setting passenger and rails. In this post I will talk about something different - using Nginx as a reverse proxy while having one (or many) Thin server instances.</p>
-
-<p>Basically the setup is the same as the previous post, except that you want to set up the server block a little differently:</p>
-
-<p>```</p>
-
-<pre><code>upstream domain1 {
-    server 127.0.0.1:3000;
-    #server 127.0.0.1:3001;
-}
-
-server {
-    listen 80;
-    server_name localhost;
-    root /home/tchan/repo/venuespot/public;   # &lt;--- be sure to point to 'public'!
-
-
-    location / {
-        proxy_set_header  X-Real-IP  $remote_addr;
-        proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_redirect off;
-
-        if (-f $request_filename/index.html) {
-            rewrite (.*) $1/index.html break;
-        }
-
-        if (-f $request_filename.html) {
-            rewrite (.*) $1.html break;
-        }
-
-        if (!-f $request_filename) {
-            proxy_pass http://domain1;
-        break;
-        }
-    }
-}
-</code></pre>
-
-<p>```</p>
-
-<p>Why might this be a better setup than using Passenger? Well Thin uses an evented model, so for long running blocking I/O operations, it might be good to set this up if you want more fine grain control. Just be sure to check that the Thin instances are still running periodically (or make sure you catch all exceptions in your app).</p>
 ]]></content>
   </entry>
   

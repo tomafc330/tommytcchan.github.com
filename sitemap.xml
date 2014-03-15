@@ -413,12 +413,24 @@
         <lastmod>2014-02-06T23:53:28-08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/
+        </loc>
+        <lastmod>2014-02-14T09:57:37-08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2014/03/14/rails-issue-with-module-in-lib-folder/
+        </loc>
+        <lastmod>2014-03-14T20:13:33-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2014-02-06T23:53:28-08:00</lastmod>
+        <lastmod>2014-03-14T20:13:33-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2014-02-06T23:53:28-08:00</lastmod>
+        <lastmod>2014-03-14T20:13:33-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>

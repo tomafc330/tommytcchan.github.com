@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="Our startup venuespot.co, based out of Vancouver, Canada was recently announced in an official 500startups post. We are 1 of 28 companies selected &hellip;">
+  <meta name="description" content="I&#8217;m doing some refactoring work for VenueSpot and I was getting this error when I started my app after I moved some of the common code into a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,140 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/14/rails-issue-with-module-in-lib-folder/">Rails Issue With Module in Lib Folder</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-14T20:04:00-07:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/03/14/rails-issue-with-module-in-lib-folder/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m doing some refactoring work for <a href="www.venuespot.co">VenueSpot</a> and I was getting this error when I started my app after I moved some of the common code into a module:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NameError - uninitialized constant MyController::DataSource:</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here was MyController:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MyController
+</span><span class='line'>  include DataSource
+</span><span class='line'>  ...
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So far so good, what about the DataSource file?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># lib/datasource.rb
+</span><span class='line'>module DataSource
+</span><span class='line'>  def get_mongo_db
+</span><span class='line'>      db = MONGODB.db('info')
+</span><span class='line'>      # init
+</span><span class='line'>      ...
+</span><span class='line'>      return db
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In my application.rb:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>config.autoload_paths += Dir["#{config.root}/lib/**/"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Okay review the code, and I want you to know what the problem is. Okay got it? Well I didn&#8217;t for about 10 mins. Guess what the issue was?</p>
+
+<p>.
+..
+&#8230;
+&#8230;.
+&#8230;..</p>
+
+<p>Alright I&#8217;ll keep you from the suspense.</p>
+
+<p>It has to do with the file name. Since the module is <code>DataSource</code>, the file name should be data_source.rb!!</p>
+
+<p>I blame it on Friday night coding and drinking while there is beer pong going on in the background. >.&lt;</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - Editing a User Object That Has a Single Table Inheritance STI</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-14T09:57:00-08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -821,122 +955,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/">Foundation 5 and Reveal Plugin Not Working Issues</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-22T19:46:00-08:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/12/22/foundation-5-and-reveal-plugin-not-working-issues/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;m working on a client project today using the new Foundation 5 version and I had a hard time with trying to get reveal to work.</p>
-
-<p>I followed the docs on how one might be able to run an example. Downloaded the 5.0.2 library and extracted foundation.min.js. Now in the docs it mentions you also need to extract the individual plugins as well. Well guess what I did that and it still didn&#8217;t work.</p>
-
-<p>After digging around the code I realized that the authors already has it in the minifieid version &#8211; by including the library again it somehow screws up and doesn&#8217;t work.</p>
-
-<p>Removed the full <code>foundation.reveal.js</code> to make it work.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/16/rails-and-adding-an-environment-to-headers/">Rails and Adding an Environment to Headers</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-16T19:07:00-08:00" pubdate data-updated="true">Dec 16<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/12/16/rails-and-adding-an-environment-to-headers/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>One of the more annoying things that happens when you have multiple environements is that when a mail comes in, you don&#8217;t really know what is what. Therefore it&#8217;s smart to have an environment shown on the email headers so you don&#8217;t accidentally confuse it with the live system. To do that is relatively trivial:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># base_mailer.rb
-</span><span class='line'>class BaseMailer &lt; ActionMailer::Base
-</span><span class='line'>
-</span><span class='line'>    default from: "hello@venuespot.co" #TODO move these out
-</span><span class='line'>    default to: "tom@venuespot.co"
-</span><span class='line'>
-</span><span class='line'>    def mail(headers={}, &block)
-</span><span class='line'>
-</span><span class='line'>        unless Rails.env == 'production'
-</span><span class='line'>            headers[:subject].insert(0, "[#{Rails.env}] - ")
-</span><span class='line'>        end
-</span><span class='line'>
-</span><span class='line'>        super(headers, &block)
-</span><span class='line'>    end
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And then just extend that class instead of the the default <code>ActionMailer::Base</code></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -952,6 +970,14 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/03/14/rails-issue-with-module-in-lib-folder/">Rails issue with module in lib folder</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - editing a user object that has a Single Table Inheritance STI</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/06/how-to-get-into-a-tech-acclerator-a-co-founders-story/">How to get into a tech accelerator: A co-founder&#8217;s story</a>
       </li>
     
@@ -961,14 +987,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
     
       <li class="post">
         <a href="/blog/2014/01/26/ruby-uninitialized-constant-geokit-latlng/">ruby uninitialized constant Geokit::LatLng</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/11/rails-wicked-wizards-and-lost-session/">Rails Wicked Wizards and lost session</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">rails and geokit acts_as_mappable through not working</a>
       </li>
     
   </ul>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: uninitialized constant error | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/uninitialized-constant-error/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2014-03-14T20:13:39-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails issue with module in lib folder]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/03/14/rails-issue-with-module-in-lib-folder/"/>
+    <updated>2014-03-14T20:04:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/03/14/rails-issue-with-module-in-lib-folder</id>
+    <content type="html"><![CDATA[<p>I'm doing some refactoring work for <a href="www.venuespot.co">VenueSpot</a> and I was getting this error when I started my app after I moved some of the common code into a module:</p>
+
+<p><code>
+NameError - uninitialized constant MyController::DataSource:
+</code></p>
+
+<p>Here was MyController:</p>
+
+<p>```
+class MyController</p>
+
+<pre><code>include DataSource
+...
+</code></pre>
+
+<p>end
+```</p>
+
+<p>So far so good, what about the DataSource file?</p>
+
+<p>```</p>
+
+<h1>lib/datasource.rb</h1>
+
+<p>module DataSource</p>
+
+<pre><code>def get_mongo_db
+    db = MONGODB.db('info')
+    # init
+    ...
+    return db
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<p>In my application.rb:
+```</p>
+
+<pre><code>config.autoload_paths += Dir["#{config.root}/lib/**/"]
+</code></pre>
+
+<p>```</p>
+
+<p>Okay review the code, and I want you to know what the problem is. Okay got it? Well I didn't for about 10 mins. Guess what the issue was?</p>
+
+<p>.
+..
+...
+....
+.....</p>
+
+<p>Alright I'll keep you from the suspense.</p>
+
+<p>It has to do with the file name. Since the module is <code>DataSource</code>, the file name should be data_source.rb!!</p>
+
+<p>I blame it on Friday night coding and drinking while there is beer pong going on in the background. >.&lt;</p>
+]]></content>
+  </entry>
+  
+</feed>
