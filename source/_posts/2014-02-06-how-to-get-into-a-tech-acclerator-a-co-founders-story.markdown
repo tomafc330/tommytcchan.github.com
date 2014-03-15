@@ -6,14 +6,12 @@ comments: true
 categories: [startup]
 ---
 
-Our startup [venuespot.co](http://venuespot.co), based out of Vancouver, Canada was recently [announced](http://500.co/2014/02/03/batch-8-announcement/) in an offical 500startups post. We are 1 of 28 companies selected out of 1400+ to get a chance to be in Silicon Valley along with Dave McClure and his managing partners. Since then, a lot of my friends and ex-coworkers have asked me how we were able to achieve that. I want to dedicate this post to founders who aspire to get into tech acclerators. Keep in mind though that your milage may vary, but I think this will be a good read for those who inspire to participate in one.
+Our startup [venuespot.co](http://venuespot.co), based out of Vancouver, Canada was recently [announced](http://500.co/2014/02/03/batch-8-announcement/) in an official 500startups post. We are 1 of 28 companies selected out of 1400+ to get a chance to be in Silicon Valley along with Dave McClure and his managing partners. Since then, a lot of my friends and ex-coworkers have asked me how we were able to achieve that. I want to dedicate this post to founders who aspire to get into tech acclerators. Keep in mind though that your mileage may vary, but I think this will be a good read for those who inspire to participate in one.
 
 # Our Story
 My business partner and I, Jerome, met during start up weekend last year. We immediately got along and started chatting about what we did. Right off the bat I can tell that he was a driver and a go-getter. Unfortunately for him, at that point in time I wasn't too interested in his idea. It was only after a few months later when we saw each other again at another start up weekend that I got to work closer with him. By then the business plan had pivoted into something that excited me. I myself is an event organizer for a local tech meetup group, and the idea of not having to waste time to look for a venue for my meetup excited me. It would be a system where you would tell the system what you wanted, and a bunch of algorithms would be used to match the venues that would be suitable for the event, and the system would send notifications to the matching venues which they would then place offers to host the event. It was in June of last year that we started working together and it took 3 good months of product development to get to a stage where we can show it in front of venues and event organizers.
 
-# The road to 500starups
-
-# Here's a few personal tips on how to get into an accelerator.
+# The road to 500starups - a few personal tips on how to get into an accelerator.
 
 > Be that jock in high school.
 
