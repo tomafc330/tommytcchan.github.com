@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SEO | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/seo/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-03-23T22:06:11-07:00</updated>
+  <updated>2014-03-23T22:15:25-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -20,7 +20,9 @@
     <id>http://tommytcchan.github.com/blog/2014/03/23/tips-on-foolproofing-your-seo</id>
     <content type="html"><![CDATA[<h1>Introduction</h1>
 
-<p>I had the pleasure last week of attending a talk at AirBnB about future proofing your SEO. It was a great presentation given by <a href="http://www.itstheroi.com">Jonah Stein</a>. As some of ou may not, Google constantly updates their search algorithm. The current version is dubbed 'Hummingbird' while the previous algo was dubbed 'Panda'. These releases brought along changes that screwed a lot people who still had an old-school approach to SEO. The talk was really insighful and I'm sure I'll utilize what he talked about on my start up, <a href="http://www.venuecart.com">VenueCart</a>.</p>
+<p>I had the pleasure last week of attending a talk at AirBnB about future proofing your SEO. It was a great presentation given by <a href="http://www.itstheroi.com">Jonah Stein</a>. I do have to admit that I am somewhat new to SEO as I originally started out as a developer. Being in a startup made me realized how different a technical co-founder role is than a software role. However, if you are a developer, it still makes sense to keep up to date on this because ultimately your role is to not only churn out code, but also to make the company you work succeed at keeping ahead of the competitors.</p>
+
+<p>As some of ou may not, Google constantly updates their search algorithm. The current version is dubbed 'Hummingbird' while the previous algo was dubbed 'Panda'. These releases brought along changes that screwed a lot people who still had an old-school approach to SEO. The talk was really insighful and I'm sure I'll utilize what he talked about on my start up, <a href="http://www.venuecart.com">VenueCart</a>.</p>
 
 <h1>Traditional SEO</h1>
 
@@ -33,6 +35,7 @@
 <li>Semantically marking up your html documents so Google can parse it</li>
 <li>Having a sitemap that Google can crawl</li>
 <li>Backlicks from high authority sites and no-follows</li>
+<li>Having semantic markup in your pages (ie. open graph, rich snippets).</li>
 </ul>
 
 
