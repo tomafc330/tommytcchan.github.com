@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SEO | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/seo/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-03-23T22:01:56-07:00</updated>
+  <updated>2014-03-23T22:06:11-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -20,7 +20,7 @@
     <id>http://tommytcchan.github.com/blog/2014/03/23/tips-on-foolproofing-your-seo</id>
     <content type="html"><![CDATA[<h1>Introduction</h1>
 
-<p>I had the pleasure last week of attending a talk at AirBnB about future proofing your SEO. It was a great presentation given by <a href="www.itstheroi.com">Jonah Stein</a>. As some of ou may not, Google constantly updates their search algorithm. The current version is dubbed 'Hummingbird' while the previous algo was dubbed 'Panda'. These releases brought along changes that screwed a lot people who still had an old-school approach to SEO. The talk was really insighful and I'm sure I'll utilize what he talked about on my start up, <a href="www.venuecart.com">VenueCart</a>.</p>
+<p>I had the pleasure last week of attending a talk at AirBnB about future proofing your SEO. It was a great presentation given by <a href="http://www.itstheroi.com">Jonah Stein</a>. As some of ou may not, Google constantly updates their search algorithm. The current version is dubbed 'Hummingbird' while the previous algo was dubbed 'Panda'. These releases brought along changes that screwed a lot people who still had an old-school approach to SEO. The talk was really insighful and I'm sure I'll utilize what he talked about on my start up, <a href="http://www.venuecart.com">VenueCart</a>.</p>
 
 <h1>Traditional SEO</h1>
 
@@ -36,11 +36,11 @@
 </ul>
 
 
-<p>While all these things are important, with the newer algoritms Google actually don't care about it as much as you might think.</p>
+<p>While all these things are still important, with the newer algoritms Google actually don't care about it as much as you might think.</p>
 
 <h1>What Google Cares About</h1>
 
-<p>The speaker made it a point that at the core, Google is trying to solve one simple problem: ensuring that when a person searches on Google, the most relevant sites come up for that user. That's it. They care about making money on ads, but if noone is finding the right information they search for, they would be put out of business (because other companies will do that and they will fall out of the face). So his one thesis is that Google will do whatever it can to ensure relevancy so that the end user gets to their search intent.</p>
+<p>The speaker made it a point that at the core, Google is trying to solve one simple problem: ensuring that when a person searches on Google, the most relevant sites come up for that user. That's it. They care about making money on ads, but if noone is finding the right information they search for, they would be put out of business (because other companies will do that and they will fall out of the face). So his one thesis is that Google will do whatever it can to ensure relevancy so that the end user gets what they searched for.</p>
 
 <h1>How Google Does This</h1>
 
