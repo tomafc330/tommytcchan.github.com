@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-03-18T00:10:59-07:00</updated>
+  <updated>2014-03-23T22:01:56-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tips on Foolproofing your SEO]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/03/23/tips-on-foolproofing-your-seo/"/>
+    <updated>2014-03-23T19:47:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/03/23/tips-on-foolproofing-your-seo</id>
+    <content type="html"><![CDATA[<h1>Introduction</h1>
+
+<p>I had the pleasure last week of attending a talk at AirBnB about future proofing your SEO. It was a great presentation given by <a href="www.itstheroi.com">Jonah Stein</a>. As some of ou may not, Google constantly updates their search algorithm. The current version is dubbed &#8216;Hummingbird&#8217; while the previous algo was dubbed &#8216;Panda&#8217;. These releases brought along changes that screwed a lot people who still had an old-school approach to SEO. The talk was really insighful and I&#8217;m sure I&#8217;ll utilize what he talked about on my start up, <a href="www.venuecart.com">VenueCart</a>.</p>
+
+<h1>Traditional SEO</h1>
+
+<p>What is Traditional SEO? It depends on who you ask, but it&#8217;s basically what one thinks based on traditional SEO tactics. They are (but not limited to):</p>
+
+<ul>
+<li>Using description keyword tags</li>
+<li>Using the title tag</li>
+<li>Using the alt tag (for images)</li>
+<li>Semantically marking up your html documents so Google can parse it</li>
+<li>Having a sitemap that Google can crawl</li>
+<li>Backlicks from high authority sites and no-follows</li>
+</ul>
+
+
+<p>While all these things are important, with the newer algoritms Google actually don&#8217;t care about it as much as you might think.</p>
+
+<h1>What Google Cares About</h1>
+
+<p>The speaker made it a point that at the core, Google is trying to solve one simple problem: ensuring that when a person searches on Google, the most relevant sites come up for that user. That&#8217;s it. They care about making money on ads, but if noone is finding the right information they search for, they would be put out of business (because other companies will do that and they will fall out of the face). So his one thesis is that Google will do whatever it can to ensure relevancy so that the end user gets to their search intent.</p>
+
+<h1>How Google Does This</h1>
+
+<p>The speaker goes on to say that Google has a lot more data sources at their disposal than one might think. Almost 90% of all websites have Google Analytics installed and although Google&#8217;s policy says they don&#8217;t use personal information, they said nothing about using their data routed through their network. Nor did they mention anything about using the data collected from their Chrome browser (with market penetration of 70%) or data collected from their Android platform (market penetration of 65%+). This means they can determine when a user hits your site how long they stay at your site. A short duration (ie. going to the site and then clicking the back button to back to the search results) means that a user is not likely interested in the content of that site. If there is a trend for that particular site (term also known as High Bounce rates) then Google will internalize this and determine that your site is not as relevant for that keyword that the person searched for. This was actually really interesting to me because if you think of all the data that Google collects via different sources (ie. Web, their Android platform, their ad networks), you can start drawing dots between that information and how they can utilize that into their algoritm.</p>
+
+<h1>The Takeaways</h1>
+
+<p>Here are the takeaways that I got from it and hopefully this will help you with your SEO:</p>
+
+<ul>
+<li><p>Act like a publisher. This is the first and foremost thing you should think about. This means that you should have content that is relevant to people who perform the search terms. At the end of the day that is what Google wants. Remember engagement is key.</p></li>
+<li><p>Optimize content for users. This is related to the above point in that you want to engage people. There isn&#8217;t a set time to engage people, but generally people who leave before 10 seconds to your site generally signals that the output (webpage) is not relevant for the input (the search term).</p></li>
+<li><p>Design your site well (and have good UX). This again goes back to the previous point. If people don&#8217;t trust your site (and they can make that snap judgement within 2 seconds of coming to your site), then you&#8217;ll see dropoff. Same thing with performance. If your site takes more than 3 seconds to load, people will want to click on that Back button on the browser.</p></li>
+<li><p>It&#8217;s a good thing that your traffic comes from a variety of sources. This signals to Google that you are engaging people on multiple fronts. Examples include coming from Email campaigns (signals that people are engaged enough with your brand to click on those emails you send them), Facebook/Twitter/social media (again signals people are engaged enough with your post that they click through to your site.</p></li>
+<li><p>Paid traffic drives organic traffic. He had a graph showing through his own experience that paid traffic actually drives organic traffic. The reason for this was that paid traffic can act as a social signal to Google that your site is trending for users (similar to the previous bullet), which in turns gives you a higher organic search ranking. He suggests that a business should have a small budget allocated to paid search.</p></li>
+<li><p>Video advertisement is cheap and thus should be utiliized. Again this speaks to traffic coming from different sources. Google also owns YouTube I&#8217;m sure they somehow connect the dots.</p></li>
+</ul>
+
+
+<h1>Conclusion</h1>
+
+<p>If you want to keep ahead of the game with regards to SEO, you would want to follow the above advice so that you know how Google thinks. To recap, act like a publisher if you want Google to rank you high in their algorithm. Check in your GA account the time that people spend on your website and try to engage them. Honor the users search intents and optimize for people who come to your site for a reason (whether that is looking for information or looking to purchase something). Also optimize the user experience because you don&#8217;t want to going back to the search results to click on your competitors.</p>
+
+<h1>Extra Activities</h1>
+
+<p>Follow <a href="http://singhal.info/">Amit Singhal</a> to keep yourself up to date as to any clue about the upcoming algorithm changes.</p>
+
+<p>Finally, follow the speaker, Jonah Stein (@jonahstein) on Twitter to keep up to date on the world of SEO.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Experience in a Tech Acclerator - Halfway Point]]></title>
@@ -930,39 +989,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
 
 
 <p>However, that only returns the AssetUploader instance, so when it tried to render it, it gave me the error. If you want just the path to s3, you will need the <code>to_s</code> appended to the end.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AngularJS: using the $event for an a tag can cause problems.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/09/01/angularjs-using-the-%24event-for-an-a-tag-can-cause-problems/"/>
-    <updated>2013-09-01T12:01:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/09/01/angularjs-using-the-$event-for-an-a-tag-can-cause-problems</id>
-    <content type="html"><![CDATA[<p>So I was troubleshooting a bug on one of the projects that uses AngularJS. Consider this markup:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;a href="http://tommytcchan.github.com/fooPage" data-ng-click="show($event)"&gt;&lt;span&gt;foobar!&lt;/span&gt;&lt;/a&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>In the js, this was what was declared:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$scope.show = function (event) {
-</span><span class='line'>  var href = event.target.href;
-</span><span class='line'>  ...
-</span><span class='line'>};</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now, the interesting thing about this is that it <em>sometimes</em> works. The reason is that if you click on the link outside of the <span>, then the event.target resolves to the <a> tag. However, if you click within the span, then the event.target is the <span> tag, and there is no href there, thus throwing an error.</p>
-
-<p>The fix:</p>
-
-<p>The solution is actually pretty simple. Instead of using <code>event.target</code>, use <code>event.currentTarget</code>. That resolves to the <a> and it will work for all cases.</p>
-
-<p>Hope that helps!</p>
 ]]></content>
   </entry>
   
