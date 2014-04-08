@@ -435,12 +435,18 @@
         <lastmod>2014-03-24T11:20:54-07:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tommytcchan.github.com/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field/
+        </loc>
+        <lastmod>2014-04-08T09:40:04-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://tommytcchan.github.com/</loc>
-        <lastmod>2014-03-24T11:20:54-07:00</lastmod>
+        <lastmod>2014-04-08T09:40:04-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/blog/archives/</loc>
-        <lastmod>2014-03-24T11:20:54-07:00</lastmod>
+        <lastmod>2014-04-08T09:40:04-07:00</lastmod>
     </url>
     <url>
         <loc>http://tommytcchan.github.com/robots.txt</loc>

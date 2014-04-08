@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-03-24T11:29:51-07:00</updated>
+  <updated>2014-04-08T09:40:10-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MongoDB - easily query on a minimum array size of a field.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field/"/>
+    <updated>2014-04-08T09:35:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field</id>
+    <content type="html"><![CDATA[<p>In the past 2 weeks, we have been working super hard on fundraising. As a tech co-founder, my job is to not only get meetings, but also help out with the rest of the team for the data they need. One of the exercises involves storing different data from different sources, and then combining them so we can have a better view of the world. To do this I stored everything in Mongo. The specific problem I had was related to querying for at least a minimum of x elements in an array. Suppose I have a document that has an <code>investors</code> field, which contains an array of names. In order to query for that in Mongo 2.2+, you can easily append the <code>x</code> to the field itself, and set it with an <code>$exists</code>. So, if I wanted to query for rows that have at least 10 investors, I would do something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@coll.find({:'investors.10' =&gt; {:'$exists' =&gt; true}}).each do |row|
+</span><span class='line'>  puts ...
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty cool eh?</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tips on Foolproofing your SEO]]></title>
@@ -967,31 +986,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
 
 
 <p>One thing that tripped me up was that initially my <code>@previous_venue_bid_ids</code> was a string that had all the ids, but the api actually takes in an array of the ids, so just be really sure what you are passing is correct!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[wrong number of arguments (1 for 0)]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/09/16/wrong-number-of-arguments-1-for-0/"/>
-    <updated>2013-09-16T18:22:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/09/16/wrong-number-of-arguments-1-for-0</id>
-    <content type="html"><![CDATA[<p>So I&#8217;ve started getting the following error message when I started a json service that reads a model which is fog enabled (with s3):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>wrong number of arguments (1 for 0) at messages.json.rabl where line #1 raised:</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I wasn&#8217;t getting this before, so what gives?</p>
-
-<h1>Solution:</h1>
-
-<p>It turned out that I was doing this to get the asset path:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>model.asset</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, that only returns the AssetUploader instance, so when it tried to render it, it gave me the error. If you want just the path to s3, you will need the <code>to_s</code> appended to the end.</p>
 ]]></content>
   </entry>
   

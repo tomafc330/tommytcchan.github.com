@@ -9,8 +9,8 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was troubleshooting a bug on one of the projects that uses AngularJS. Consider this markup: 1
-&lt;a href="/fooPage" data-ng-click="show($event &hellip;">
+  <meta name="description" content="So I&#8217;ve started getting the following error message when I started a json service that reads a model which is fog enabled (with s3): 1
+wrong &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +86,60 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/">Wrong Number of Arguments (1 for 0)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-16T18:22:00-07:00" pubdate data-updated="true">Sep 16<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/09/16/wrong-number-of-arguments-1-for-0/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I&#8217;ve started getting the following error message when I started a json service that reads a model which is fog enabled (with s3):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>wrong number of arguments (1 for 0) at messages.json.rabl where line #1 raised:</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I wasn&#8217;t getting this before, so what gives?</p>
+
+<h1>Solution:</h1>
+
+<p>It turned out that I was doing this to get the asset path:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>model.asset</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, that only returns the AssetUploader instance, so when it tried to render it, it gave me the error. If you want just the path to s3, you will need the <code>to_s</code> appended to the end.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -681,84 +735,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat/">AngularJS and X-Editable - Calling .editable After the Last Element With Ng-repeat.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-23T18:39:00-07:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/23/angularjs-and-x-editable-calling-editable-after-the-last-element-with-ng-repeat/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I had a pretty complicated scenario that I&#8217;m working on which entails the use of AngularJS and the X-Editable plugin.</p>
-
-<h1>The scenario.</h1>
-
-<p>I have a page where it loads the Assets using ajax, and that collection gets rendered using an ng-repeat. Complicated to the fact is that the fields of the Assets are inline editable, which meant I need to call the <code>$(.editable).editable()</code> after all the elements are rendered (you can&#8217;t do it on <code>document.ready</code> since it&#8217;s loaded via ajax.</p>
-
-<p>Here&#8217;s the visual: http://screencloud.net/v/qbd0</p>
-
-<h1>The solution.</h1>
-
-<p>Here&#8217;s how I fixed it. Basically add a custom directive <code>makeEditable</code> which has this declaration:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>        .directive('makeEditable', function() {
-</span><span class='line'>            return function(scope, element, attrs) {
-</span><span class='line'>                scope.$watch('$last',function(){
-</span><span class='line'>                    $('.editable').editable();
-</span><span class='line'>                });
-</span><span class='line'>            };
-</span><span class='line'>        });</span></code></pre></td></tr></table></div></figure>
-
-
-<p>and in your view, just do this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>    &lt;div class="span4" data-toggle="modal-gallery" data-target="#modal-gallery" data-ng-repeat="file in queue" make-editable&gt;
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now the input elements should be editable!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -776,6 +752,10 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field/">MongoDB - easily query on a minimum array size of a field.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/03/23/tips-on-foolproofing-your-seo/">Tips on Foolproofing your SEO</a>
       </li>
     
@@ -789,10 +769,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
     
       <li class="post">
         <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - editing a user object that has a Single Table Inheritance STI</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/06/how-to-get-into-a-tech-acclerator-a-co-founders-story/">How to get into a tech accelerator: A co-founder&#8217;s story</a>
       </li>
     
   </ul>

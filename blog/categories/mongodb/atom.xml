@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mongodb | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <link href="http://tommytcchan.github.com/blog/categories/mongodb/atom.xml" rel="self"/>
+  <link href="http://tommytcchan.github.com/"/>
+  <updated>2014-04-08T09:40:10-07:00</updated>
+  <id>http://tommytcchan.github.com/</id>
+  <author>
+    <name><![CDATA[Tommy Chan (informotion software)]]></name>
+    <email><![CDATA[tommytcchan@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MongoDB - easily query on a minimum array size of a field.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field/"/>
+    <updated>2014-04-08T09:35:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field</id>
+    <content type="html"><![CDATA[<p>In the past 2 weeks, we have been working super hard on fundraising. As a tech co-founder, my job is to not only get meetings, but also help out with the rest of the team for the data they need. One of the exercises involves storing different data from different sources, and then combining them so we can have a better view of the world. To do this I stored everything in Mongo. The specific problem I had was related to querying for at least a minimum of x elements in an array. Suppose I have a document that has an <code>investors</code> field, which contains an array of names. In order to query for that in Mongo 2.2+, you can easily append the <code>x</code> to the field itself, and set it with an <code>$exists</code>. So, if I wanted to query for rows that have at least 10 investors, I would do something like this:</p>
+
+<p>```
+@coll.find({:'investors.10' => {:'$exists' => true}}).each do |row|</p>
+
+<pre><code>puts ...
+</code></pre>
+
+<p>end
+```</p>
+
+<p>Pretty cool eh?</p>
+]]></content>
+  </entry>
+  
+</feed>

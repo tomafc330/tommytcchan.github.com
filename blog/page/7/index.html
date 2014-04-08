@@ -9,8 +9,15 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="I received this message in my apache logs while accessing a rewrite on PHP 5.4: 1
-[Thu Feb 28 20:29:44 2013] [error] [client 127.0.0.1] Negotiation: &hellip;">
+  <meta name="description" content="So I was reading a tutorial on the before_save and thought this was a valid syntax: 1
+2
+3
+4
+5
+6
+7
+8
+9 def before_save(record) if record.publishing &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +93,90 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/">Rails: Correct Way of Before_save in Model</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-01T19:09:00-08:00" pubdate data-updated="true">Mar 1<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/03/01/rails-correct-way-of-before-save-in-model/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I was reading a tutorial on the before_save and thought this was a valid syntax:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  def before_save(record)
+</span><span class='line'>
+</span><span class='line'>    if record.publishing
+</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
+</span><span class='line'>        publishing_tip.publishing = false
+</span><span class='line'>        publishing_tip.published = true
+</span><span class='line'>        publishing_tip.save
+</span><span class='line'>      end
+</span><span class='line'>    end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Turned out that this is the valid syntax for Rails 3.1:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  before_save :update_publishing_state
+</span><span class='line'>
+</span><span class='line'>  def update_publishing_state
+</span><span class='line'>    if self.publishing
+</span><span class='line'>      Tip.find_all_by_publishing(true).each do |publishing_tip|
+</span><span class='line'>        publishing_tip.publishing = false
+</span><span class='line'>        publishing_tip.published = true
+</span><span class='line'>        publishing_tip.save
+</span><span class='line'>      end
+</span><span class='line'>    end
+</span><span class='line'>  end</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -727,87 +818,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/">Groovy: Unit Testing Method Overridding Using metaClass Does Not Work</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-15T16:04:00-08:00" pubdate data-updated="true">Feb 15<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/02/15/groovy-unit-testing-method-overridding-using-metaclass-does-not-work/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So I am devoting my whole afternoon writing unit tests for one of our projects at work and I was stuck on why overridding methods using the metaClass mechanism doesn&#8217;t work. Consider this code:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>private void registerSuccessAction(RegistrationFormCommand cmd, userId) {
-</span><span class='line'>      def successUrl = '/register/success'
-</span><span class='line'>      ...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This was in my test</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>  controller.metaClass.registerSuccessAction = { command, userId -&gt;
-</span><span class='line'>      println "called"
-</span><span class='line'>                      }
-</span><span class='line'>
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, I was runing into the fact that my overridding method isn&#8217;t being called. What gives?</p>
-
-<p>It turned out that you <em>need</em> to qualify the first command with the type if the method has a typed parameter, otherwise groovy won&#8217;t override the behavior!</p>
-
-<p>This works:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>controller.metaClass.registerSuccessAction = { RegistrationFormCommand command, userId -&gt;
-</span><span class='line'>          throw new AssertionError("This should not be called.")
-</span><span class='line'>                  }
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>`</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -825,6 +835,10 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field/">MongoDB - easily query on a minimum array size of a field.</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/03/23/tips-on-foolproofing-your-seo/">Tips on Foolproofing your SEO</a>
       </li>
     
@@ -838,10 +852,6 @@ Note that we explicitly removed the extension= declaration. We <em>don&#8217;t</
     
       <li class="post">
         <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - editing a user object that has a Single Table Inheritance STI</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/06/how-to-get-into-a-tech-acclerator-a-co-founders-story/">How to get into a tech accelerator: A co-founder&#8217;s story</a>
       </li>
     
   </ul>
