@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: JavaScript | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <title><![CDATA[Category: javascript | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-04-10T11:33:49-07:00</updated>
+  <updated>2014-07-24T18:40:48-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -14,79 +14,22 @@
 
   
   <entry>
-    <title type="html"><![CDATA[AngularJS: Implementing the starRating example in KnockoutJS.]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs/"/>
-    <updated>2013-04-21T11:03:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/04/21/angularjs-implementing-the-starrating-example-in-knockoutjs</id>
-    <content type="html"><![CDATA[<p>I'm working on an angular js app that required the same functionality as the starRating example on KnockoutJS on this <a href="http://learn.knockoutjs.com/#/?tutorial=custombindings">page</a> about Creating custom bindings in the tutorial. Bascially it was tutorial to build a star rating system. Now it was pretty neat to see how knockout does the 2 way binding, but I wanted to implemented in AngularJS to see how it looks like.</p>
-
-<p>So let's see how that looks like shall we?</p>
-
-<p>In app.js:</p>
-
-<p>```
-//updates the star rating of the element
-directives.directive('starRating', function() {</p>
-
-<pre><code>return {
-    link: function(scope, element) {
-        element.addClass("starRating");
-        element.bind('mouseenter', function() {
-            angular.element(element).addClass('chosen');
-        })
-    }
-}
-</code></pre>
-
-<p>})
-```</p>
-
-<p>Some clarification here.</p>
-
-<p>In the link variable, we define a function that should be run when we do the link between the attribute and the element.</p>
-
-<p>In our view:</p>
+    <title type="html"><![CDATA[Javascript: push a javascript object in an array only if it's not in there already.]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/"/>
+    <updated>2013-05-02T20:38:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already</id>
+    <content type="html"><![CDATA[<p>I just learned about the $.grep method today and it seem pretty cool. I had an array that I want to push objects to. However because the <code>Array.push</code> method doesn't care if an item is in the Array or not, I had to figure out how not to push the same object in. This is what I came up with:</p>
 
 <p>```</p>
 
-<pre><code>          &lt;li class="favorite-item"&gt;
-            &lt;img src="http://tommytcchan.github.com/img/question_mark_icon.png"/&gt;
-            &lt;a href="#"&gt;Move Tool&lt;/a&gt;
-            &lt;span star-rating/&gt;
-          &lt;/li&gt;
+<pre><code>            if (jQuery.grep($scope.recents,function (elem) {return elem.id == shortcut.id}).length == 0) {
+                $scope.recents.push(shortcut);
+            }
 </code></pre>
 
 <p>```</p>
 
-<p>And our css:</p>
-
-<p>```
-.starRating {</p>
-
-<pre><code>width: 24px;
-height: 24px;
-background-image: url(/img/stars.png);
-display: inline-block;
-cursor: pointer;
-background-position: -24px 0;
-</code></pre>
-
-<p>}</p>
-
-<p>.starRating.chosen {</p>
-
-<pre><code>background-position: 0 0;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>That's it! You then get something cool like this:</p>
-
-<p>http://screencloud.net/v/3To7</p>
-
-<p>Improvements:
-- We can actually restrict this element to only span (since that was what was used on the KnockoutJS example). You can do that easily with AngularJS...I'll leave that exercise to the reader.</p>
+<p>Using the <code>$.grep</code> method, I was able to iterate through easily. One can argue I could've used the underscore library but I had jQuery only at this point so why not use this one liner instead?</p>
 ]]></content>
   </entry>
   

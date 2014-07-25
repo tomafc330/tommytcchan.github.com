@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="In the past 2 weeks, we have been working super hard on fundraising. As a tech co-founder, my job is to not only get meetings, but also help out with &hellip;">
+  <meta name="description" content="I&#8217;ve started writing a Chrome extension based on the book Growth hacking handbook by Jon YongFook. I&#8217;ve written about half a dozen or so &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +85,52 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/24/chrome-extension-and-cookies-not-being-sent/">Chrome Extension and Cookies Not Being Sent When Doing Ajax Calls</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-24T18:32:00-07:00" pubdate data-updated="true">Jul 24<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/07/24/chrome-extension-and-cookies-not-being-sent/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve started writing a Chrome extension based on the book Growth hacking handbook by Jon YongFook. I&#8217;ve written about half a dozen or so Chrome extensions so far, but this is my first time using Django as the backend. I&#8221;ll write more posts about my learning with Django as well as the differences betweeen it and Rails (which I&#8217;ve been using for the past 2 years).</p>
+
+<h1>The Problem</h1>
+
+<p>I ran into an issue with my extension earlier. The extension makes an initial call to fetch a user&#8217;s templates. What I wanted to do was to store the e-mail associated with the first call, then retrieve it later on. But for some reason the second call &#8211; the one to update the template &#8211; would fail on me. An inspection of the network reveals that it wasn&#8217;t actually sending the cookie with the request, which means the session was not found.</p>
+
+<h1>The Solution</h1>
+
+<p>After looking at the manifest file of the extension, I realized that in my permissions I didn&#8217;t have the <code>localhost</code> url defined, which meant that the information was not sent over. You would think that the original requests would not even be allowed to be sent, which wasn&#8217;t the case. So if anyone is experiencing the same issue, I would double check the permissions variable in your <code>manifest.json</code></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -659,108 +705,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/">Rails and Geokit Acts_as_mappable Through Not Working</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-08T17:04:00-08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2014</time>
-        
-         | <a href="/blog/2014/01/08/rails-and-geokit-acts-as-mappable-through-not-working/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>At <a href="http://www.venuespot.co">venuespot</a>, we are using a matching algorithm to ensure that we match relevant information with the venues. One of the things is using a distance calculator with geokit. In the examples it talks about how one can use the <code>acts_as_mappable</code> to ensure your model has access to the right methods.</p>
-
-<p>It also talked about it is able to use the <code>:through</code> mechanism. Here&#8217;s the example they provided:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Location &lt; ActiveRecord::Base
-</span><span class='line'>  belongs_to :locatable, :polymorphic =&gt; true
-</span><span class='line'>  acts_as_mappable
-</span><span class='line'>end
-</span><span class='line'>
-</span><span class='line'>class Company &lt; ActiveRecord::Base
-</span><span class='line'>  has_one :location, :as =&gt; :locatable  # also works for belongs_to associations
-</span><span class='line'>  acts_as_mappable :through =&gt; :location
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, my model isn&#8217;t using polymorphic belongs_to (yet), but in theory I should be able to do something like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Company.within(distance, :origin =&gt; @somewhere)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, this proved to be a problem because the db didn&#8217;t like it:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SELECT `venues`.*, 
-</span><span class='line'> (ACOS(least(1,COS(0.8595746566072073)*COS(-2.1485003092050197)*COS(RADIANS(locations.lat))*COS(RADIANS(locations.lng))+
-</span><span class='line'> COS(0.8595746566072073)*SIN(-2.1485003092050197)*COS(RADIANS(locations.lat))*SIN(RADIANS(locations.lng))+
-</span><span class='line'> SIN(0.8595746566072073)*SIN(RADIANS(locations.lat))))*3963.19)
-</span><span class='line'> AS distance FROM `locations` WHERE ((locations.lat&gt;48.38258088287847 AND locations.lat&lt;50.11741911712155 AND locations.lng&gt;-124.42871224851768 AND locations.lng&lt;-121.7712877514823)) AND ((
-</span><span class='line'> (ACOS(least(1,COS(0.8595746566072073)*COS(-2.1485003092050197)*COS(RADIANS(locations.lat))*COS(RADIANS(locations.lng))+
-</span><span class='line'> COS(0.8595746566072073)*SIN(-2.1485003092050197)*COS(RADIANS(locations.lat))*SIN(RADIANS(locations.lng))+
-</span><span class='line'> SIN(0.8595746566072073)*SIN(RADIANS(locations.lat))))*3963.19)
-</span><span class='line'> &lt;= 60)) //problem with locations not found</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>The solution</h1>
-
-<p>It turns out that I needed to include the associated association in order for it to know what it&#8217;s matching on:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Venue.includes(:location).within(radius, :origin =&gt; [lat, lng]).all.each do |venue|
-</span><span class='line'>    ...
-</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -776,6 +720,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/07/24/chrome-extension-and-cookies-not-being-sent/">Chrome Extension and cookies not being sent when doing ajax calls</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field/">MongoDB - easily query on a minimum array size of a field.</a>
       </li>
     
@@ -789,10 +737,6 @@
     
       <li class="post">
         <a href="/blog/2014/03/14/rails-issue-with-module-in-lib-folder/">Rails issue with module in lib folder</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - editing a user object that has a Single Table Inheritance STI</a>
       </li>
     
   </ul>

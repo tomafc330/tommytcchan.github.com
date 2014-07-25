@@ -4,7 +4,7 @@
   <title><![CDATA[Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-04-10T11:33:49-07:00</updated>
+  <updated>2014-07-24T18:40:48-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Chrome Extension and cookies not being sent when doing ajax calls]]></title>
+    <link href="http://tommytcchan.github.com/blog/2014/07/24/chrome-extension-and-cookies-not-being-sent/"/>
+    <updated>2014-07-24T18:32:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2014/07/24/chrome-extension-and-cookies-not-being-sent</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve started writing a Chrome extension based on the book Growth hacking handbook by Jon YongFook. I&#8217;ve written about half a dozen or so Chrome extensions so far, but this is my first time using Django as the backend. I&#8221;ll write more posts about my learning with Django as well as the differences betweeen it and Rails (which I&#8217;ve been using for the past 2 years).</p>
+
+<h1>The Problem</h1>
+
+<p>I ran into an issue with my extension earlier. The extension makes an initial call to fetch a user&#8217;s templates. What I wanted to do was to store the e-mail associated with the first call, then retrieve it later on. But for some reason the second call &#8211; the one to update the template &#8211; would fail on me. An inspection of the network reveals that it wasn&#8217;t actually sending the cookie with the request, which means the session was not found.</p>
+
+<h1>The Solution</h1>
+
+<p>After looking at the manifest file of the extension, I realized that in my permissions I didn&#8217;t have the <code>localhost</code> url defined, which meant that the information was not sent over. You would think that the original requests would not even be allowed to be sent, which wasn&#8217;t the case. So if anyone is experiencing the same issue, I would double check the permissions variable in your <code>manifest.json</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MongoDB - easily query on a minimum array size of a field.]]></title>
@@ -967,21 +984,6 @@ The author compiled nginx with <code>--with-http_gzip_static_module</code> which
 
 
 <p>Notice the last line where it delegates out to the <code>db:_dump</code> task. This is important as it writes out the schema as the end step.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Rails 3: joins and not ins]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/10/05/rails-3-joins-and-not-ins/"/>
-    <updated>2013-10-05T14:26:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/10/05/rails-3-joins-and-not-ins</id>
-    <content type="html"><![CDATA[<p>So I needed to write a complexish query for one of the queries for (VenueSpot.co)|[http://www.venuespot.co]. As we are only running a small instance on aws, I didn&#8217;t to waste time by traversing through my related models using <code>each</code>. I wanted to write a couple of more optimizing queries using the <code>joins</code> keyword and the NOT IN mechanism. At the end it looked like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@events = Event.joins(:event_durations).where("events.state = ? and is_published = ? and event_durations.start_date &gt; ? and events.id NOT IN (?)", 'active', true, DateTime.now, @previous_venue_bid_ids).group('events.id')</span></code></pre></td></tr></table></div></figure>
-
-
-<p>One thing that tripped me up was that initially my <code>@previous_venue_bid_ids</code> was a string that had all the ids, but the api actually takes in an array of the ids, so just be really sure what you are passing is correct!</p>
 ]]></content>
   </entry>
   

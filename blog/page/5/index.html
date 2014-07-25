@@ -9,7 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I was upgrading my Grails installation to 2.1.4 (from 2.0.0) and one of the issues I came across was this error message when I tried to run the &hellip;">
+  <meta name="description" content="I just learned about the $.grep method today and it seem pretty cool. I had an array that I want to push objects to. However because the Array.push &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +85,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/">Javascript: Push a Javascript Object in an Array Only if It&#8217;s Not in There Already.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-02T20:38:00-07:00" pubdate data-updated="true">May 2<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/02/javascript-push-a-javascript-object-in-an-array-only-if-its-not-in-there-already/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I just learned about the $.grep method today and it seem pretty cool. I had an array that I want to push objects to. However because the <code>Array.push</code> method doesn&#8217;t care if an item is in the Array or not, I had to figure out how not to push the same object in. This is what I came up with:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>            if (jQuery.grep($scope.recents,function (elem) {return elem.id == shortcut.id}).length == 0) {
+</span><span class='line'>                $scope.recents.push(shortcut);
+</span><span class='line'>            }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Using the <code>$.grep</code> method, I was able to iterate through easily. One can argue I could&#8217;ve used the underscore library but I had jQuery only at this point so why not use this one liner instead?</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1291,50 +1339,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/02/rails-escape-string-for-view-to-use/">Rails: Escape String for View to Use.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-02T20:33:00-07:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/04/02/rails-escape-string-for-view-to-use/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I had this issue with a Rails app where the string content has been html encoded. This was not good because I was feeding the information to view layer that contains some javascript. Therefore this was what I needed to do:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@tags = Tag.all_as_str.html_safe</span></code></pre></td></tr></table></div></figure>
-
-
-<p>so the <code>html_safe</code> does the trick here for me.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -1352,6 +1356,10 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/07/24/chrome-extension-and-cookies-not-being-sent/">Chrome Extension and cookies not being sent when doing ajax calls</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field/">MongoDB - easily query on a minimum array size of a field.</a>
       </li>
     
@@ -1365,10 +1373,6 @@ https://developer.atlassian.com/display/DOCS/Set+up+the+SDK+Prerequisites+for+Li
     
       <li class="post">
         <a href="/blog/2014/03/14/rails-issue-with-module-in-lib-folder/">Rails issue with module in lib folder</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - editing a user object that has a Single Table Inheritance STI</a>
       </li>
     
   </ul>

@@ -9,8 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;ve started getting the following error message when I started a json service that reads a model which is fog enabled (with s3): 1
-wrong &hellip;">
+  <meta name="description" content="So I needed to write a complexish query for one of the queries for (VenueSpot.co)|[http://www.venuespot.co]. As we are only running a small instance &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +85,50 @@ wrong &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/05/rails-3-joins-and-not-ins/">Rails 3: Joins and Not Ins</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-05T14:26:00-07:00" pubdate data-updated="true">Oct 5<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/05/rails-3-joins-and-not-ins/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So I needed to write a complexish query for one of the queries for (VenueSpot.co)|[http://www.venuespot.co]. As we are only running a small instance on aws, I didn&#8217;t to waste time by traversing through my related models using <code>each</code>. I wanted to write a couple of more optimizing queries using the <code>joins</code> keyword and the NOT IN mechanism. At the end it looked like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@events = Event.joins(:event_durations).where("events.state = ? and is_published = ? and event_durations.start_date &gt; ? and events.id NOT IN (?)", 'active', true, DateTime.now, @previous_venue_bid_ids).group('events.id')</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One thing that tripped me up was that initially my <code>@previous_venue_bid_ids</code> was a string that had all the ids, but the api actually takes in an array of the ids, so just be really sure what you are passing is correct!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -691,50 +734,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/06/24/mvn-grails-plugin-run-test-coverage/">Mvn Grails Plugin: Run Test Coverage</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-24T17:58:00-07:00" pubdate data-updated="true">Jun 24<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/06/24/mvn-grails-plugin-run-test-coverage/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was stuck on how to pass the <code>-coverage</code> variable into a mavenized grails project. After looking from the inter web I got this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn grails:exec -Dcommand=test-app -Dargs=-coverage</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That did the trick. Thanks Google!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -752,6 +751,10 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/07/24/chrome-extension-and-cookies-not-being-sent/">Chrome Extension and cookies not being sent when doing ajax calls</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field/">MongoDB - easily query on a minimum array size of a field.</a>
       </li>
     
@@ -765,10 +768,6 @@ Could not find amq-client-1.0.2 in any of the sources (Bundler::GemNotFound)</co
     
       <li class="post">
         <a href="/blog/2014/03/14/rails-issue-with-module-in-lib-folder/">Rails issue with module in lib folder</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - editing a user object that has a Single Table Inheritance STI</a>
       </li>
     
   </ul>

@@ -9,8 +9,7 @@
   <meta name="author" content="Tommy Chan (informotion software)">
 
   
-  <meta name="description" content="So I&#8217;m writing a unit test that uses getPersistentValue in one of the controllers, and I ran into the problem where I got this error: 1
-groovy. &hellip;">
+  <meta name="description" content="I had this issue with a Rails app where the string content has been html encoded. This was not good because I was feeding the information to view &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +85,50 @@ groovy. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/02/rails-escape-string-for-view-to-use/">Rails: Escape String for View to Use.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-02T20:33:00-07:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/04/02/rails-escape-string-for-view-to-use/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I had this issue with a Rails app where the string content has been html encoded. This was not good because I was feeding the information to view layer that contains some javascript. Therefore this was what I needed to do:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@tags = Tag.all_as_str.html_safe</span></code></pre></td></tr></table></div></figure>
+
+
+<p>so the <code>html_safe</code> does the trick here for me.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -576,200 +619,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/">Groovy: The Way to Populate a Csv/excel File.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-08T13:52:00-08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/03/08/groovy-the-way-to-populate-a-csv-slash-excel-file/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was working on a refactoring for a method that did csv export, and I found a prime a candidate for using the currying mechanism in Groovy.</p>
-
-<p>Consider this example of the code before:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def export = {
-</span><span class='line'>  final string[] csvcolumnheadings = ['game', 'campaign name', 'campaign medium', 'campaign code', 'campaign term', 'campaign content',
-</span><span class='line'>      'campaign source', 'additional paramter','status', 'created by', 'updated by', 'date created', 'last updated']
-</span><span class='line'>  
-</span><span class='line'>  ...
-</span><span class='line'>
-</span><span class='line'>      campaigns.resultset.each { campaign -&gt;
-</span><span class='line'>          string[] row = new string[13]
-</span><span class='line'>          
-</span><span class='line'>          row[0] = campaign.game ? campaign.game : ''
-</span><span class='line'>          row[1] = campaign.campaignname ? campaign.campaignname : ''
-</span><span class='line'>          row[2] = campaign.type ? campaign.type.tostring() : ''
-</span><span class='line'>          row[3] = campaign.campaigncode ? campaign.campaigncode : ''
-</span><span class='line'>          row[4] = campaign.campaignterm ?: ''
-</span><span class='line'>          row[5] = campaign.campaigncontent?: ''
-</span><span class='line'>          row[6] = campaign.source ? campaign.source : ''
-</span><span class='line'>          row[7] = campaign.parameter ? campaign.parameter : ''
-</span><span class='line'>          row[8] = campaign.status.name ? campaign.status.name : ''
-</span><span class='line'>          row[9] = campaign.createdby ? campaign.createdby : ''
-</span><span class='line'>          row[10] = campaign.updatedby ? campaign.updatedby : ''
-</span><span class='line'>          row[11] = campaign.datecreated ? campaign.datecreated.getdatetimestring() : ''
-</span><span class='line'>          row[12] = campaign.lastupdated ? campaign.lastupdated.getdatetimestring() : ''
-</span><span class='line'>          
-</span><span class='line'>          csvwriter.writenext(row)
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>  ...
-</span><span class='line'>      
-</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
-
-
-<p>So what&#8217;s the problem here? Well, I was adding a couple of fields to the export, and the problem is that there are 4 things I needed to do:
-* Add it to the <code>csvcolumnheadings</code>
-* Update the number of elements in decl of the array <code>row</code>
-* Add the elements
-* Update all the numberings</p>
-
-<p>Also, it&#8217;s not a very Groovy way of doing it. Come curryin to the rescue!</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def valRetrieveFunc = {fieldName, campaign -&gt;
-</span><span class='line'>      def result
-</span><span class='line'>
-</span><span class='line'>      if (fieldName instanceof Closure) {
-</span><span class='line'>          result = fieldName(campaign)
-</span><span class='line'>      } else {
-</span><span class='line'>          result = campaign."${fieldName}"
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>      return result ?: ''
-</span><span class='line'>  }
-</span><span class='line'>
-</span><span class='line'>  final Map map = [
-</span><span class='line'>          'Game': valRetrieveFunc.curry('game'),
-</span><span class='line'>          'Campaign Name': valRetrieveFunc.curry('campaignName'),
-</span><span class='line'>          'Campaign Medium': valRetrieveFunc.curry({campaign -&gt; return campaign.type?.toString()}),
-</span><span class='line'>          'Campaign Code': valRetrieveFunc.curry('campaignCode'),
-</span><span class='line'>          'Campaign Term': valRetrieveFunc.curry('campaignTerm'),
-</span><span class='line'>          'Campaign Content': valRetrieveFunc.curry('campaignContent'),
-</span><span class='line'>          'Campaign Source': valRetrieveFunc.curry('source'),
-</span><span class='line'>          'Additional Paramter': valRetrieveFunc.curry('parameter'),
-</span><span class='line'>          'Status': valRetrieveFunc.curry({campaign -&gt; return campaign.status?.name}),
-</span><span class='line'>          'Created By': valRetrieveFunc.curry('createdBy'),
-</span><span class='line'>          'Updated By': valRetrieveFunc.curry('updatedBy'),
-</span><span class='line'>          'Date Created': valRetrieveFunc.curry({campaign -&gt; return campaign.dateCreated?.getDateTimeString()}),
-</span><span class='line'>          'Last Updated': valRetrieveFunc.curry({campaign -&gt; return campaign.lastUpdated?.getDateTimeString()})]
-</span><span class='line'>
-</span><span class='line'>  final String[] csvColumnHeadings = map.keySet()
-</span><span class='line'>
-</span><span class='line'>  ...
-</span><span class='line'>
-</span><span class='line'>      campaigns.resultSet.each { campaign -&gt;
-</span><span class='line'>          def row = []
-</span><span class='line'>          csvColumnHeadings.each({
-</span><span class='line'>              row &lt;&lt; map[it](campaign)
-</span><span class='line'>          })
-</span><span class='line'>
-</span><span class='line'>          csvWriter.writeNext(row.toArray() as String[])
-</span><span class='line'>      }
-</span><span class='line'>
-</span><span class='line'>  ...                 </span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let me annotate this a little bit. The first thing we define was a func on how to get the parameter from the domain object. Notice for complex retrievals we can pass in a closure to how to fetch the object graph. The more important bit here is the <code>curry</code> method, which defines a new closure with the same content, except that the first parameter has been <code>curried</code> and embedded in the new closure. By using <code>curry</code> in this way, the caller of the curried closure doesn&#8217;t need worry about the first parameter..they can just invoke it with the campaign object in this case (ie. <code>row &lt;&lt; map[it](campaign)</code>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -787,6 +636,10 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/07/24/chrome-extension-and-cookies-not-being-sent/">Chrome Extension and cookies not being sent when doing ajax calls</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/08/mongodb-easily-query-on-a-minimum-array-size-of-a-field/">MongoDB - easily query on a minimum array size of a field.</a>
       </li>
     
@@ -800,10 +653,6 @@ https://github.com/tommytcchan/js-test-examples/tree/master/angularjs/testing/mo
     
       <li class="post">
         <a href="/blog/2014/03/14/rails-issue-with-module-in-lib-folder/">Rails issue with module in lib folder</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/14/rails-3-editing-a-user-object-that-has-a-single-table-inheritance-sti/">Rails 3 - editing a user object that has a Single Table Inheritance STI</a>
       </li>
     
   </ul>

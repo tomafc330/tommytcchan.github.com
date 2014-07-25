@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: android | Tommy Chan's software blog (@tommytcchan)]]></title>
+  <title><![CDATA[Category: Android | Tommy Chan's software blog (@tommytcchan)]]></title>
   <link href="http://tommytcchan.github.com/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://tommytcchan.github.com/"/>
-  <updated>2014-04-10T11:33:49-07:00</updated>
+  <updated>2014-07-24T18:40:48-07:00</updated>
   <id>http://tommytcchan.github.com/</id>
   <author>
     <name><![CDATA[Tommy Chan (informotion software)]]></name>
@@ -14,24 +14,17 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Android: IntentService.onHandleIntent() not called]]></title>
-    <link href="http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called/"/>
-    <updated>2013-03-25T21:27:00-07:00</updated>
-    <id>http://tommytcchan.github.com/blog/2013/03/25/android-intentservice-dot-onhandleintent-not-called</id>
-    <content type="html"><![CDATA[<p>So I'm starting my new companion app to www.codetipdaily.com and one of the first things I need to create is a service that I can use to call out to the server once a day. Naturally I gravitated towards the <code>IntentSevice</code>, which seems to be the simplest to use. I had also overridden in my service.onStartCommand() to return <code>START_STICKY</code>, which would restart the service should it be stopped. Once I did that though, the system stopped calling my <code>onHandleIntent()</code> method. What's going on?</p>
+    <title type="html"><![CDATA[Android:setting the default value of a setting with a colon]]></title>
+    <link href="http://tommytcchan.github.com/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon/"/>
+    <updated>2013-03-27T20:34:00-07:00</updated>
+    <id>http://tommytcchan.github.com/blog/2013/03/27/android-setting-the-default-value-of-a-setting-with-a-colon</id>
+    <content type="html"><![CDATA[<p>So I am working on my Android app and one of the basic things I needed to do was to set a default preference. To do that I was using the preference defined in the xml. However, I was getting messages like these:</p>
 
-<p>It turned out that I had forgotten to call <code>super.onStartCommand()</code> before I returned the static int. So the following fixed it:</p>
+<p><code>
+java.lang.RuntimeException: Unable to start activity ComponentInfo{com.codetipdaily/com.codetipdaily.Preferences}: java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String
+</code></p>
 
-<p>```</p>
-
-<pre><code>@Override
-public int onStartCommand(android.content.Intent intent, int flags, int startId) {
-    super.onStartCommand(intent, flags, startId);
-    return START_STICKY;
-}
-</code></pre>
-
-<p>```</p>
+<p>I had no idea why, but I fixed it by setting the <code>android:key</code> to be a different key. I had the same key referenced as a CheckboxPreferences a few hours ago, and that seemed to have done the trick. Weird!</p>
 ]]></content>
   </entry>
   
