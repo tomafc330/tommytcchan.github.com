@@ -57,11 +57,6 @@ Last week was one of the craziest weeks of my life. We started of the week feeli
 
 ![The fire](http://s3.amazonaws.com/static_garage/2014-03-12%2021.35.47.jpg)
 
-The food made with love
------------------------
-After my co-founder and I settled in, we quickly realized that we were eating a lot of crappy food that we were used to. That's because my awesome wife wasn't there. Our health got a lot better after I flew to Seattle to pick her up (so we could both drive down). She's our cheerleader and I'm really grateful for that. 
-
-
 The vitamins
 ------------
 I have to admit, we've had really long days and I was really tired...but after experimenting with vitamins and supplements I feel a lot better. Maybe it's a placebo effect but I've experienced a lot more energy. I do say it's not the best experience though (I have to pop 7 pills at one time, once a day). I would recommend this to all future founders that work long days. Maybe it's just me but the vitamins and the 5-HTP make me feel happier.
@@ -71,7 +66,7 @@ I have to admit, we've had really long days and I was really tired...but after e
 
 The fun times
 -------------
-There are so many awesome things to do in SF. If only we had enough time to do them all. Some of the highlights were (in no particular order): going to the Napa Valley for wine tastings, a night out in the Mission district with the lovely wife, and drunken nights with the crew.
+There are so many awesome things to do in SF. If only we had enough time to do them all. Some of the highlights were (in no particular order): going to the Napa Valley for wine tastings, a night out in the Mission district and drunken nights with the crew.
 
 
 ![The fun](http://s3.amazonaws.com/static_garage/2014-02-16%2014.51.30.jpg)
